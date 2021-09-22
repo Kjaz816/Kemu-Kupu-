@@ -1,0 +1,3 @@
+23/09/2021
+
+Though about how to implement a way for the user to know what the current speed of the speed synthesis is and how to change it. Maybe adding in two buttons for faster and slower and changing the parameter of the festival voice by plus or minus 0.1 depending on which button is pressed. Thinking about adding a button to preview the voice but would that have to use English or should it just be in Māori?

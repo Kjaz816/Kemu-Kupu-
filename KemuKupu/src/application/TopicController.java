@@ -37,7 +37,6 @@ public class TopicController implements Initializable {
 		// TODO Auto-generated method stub
 		
 		//this.sortUniq();
-		
 		topicList.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
 
 			@Override
