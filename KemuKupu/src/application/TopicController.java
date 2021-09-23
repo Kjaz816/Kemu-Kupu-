@@ -36,7 +36,7 @@ public class TopicController implements Initializable {
 	public void getTopic(){
 		
 		try {
-			String command = "ls -1 word | sed -e 's/\\.txt$//'";
+			String command = "ls -1 words | sed -e 's/\\.txt$//'";
 			
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 

@@ -117,7 +117,6 @@ public class PlayController {
 	
 	public void newWord() {
 		word = wordList.pop();
-		System.out.println(word);
 		this.festival(word);
 	}
 	
