@@ -80,6 +80,10 @@ public class PlayController {
 		}
 	}
 	
+	public void dontKnow(ActionEvent event) {
+		failWord();
+	}
+	
 
 	
 
