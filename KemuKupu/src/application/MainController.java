@@ -27,7 +27,7 @@ public class MainController {
 	@FXML 
 	private AnchorPane scenePane;
 	
-	public void game(ActionEvent event) {
+	public void switchToTopic(ActionEvent event) {
 		try {
 			root = FXMLLoader.load(getClass().getResource("Topic.fxml"));
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
