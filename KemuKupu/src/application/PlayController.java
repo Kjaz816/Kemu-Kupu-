@@ -47,7 +47,7 @@ public class PlayController {
 	
 	public void randWord(String topic) {
 		try {
-			String command = new String ("shuf -n 5 " + "word/" + topic + ".txt");
+			String command = new String ("shuf -n 5 " + "words/" + topic + ".txt");
 			
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 
