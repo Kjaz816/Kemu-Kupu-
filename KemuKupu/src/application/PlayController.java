@@ -4,10 +4,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 public class PlayController {
 	
@@ -15,7 +18,7 @@ public class PlayController {
 	@FXML
 	private Label score;
 	@FXML
-	private Label encouragingMessage;
+	private Label encouragingMessage = new Label("");
 	@FXML
 	private Label word;
 	@FXML
@@ -68,4 +71,16 @@ public class PlayController {
 			e.printStackTrace();
 		}
 	}
+	
+	public void failWord() {
+		if (encouragingMessage.getText() == "") {
+			encouragingMessage.setText("Good try, play the review quiz to master this word");
+		} else {
+			encouragingMessage.setText("");
+		}
+	}
+	
+
+	
+
 }
