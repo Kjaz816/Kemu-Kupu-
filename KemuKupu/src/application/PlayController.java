@@ -2,8 +2,10 @@ package application;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.*;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,7 +13,6 @@ import javafx.scene.control.TextField;
 
 public class PlayController {
 	
-	private List<String> wordList = new ArrayList<String>();
 	@FXML
 	private Label score;
 	@FXML
@@ -26,8 +27,21 @@ public class PlayController {
 	private Button check;
 	@FXML
 	private Button dontKnow;
+
+	private double voiceSpeed = 1.0;
 	
-	public void randWord(String topic) {
+	private List<String> wordList = new ArrayList<String>();
+	private String currentWord;
+	
+	public void repeatWord(ActionEvent event) {
+		try {
+			festival(currentWord);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void randWords(String topic) {
 		try {
 			String command = new String ("shuf -n 5 " + "words/" + topic);
 			
@@ -58,12 +72,15 @@ public class PlayController {
 	
 	public void festival(String word) {
 		try {
-			String command = new String ("echo " + word + " | festival --tts");
+			PrintWriter speechWriter = new PrintWriter("speech.scm");
+			speechWriter.println("(Parameter.set 'Duration_Stretch " + voiceSpeed + " )");
+			speechWriter.println("(SayText \""  + word + "\")");
+			speechWriter.close();
 			
+			String command = new String("festival -b speech.scm");
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 
 			Process process = pb.start();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
