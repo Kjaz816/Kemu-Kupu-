@@ -39,8 +39,9 @@ public class TestController {
 	}
 	
 	public void preview(ActionEvent event) throws IOException {
+		
 		PrintWriter speechWriter = new PrintWriter("speech.scm");
-		speechWriter.println("(Parameter.set 'Duration_Stretch " + voiceSpeed + " )");
+		speechWriter.println("(Parameter.set 'Duration_Stretch " + speed + " )");
 		speechWriter.println("(SayText \"This is how fast I will talk\")");
 		speechWriter.close();
 		
