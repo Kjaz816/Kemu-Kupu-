@@ -15,7 +15,7 @@
       </Label>
       <TextField fx:id="userSpelling" layoutX="218.0" layoutY="208.0" />
       <Label fx:id="score" layoutX="266.0" layoutY="119.0" prefHeight="15.0" prefWidth="69.0" text="Score:" />
-      <Button fx:id="check" layoutX="273.0" layoutY="278.0" mnemonicParsing="false" text="Check" />
+      <Button fx:id="check" layoutX="273.0" layoutY="278.0" mnemonicParsing="false" onAction="#check" text="Check" />
       <Button fx:id="dontKnow" layoutX="355.0" layoutY="278.0" mnemonicParsing="false" text="Don't Know" />
       <Button fx:id="repeatWord" layoutX="159.0" layoutY="278.0" mnemonicParsing="false" onAction="#repeatWord" text="Repeat Word" />
       <Label fx:id="encouragingMessage" layoutX="266.0" layoutY="245.0" prefHeight="15.0" prefWidth="69.0" />
