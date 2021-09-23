@@ -1,6 +1,8 @@
 package application;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -31,12 +33,45 @@ public class TopicController implements Initializable {
 	
 	private String topic;
 	
+	public void getTopic(){
+		
+		try {
+			String command = "ls -1 word | sed -e 's/\\.txt$//'";
+			
+			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
+
+			Process process = pb.start();
+
+			BufferedReader stdout = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			BufferedReader stderr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			
+			int exitStatus = process.waitFor();
+			
+			if (exitStatus == 0) {
+				String line;
+				while ((line = stdout.readLine()) != null) {
+					topicList.getItems().add(line);
+				}
+			} else {
+				String line;
+				while ((line = stderr.readLine()) != null) {
+					System.err.println(line);
+				}
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+}
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		
-		//this.sortUniq();
+		this.getTopic();
+		
 		topicList.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
 
 			@Override
@@ -54,11 +89,12 @@ public class TopicController implements Initializable {
 	private Parent root;
 	
 	public void play(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("newSpellingQuiz.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("Play.fxml"));
 		root = loader.load();
 		
-		//newSpellingQuizController newSpellingQuizController = loader.getController();
-		//newSpellingQuizController.newSpellingQuiz();
+		PlayController PlayController = loader.getController();
+		PlayController.randWord(topic);
+		PlayController.newWord();
 		
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
