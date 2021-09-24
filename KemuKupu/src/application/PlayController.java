@@ -32,18 +32,37 @@ public class PlayController {
 	private Button check;
 	@FXML
 	private Button dontKnow;
+	@FXML
+	private Label speedLabel;
+	@FXML
+	private Button faster;
+	@FXML
+	private Button slower;
 
+	private double displaySpeed = 1.0;
 	private double voiceSpeed = 1.0;
 	private Stack<String> wordList = new Stack<String>();
-	private String currentWord;
 	
 	public void repeatWord(ActionEvent event) {
 		try {
-			festival(currentWord);
+			festival(word);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public void faster(ActionEvent event) {
+		displaySpeed = Math.round((displaySpeed+0.1)*10)/10.0;
+		voiceSpeed = Math.round((voiceSpeed-0.1)*10)/10.0;
+		speedLabel.setText("Current Speed: " + displaySpeed);	
+	}
+	
+	public void slower(ActionEvent event) {
+		displaySpeed = Math.round((displaySpeed-0.1)*10)/10.0;
+		voiceSpeed = Math.round((voiceSpeed+0.1)*10)/10.0;
+		speedLabel.setText("Current Speed: " + displaySpeed);
+	}
+	
 	
 	public void randWord(String topic) {
 		try {
@@ -75,6 +94,7 @@ public class PlayController {
 	public void festival(String word) {
 		try {
 			PrintWriter speechWriter = new PrintWriter("speech.scm");
+			speechWriter.println("(voice_akl_mi_pk06_cg)");
 			speechWriter.println("(Parameter.set 'Duration_Stretch " + voiceSpeed + " )");
 			speechWriter.println("(SayText \""  + word + "\")");
 			speechWriter.close();
