@@ -149,7 +149,6 @@ public class PlayController {
 					this.newWord();
 					showEncouragingMessage();
 					incorrect = 0;
-					
 					break;
 				}
 			}
@@ -174,27 +173,11 @@ public class PlayController {
 	
 	public void hideEncouragingMessage() {
 		encouragingMessage.setText("");
-		
 	}
 	
-	public void showSecondLetter(String word) {
+	public void showSecondLetter() {
 		char secondLetter = word.charAt(1);
-		String dashedLines = "_ " + secondLetter;
-		int stringLength = (word.length() - 2);
-		for (int i = 0; i < stringLength; i++) {
-			dashedLines = dashedLines + "_ ";
-		}
-		wordLabel.setText(dashedLines);
-	}
-	
-	
-	public void defaultWordLabel(String word) {
-		String dashedLines;
-		int stringLength = word.length();
-		for (int i = 0; i < stringLength; i++) {
-			dashedLines = dashedLines + "_ ";
-		}
-		wordLabel.setText(dashedLines);
+		wordLabel.setText("Hint: The second letter of the word is " + secondLetter);
 	}
 	
 	public void dontKnow(ActionEvent event) {
@@ -203,6 +186,4 @@ public class PlayController {
 		this.newWord();
 		incorrect = 0;
 	}
-	
-	
 }
