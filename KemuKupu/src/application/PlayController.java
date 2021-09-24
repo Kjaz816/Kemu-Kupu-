@@ -8,15 +8,24 @@ import java.util.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class PlayController {
 	
 	private int score;
 	private String word;
 	private int incorrect = 0;
+	
+	private Stage stage;
+	private Scene scene;
+	private Parent root;
 	
 	@FXML
 	private Label scoreLabel;
@@ -110,7 +119,16 @@ public class PlayController {
 	
 	public void check(ActionEvent event) throws IOException, InterruptedException {
 		if (wordList.isEmpty()) {
-			//show results
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
+			root = loader.load();
+			
+			RewardController RewardController = loader.getController();
+			RewardController.setScored(score);
+			
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
 		}
 		else {
 			if(userSpelling.getText().toString().equalsIgnoreCase(this.word)) {
