@@ -39,7 +39,7 @@ public class PlayController {
 	
 	public void repeatWord(ActionEvent event) {
 		try {
-			festival(currentWord);
+			festival(word);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
