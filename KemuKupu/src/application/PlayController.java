@@ -16,7 +16,7 @@ public class PlayController {
 	
 	private int score;
 	private String word;
-	private int incorrect;
+	private int incorrect = 0;
 	
 	@FXML
 	private Label scoreLabel;
@@ -143,7 +143,7 @@ public class PlayController {
 	public void incrementScore() {
 		if (incorrect == 0) {
 			score++;
-			scoreLabel.setText("Score: " + Integer.toString(score));
+			scoreLabel.setText("Score: " + score);
 		}
 	}
 }
