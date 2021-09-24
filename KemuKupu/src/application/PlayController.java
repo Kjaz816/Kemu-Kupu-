@@ -8,24 +8,15 @@ import java.util.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 public class PlayController {
 	
 	private int score;
 	private String word;
-	private int incorrect = 0;
-	
-	private Stage stage;
-	private Scene scene;
-	private Parent root;
+	private int incorrect;
 	
 	@FXML
 	private Label scoreLabel;
@@ -41,16 +32,10 @@ public class PlayController {
 	private Button check;
 	@FXML
 	private Button dontKnow;
-	@FXML
-	private Label speedLabel;
-	@FXML
-	private Button faster;
-	@FXML
-	private Button slower;
 
-	private double displaySpeed = 1.0;
 	private double voiceSpeed = 1.0;
 	private Stack<String> wordList = new Stack<String>();
+	private String currentWord;
 	
 	public void repeatWord(ActionEvent event) {
 		try {
@@ -59,19 +44,6 @@ public class PlayController {
 			e.printStackTrace();
 		}
 	}
-	
-	public void faster(ActionEvent event) {
-		displaySpeed = Math.round((displaySpeed+0.1)*10)/10.0;
-		voiceSpeed = Math.round((voiceSpeed-0.1)*10)/10.0;
-		speedLabel.setText("Current Speed: " + displaySpeed);	
-	}
-	
-	public void slower(ActionEvent event) {
-		displaySpeed = Math.round((displaySpeed-0.1)*10)/10.0;
-		voiceSpeed = Math.round((voiceSpeed+0.1)*10)/10.0;
-		speedLabel.setText("Current Speed: " + displaySpeed);
-	}
-	
 	
 	public void randWord(String topic) {
 		try {
@@ -103,7 +75,6 @@ public class PlayController {
 	public void festival(String word) {
 		try {
 			PrintWriter speechWriter = new PrintWriter("speech.scm");
-			speechWriter.println("(voice_akl_mi_pk06_cg)");
 			speechWriter.println("(Parameter.set 'Duration_Stretch " + voiceSpeed + " )");
 			speechWriter.println("(SayText \""  + word + "\")");
 			speechWriter.close();
@@ -119,16 +90,7 @@ public class PlayController {
 	
 	public void check(ActionEvent event) throws IOException, InterruptedException {
 		if (wordList.isEmpty()) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
-			root = loader.load();
-			
-			RewardController RewardController = loader.getController();
-			RewardController.setScored(score);
-			
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
+			//show results
 		}
 		else {
 			if(userSpelling.getText().toString().equalsIgnoreCase(this.word)) {
@@ -161,7 +123,7 @@ public class PlayController {
 	public void incrementScore() {
 		if (incorrect == 0) {
 			score++;
-			scoreLabel.setText("Score: " + score);
+			scoreLabel.setText("Score: " + Integer.toString(score));
 		}
 	}
 }
