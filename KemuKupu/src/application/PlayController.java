@@ -142,12 +142,10 @@ public class PlayController {
 				case 0:
 					this.festival("Incorrect, try once more. " + this.word +  " "  +  this.word);
 					incorrect++;
-					showSecondLetter();
 					break;
 				case 1:
 					this.festival("Incorrect");
 					this.newWord();
-					showEncouragingMessage();
 					incorrect = 0;
 					break;
 				}
@@ -163,27 +161,7 @@ public class PlayController {
 	public void incrementScore() {
 		if (incorrect == 0) {
 			score++;
-			scoreLabel.setText("Score: " + Integer.toString(score));
+			scoreLabel.setText("Score: " + score);
 		}
-	}
-	
-	public void showEncouragingMessage() {
-		encouragingMessage.setText("Good try, play more to master this word!");
-	}
-	
-	public void hideEncouragingMessage() {
-		encouragingMessage.setText("");
-	}
-	
-	public void showSecondLetter() {
-		char secondLetter = word.charAt(1);
-		wordLabel.setText("Hint: The second letter of the word is " + secondLetter);
-	}
-	
-	public void dontKnow(ActionEvent event) {
-		this.festival("Incorrect");
-		showEncouragingMessage();
-		this.newWord();
-		incorrect = 0;
 	}
 }
