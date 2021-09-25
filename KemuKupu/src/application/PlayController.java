@@ -4,11 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.util.*;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,7 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class PlayController {
+public class PlayController implements Initializable{
 	
 	private int score = 0;
 	private String word;
@@ -215,6 +219,24 @@ public class PlayController {
 		this.newWord();
 		incorrect = 0;
 	}
-	
-	
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		
+		userSpelling.textProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				// TODO Auto-generated method stub 
+				if (newValue.toLowerCase().contains("aa") || newValue.toLowerCase().contains("ee") || newValue.toLowerCase().contains("ii") 
+						|| newValue.toLowerCase().contains("oo") || newValue.toLowerCase().contains("uu")) {
+					
+					userSpelling.setText(newValue.replaceAll("Aa|AA", "Ā").replaceAll("aa", "ā").replaceAll("Ee|EE", "Ē").replaceAll("ee", "ē")
+							.replaceAll("Ii|II", "Ī").replaceAll("ii", "ī").replaceAll("Oo|OO", "Ō").replaceAll("oo", "ō").replaceAll("Uu|UU", "Ū")
+							.replaceAll("uu", "ū"));
+				}
+			}
+		});
+	}
 }
