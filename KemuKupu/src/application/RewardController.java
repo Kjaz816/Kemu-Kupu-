@@ -20,22 +20,38 @@ public class RewardController {
 	private Button againButton;
 	@FXML
 	private Button mainMenuButton;
+	@FXML
+	private Label topicLabel;
 	
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
 	
+	private String topic;
+	
 	public void playAgain(ActionEvent event) {
 		try {
-			root = FXMLLoader.load(getClass().getResource("Topic.fxml"));
-			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Play.fxml"));
+				root = loader.load();
+				
+				PlayController PlayController = loader.getController();
+				PlayController.randWord(topic);
+				PlayController.newWord();
+				PlayController.setTopic(topic);
+				
+				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+				scene = new Scene(root);
+				stage.setScene(scene);
+				stage.show();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void setTopic(String topic) {
+		this.topic = topic;
+		topicLabel.setText("Topic: " + topic);
 	}
 	
 	public void returnToMainMenu(ActionEvent event) {

@@ -47,10 +47,14 @@ public class PlayController {
 	private Button faster;
 	@FXML
 	private Button slower;
+	@FXML
+	private Label topicLabel;
 
 	private double displaySpeed = 1.0;
 	private double voiceSpeed = 1.0;
 	private Stack<String> wordList = new Stack<String>();
+	
+	private String topic;
 	
 	public void repeatWord(ActionEvent event) {
 		try {
@@ -125,6 +129,7 @@ public class PlayController {
 			
 			RewardController RewardController = loader.getController();
 			RewardController.setScored(score);
+			RewardController.setTopic(topic);
 			
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
@@ -168,6 +173,11 @@ public class PlayController {
 			score++;
 			scoreLabel.setText("Score: " + Integer.toString(score));
 		}
+	}
+	
+	public void setTopic(String topic) {
+		this.topic = topic;
+		topicLabel.setText("Topic: " + topic);
 	}
 	
 	public void showEncouragingMessage() {

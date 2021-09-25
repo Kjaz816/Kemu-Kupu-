@@ -18,9 +18,14 @@
       <Button fx:id="check" layoutX="273.0" layoutY="278.0" mnemonicParsing="false" onAction="#check" text="Check" />
       <Button fx:id="dontKnow" layoutX="355.0" layoutY="278.0" mnemonicParsing="false" onAction="#dontKnow" text="Don't Know" />
       <Button fx:id="repeatWord" layoutX="159.0" layoutY="278.0" mnemonicParsing="false" onAction="#repeatWord" text="Repeat Word" />
-      <Label fx:id="encouragingMessage" alignment="CENTER" layoutX="175.0" layoutY="241.0" prefHeight="15.0" prefWidth="254.0" />
+      <Label fx:id="encouragingMessage" alignment="CENTER" layoutX="69.0" layoutY="241.0" prefHeight="15.0" prefWidth="466.0" />
       <Label fx:id="speedLabel" layoutX="254.0" layoutY="329.0" text="Current Speed: 1.0" />
       <Button fx:id="slower" layoutX="218.0" layoutY="363.0" mnemonicParsing="false" onAction="#slower" text="Slower" />
       <Button fx:id="faster" layoutX="344.0" layoutY="363.0" mnemonicParsing="false" onAction="#faster" text="Faster" />
+      <Label fx:id="topicLabel" alignment="TOP_CENTER" layoutX="-9.0" layoutY="63.0" prefHeight="33.0" prefWidth="526.0" text="Topic: " textAlignment="CENTER">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
