@@ -181,8 +181,10 @@ public class PlayController implements Initializable {
 	}
 	
 	public void newWord() {
+		if (!wordList.isEmpty()) {
 		word = wordList.pop();
 		this.festival(word);
+		}
 	}
 	
 	public String getWord() {
