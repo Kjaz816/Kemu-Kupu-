@@ -13,9 +13,9 @@
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Label fx:id="topicLabel" layoutX="231.0" layoutY="47.0" text="Choose a topic:">
+      <Label fx:id="topicLabel" alignment="CENTER" layoutX="1.0" layoutY="43.0" prefHeight="22.0" prefWidth="600.0" text="Choose a topic:">
          <font>
-            <Font size="20.0" />
+            <Font size="24.0" />
          </font></Label>
    </children>
 </AnchorPane>

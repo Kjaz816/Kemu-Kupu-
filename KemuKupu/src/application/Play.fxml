@@ -8,18 +8,18 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(#8693AB,#BDD4E7);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PlayController">
    <children>
-      <Label fx:id="wordLabel" alignment="CENTER" layoutX="228.0" layoutY="133.0" prefHeight="45.0" prefWidth="144.0" text="------">
+      <Label fx:id="wordLabel" alignment="CENTER" layoutX="1.0" layoutY="129.0" prefHeight="45.0" prefWidth="600.0" text="------">
          <font>
-            <Font size="39.0" />
+            <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="userSpelling" layoutX="177.0" layoutY="191.0">
+      <TextField fx:id="userSpelling" layoutX="175.0" layoutY="182.0">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <Label fx:id="scoreLabel" alignment="CENTER" layoutX="114.0" layoutY="93.0" prefHeight="33.0" prefWidth="372.0" text="Score:">
+      <Label fx:id="scoreLabel" alignment="CENTER" layoutY="74.0" prefHeight="33.0" prefWidth="600.0" text="Score:">
          <font>
-            <Font size="22.0" />
+            <Font size="24.0" />
          </font></Label>
       <Button fx:id="check" defaultButton="true" layoutX="259.0" layoutY="264.0" mnemonicParsing="false" onAction="#check" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Check">
          <font>
@@ -33,11 +33,11 @@
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Label fx:id="encouragingMessage" alignment="CENTER" layoutX="70.0" layoutY="233.0" prefHeight="23.0" prefWidth="466.0">
+      <Label fx:id="encouragingMessage" alignment="CENTER" layoutX="70.0" layoutY="226.0" prefHeight="23.0" prefWidth="466.0">
          <font>
             <Font size="20.0" />
          </font></Label>
-      <Label fx:id="speedLabel" layoutX="201.0" layoutY="315.0" text="Current Speed: 1.0">
+      <Label fx:id="speedLabel" alignment="CENTER" layoutX="1.0" layoutY="315.0" prefHeight="27.0" prefWidth="600.0" text="Current Speed: 1.0">
          <font>
             <Font size="24.0" />
          </font></Label>
@@ -49,7 +49,7 @@
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Label fx:id="topicLabel" alignment="TOP_CENTER" layoutX="-13.0" layoutY="39.0" prefHeight="33.0" prefWidth="526.0" text="Topic: " textAlignment="CENTER">
+      <Label fx:id="topicLabel" alignment="TOP_CENTER" layoutX="3.0" layoutY="20.0" prefHeight="33.0" prefWidth="600.0" text="Topic: " textAlignment="CENTER">
          <font>
             <Font size="24.0" />
          </font>
