@@ -178,6 +178,8 @@ public class PlayController implements Initializable {
 					break;
 				}
 			}
+			
+			userSpelling.clear();
 	}
 	
 	public void newWord() {
