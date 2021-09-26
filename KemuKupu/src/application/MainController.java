@@ -39,9 +39,11 @@ public class MainController {
 		}
 	}
 	
-	public void quit(ActionEvent event) {
+	public void quit(ActionEvent event) { // Method that controls the Quit Button
 		stage = (Stage) scenePane.getScene().getWindow();
-		stage.close();	
+		// Gets the current scene
+		stage.close(); 
+		// closes the current scene
 	}
 }
 

@@ -24,6 +24,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+//This class controls the choose topic screen
+
 public class TopicController implements Initializable {
 	
 	@FXML
@@ -41,13 +43,15 @@ public class TopicController implements Initializable {
 		
 		try {
 			String command = "ls -1 words | sed -e 's/\\.txt$//'";
+			// Sets the bash command
 			
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
-
 			Process process = pb.start();
-
+			// Creates a process with the bash command and starts it
+			
 			BufferedReader stdout = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			BufferedReader stderr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			// Pipelines the stdout and stderror to the variables
 			
 			int exitStatus = process.waitFor();
 			
@@ -55,6 +59,7 @@ public class TopicController implements Initializable {
 				String line;
 				while ((line = stdout.readLine()) != null) {
 					topicList.getItems().add(line);
+					// Adds the current line to the topic list 
 				}
 			} else {
 				String line;
@@ -71,18 +76,19 @@ public class TopicController implements Initializable {
 	
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+	public void initialize(URL arg0, ResourceBundle arg1) { // Method which controls the list that the user chooses a topic from
 		
 		this.getTopic();
 		
-		topicList.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
+		topicList.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() { // Sets the list to include all elements in the topic list
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				// TODO Auto-generated method stub
+
 				topic = topicList.getSelectionModel().getSelectedItem();
+				// Sets the topic to the topic that the user selected from the list
 				topicLabel.setText(topic);
+				// Sets the topicLabel to the current topic
 			}
 			
 		});
@@ -92,7 +98,7 @@ public class TopicController implements Initializable {
 	private Scene scene;
 	private Parent root;
 	
-	public void play(ActionEvent event) throws IOException {
+	public void play(ActionEvent event) throws IOException { // Method which controls the play button 
 		if (!topicLabel.getText().equals("Choose a topic:")) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Play.fxml"));
 			root = loader.load();
@@ -102,12 +108,13 @@ public class TopicController implements Initializable {
 			PlayController.newWord();
 			PlayController.setTopic(topic);
 			PlayController.defaultWordLabel(PlayController.getWord());
+			// Starts a new game
 		
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
-		
 			stage.setScene(scene);
 			stage.show();
+			// Sets the scene to the new game scene
 		}
 	}
 	
