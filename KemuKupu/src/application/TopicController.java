@@ -99,7 +99,6 @@ public class TopicController implements Initializable {
 		
 			PlayController PlayController = loader.getController();
 			PlayController.randWord(topic);
-			PlayController.newWord();
 			PlayController.setTopic(topic);
 		
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();

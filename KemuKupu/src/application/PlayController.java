@@ -107,6 +107,8 @@ public class PlayController implements Initializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		word = wordList.peek();
 	}
 	
 	public void festival(String word) {
@@ -128,20 +130,7 @@ public class PlayController implements Initializable {
 	
 	public void check(ActionEvent event) throws IOException, InterruptedException {
 		
-		if (wordList.isEmpty()) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
-			root = loader.load();
-			
-			RewardController RewardController = loader.getController();
-			RewardController.setScored(score);
-			RewardController.setTopic(topic);
-			
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
-		}
-		else {
+		
 			if(userSpelling.getText().toString().equalsIgnoreCase(this.word)) {
 				this.festival("correct");
 				this.incrementScore();
@@ -165,7 +154,20 @@ public class PlayController implements Initializable {
 					break;
 				}
 			}
-		}
+			
+			if (wordList.isEmpty()) {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
+				root = loader.load();
+				
+				RewardController RewardController = loader.getController();
+				RewardController.setScored(score);
+				RewardController.setTopic(topic);
+				
+				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+				scene = new Scene(root);
+				stage.setScene(scene);
+				stage.show();
+			}
 	}
 	
 	public void newWord() {

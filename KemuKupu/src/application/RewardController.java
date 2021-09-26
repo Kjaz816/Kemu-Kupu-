@@ -68,7 +68,14 @@ public class RewardController {
 	}
 	
 	public void setScored(int score) {
-		rewardLabel.setText("Congratulations! You scored " + score + "!");
-	}
+        if (score < 3) {
+            rewardLabel.setText("Good try, you scored " + score + ". Play more to master your spelling!");
+        } else if (score == 3) {
+            rewardLabel.setText("Not bad! You scored " + score + "! A little more practise and you could get a perfect score!");
+        } else {
+            rewardLabel.setText("Congratulations! You scored " + score + "! Well done");
+        }
+
+}
 	
 }
