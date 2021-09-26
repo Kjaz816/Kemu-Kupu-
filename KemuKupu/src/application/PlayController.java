@@ -107,8 +107,6 @@ public class PlayController implements Initializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		word = wordList.peek();
 	}
 	
 	public void festival(String word) {
@@ -132,8 +130,21 @@ public class PlayController implements Initializable {
 		
 		
 			if(userSpelling.getText().toString().equalsIgnoreCase(this.word)) {
-				this.festival("correct");
 				this.incrementScore();
+				this.showCorrectMessage();
+				if (wordList.isEmpty()) {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
+					root = loader.load();
+					
+					RewardController RewardController = loader.getController();
+					RewardController.setScored(score);
+					RewardController.setTopic(topic);
+					
+					stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+					scene = new Scene(root);
+					stage.setScene(scene);
+					stage.show();
+				}
 				this.newWord();
 				incorrect = 0;
 				defaultWordLabel(word);
@@ -141,12 +152,25 @@ public class PlayController implements Initializable {
 			else {
 				switch (incorrect) {
 				case 0:
-					this.festival("Incorrect, try once more. " + this.word +  " "  +  this.word);
 					incorrect++;
 					showSecondLetter(word);
+					this.showTryAgainMessage();
+					this.festival(word);
 					break;
 				case 1:
-					this.festival("Incorrect");
+					if (wordList.isEmpty()) {
+						FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
+						root = loader.load();
+						
+						RewardController RewardController = loader.getController();
+						RewardController.setScored(score);
+						RewardController.setTopic(topic);
+						
+						stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+						scene = new Scene(root);
+						stage.setScene(scene);
+						stage.show();
+					}
 					this.newWord();
 					showEncouragingMessage();
 					incorrect = 0;
@@ -154,25 +178,15 @@ public class PlayController implements Initializable {
 					break;
 				}
 			}
-			
-			if (wordList.isEmpty()) {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
-				root = loader.load();
-				
-				RewardController RewardController = loader.getController();
-				RewardController.setScored(score);
-				RewardController.setTopic(topic);
-				
-				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				stage.setScene(scene);
-				stage.show();
-			}
 	}
 	
 	public void newWord() {
 		word = wordList.pop();
 		this.festival(word);
+	}
+	
+	public String getWord() {
+		return this.word;
 	}
 	
 	public void incrementScore() {
@@ -188,11 +202,12 @@ public class PlayController implements Initializable {
 	}
 	
 	public void showEncouragingMessage() {
+		encouragingMessage.setVisible(true);
 		encouragingMessage.setText("Good try, play more to master this word!");
 	}
 	
 	public void hideEncouragingMessage() {
-		encouragingMessage.setText("");
+		encouragingMessage.setVisible(false);
 		
 	}
 	
@@ -235,6 +250,16 @@ public class PlayController implements Initializable {
 			this.newWord();
 			incorrect = 0;
 		}
+	}
+	
+	public void showTryAgainMessage() {
+		encouragingMessage.setVisible(true);
+		encouragingMessage.setText("Incorrect, try once more!");
+	}
+	
+	public void showCorrectMessage() {
+		encouragingMessage.setVisible(true);
+		encouragingMessage.setText("Correct!");
 	}
 
 	@Override
