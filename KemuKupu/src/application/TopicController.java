@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,6 +20,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class TopicController implements Initializable {
@@ -89,18 +93,21 @@ public class TopicController implements Initializable {
 	private Parent root;
 	
 	public void play(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Play.fxml"));
-		root = loader.load();
+		if (!topicLabel.getText().equals("Choose a topic:")) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Play.fxml"));
+			root = loader.load();
 		
-		PlayController PlayController = loader.getController();
-		PlayController.randWord(topic);
-		PlayController.newWord();
-		PlayController.setTopic(topic);
+			PlayController PlayController = loader.getController();
+			PlayController.randWord(topic);
+			PlayController.newWord();
+			PlayController.setTopic(topic);
 		
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+		
+			stage.setScene(scene);
+			stage.show();
+		}
 	}
 	
 }

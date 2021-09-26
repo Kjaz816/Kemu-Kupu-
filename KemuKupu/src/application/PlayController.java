@@ -21,7 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class PlayController implements Initializable{
+public class PlayController implements Initializable {
 	
 	private int score = 0;
 	private String word;
@@ -56,6 +56,7 @@ public class PlayController implements Initializable{
 
 	private double displaySpeed = 1.0;
 	private double voiceSpeed = 1.0;
+	
 	private Stack<String> wordList = new Stack<String>();
 	
 	private String topic;
@@ -203,7 +204,6 @@ public class PlayController implements Initializable{
 		wordLabel.setText(dashedLines);
 	}
 	
-	
 	public void defaultWordLabel(String word) {
 		String dashedLines = "";
 		int stringLength = word.length();
@@ -213,11 +213,26 @@ public class PlayController implements Initializable{
 		wordLabel.setText(dashedLines);
 	}
 	
-	public void dontKnow(ActionEvent event) {
-		this.festival("Incorrect");
-		showEncouragingMessage();
-		this.newWord();
-		incorrect = 0;
+	public void dontKnow(ActionEvent event) throws IOException {
+		if (wordList.isEmpty()) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
+			root = loader.load();
+			
+			RewardController RewardController = loader.getController();
+			RewardController.setScored(score);
+			RewardController.setTopic(topic);
+			
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
+		else {
+			this.festival("Incorrect");
+			showEncouragingMessage();
+			this.newWord();
+			incorrect = 0;
+		}
 	}
 
 	@Override
