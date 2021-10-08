@@ -27,7 +27,9 @@ public class Main extends Application {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			String css = this.getClass().getResource("application.css").toExternalForm();
+			scene.getStylesheets().add(css);
 			primaryStage.setTitle("Kēmu Kupu");
 			primaryStage.setScene(scene);
 			primaryStage.show();

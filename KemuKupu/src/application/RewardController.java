@@ -1,21 +1,24 @@
 package application;
 
 import java.io.IOException;
-
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 // This class controls the rewards screen after the user finishes a quiz
 
-public class RewardController {
+public class RewardController implements Initializable {
 
 	@FXML
 	private Label rewardLabel;
@@ -31,6 +34,8 @@ public class RewardController {
 	private Parent root;
 	
 	private String topic;
+	@FXML
+	private ListView<String> scoreBoard;
 	
 	public void playAgain(ActionEvent event) { // Method that controls the "Play again" button
 		try {
@@ -75,18 +80,25 @@ public class RewardController {
 		}
 	}
 	
-	public void setScored(int score) { // Method that dispays the user's score to the screen
+	public void setScored(Score Score) { // Method that dispays the user's score to the screen
 		// Inputs:
+		scoreBoard.getItems().addAll(Score.getTime());
 		// score = the user's score from the last game
-        if (score < 3) {
-            rewardLabel.setText("Good try, you scored " + score + ". Play more to master your spelling!");
-        } else if (score == 3) {
-            rewardLabel.setText("Not bad! You scored " + score + "! A little more practise and you could get a perfect score!");
+        if (Score.getScore() < 3) {
+            rewardLabel.setText("Good try, you scored " + Score.getScore() + ". Play more to master your spelling!");
+        } else if (Score.getScore() == 3) {
+            rewardLabel.setText("Not bad! You scored " + Score.getScore() + "! A little more practise and you could get a perfect score!");
         } else {
-            rewardLabel.setText("Congratulations! You scored " + score + "! Well done");
+            rewardLabel.setText("Congratulations! You scored " + Score.getScore() + "! Well done");
         }
         // Sets the rewardLabel text that displays to the user after a game based on how well they did
 
 }
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

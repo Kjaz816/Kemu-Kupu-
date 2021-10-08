@@ -24,8 +24,7 @@ import javafx.stage.Stage;
 public class PlayController implements Initializable {
 	
 	private Word Word;
-	
-	private int score = 0;
+	private Score Score;
 	private int incorrect = 0;
 	
 	private Stage stage;
@@ -104,7 +103,7 @@ public class PlayController implements Initializable {
 	public void check(ActionEvent event) throws IOException, InterruptedException { // Method to check if the word was spelled correctly
 	
 			if(userSpelling.getText().toString().equalsIgnoreCase(Word.getWord())) {
-				this.incrementScore();
+				Score.incrementScore(Word.getWord());
 				this.showCorrectMessage();
 				// Checks if the user input word is the same as the word to be spelled, ignoring case
 				if (Word.getWordList().isEmpty()) {
@@ -112,7 +111,7 @@ public class PlayController implements Initializable {
 					root = loader.load();
 					
 					RewardController RewardController = loader.getController();
-					RewardController.setScored(score);
+					RewardController.setScored(Score);
 					
 					stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 					scene = new Scene(root);
@@ -134,12 +133,13 @@ public class PlayController implements Initializable {
 					this.festival(Word.getWord()); // Speaks the word out again using festival TTS
 					break;
 				case 1:
+					Score.addWrong(Word.getWord());
 					if (Word.getWordList().isEmpty()) {
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
 						root = loader.load();
 						
 						RewardController RewardController = loader.getController();
-						RewardController.setScored(score);
+						RewardController.setScored(Score);
 						RewardController.setTopic(Word.getTopic());
 						
 						stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -163,19 +163,11 @@ public class PlayController implements Initializable {
 			userSpelling.clear();
 	}
 	
-	public void incrementScore() { // Method that increments the user's score
-		if (incorrect == 0) {
-			score++; 
-			// Increments the "score" variable
-			scoreLabel.setText("Score: " + Integer.toString(score));
-			// Sets the scoreLabel to display the user's current score
-		}
-	}
-	
 	public void setTopic(String topic) { // Method to choose the spelling quiz topic
 		// Inputs:
 		// topic = the topic that the user chose
 		this.Word = new Word(topic);
+		this.Score = new Score();
 		// Changes the global topic variable to the chosen topic
 		topicLabel.setText("Topic: " + topic);
 		// Sets the scoreLabel to display the user's current topic
@@ -226,13 +218,15 @@ public class PlayController implements Initializable {
 		// Sets the wordLabel to this string
 	}
 	
-	public void dontKnow(ActionEvent event) throws IOException { // Method that controls the behaviour of the button that is pressed when the user doesn't know the word
+	public void dontKnow(ActionEvent event) throws IOException {
+		// Method that controls the behaviour of the button that is pressed when the user doesn't know the word
+		Score.addWrong(Word.getWord());
 		if (Word.getWordList().isEmpty()) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
 			root = loader.load();
 			
 			RewardController RewardController = loader.getController();
-			RewardController.setScored(score);
+			RewardController.setScored(Score);
 			RewardController.setTopic(Word.getTopic());
 			
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
