@@ -62,6 +62,9 @@ public class PlayController implements Initializable {
 	
 	private String topic;
 	
+	private long startTime;
+	private long endTime;
+	
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
 		try {
 			festival(word);
@@ -85,6 +88,9 @@ public class PlayController implements Initializable {
 		speedLabel.setText("Current Speed: " + displaySpeed);
 	}
 	
+	public void setStartTime() {
+		startTime = System.nanoTime();
+	}
 	
 	public void randWord(String topic) { // Method that fetches the random words from the chosen word list
 		// Inputs: 
@@ -143,12 +149,14 @@ public class PlayController implements Initializable {
 				this.showCorrectMessage();
 				// Checks if the user input word is the same as the word to be spelled, ignoring case
 				if (wordList.isEmpty()) {
+					endTime = System.nanoTime();
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
 					root = loader.load();
 					
 					RewardController RewardController = loader.getController();
 					RewardController.setScored(score);
 					RewardController.setTopic(topic);
+					RewardController.setTimeElapsed(endTime-startTime);
 					
 					stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 					scene = new Scene(root);
@@ -170,12 +178,14 @@ public class PlayController implements Initializable {
 					break;
 				case 1:
 					if (wordList.isEmpty()) {
+						endTime = System.nanoTime();
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
 						root = loader.load();
 						
 						RewardController RewardController = loader.getController();
 						RewardController.setScored(score);
 						RewardController.setTopic(topic);
+						RewardController.setTimeElapsed(endTime-startTime);
 						
 						stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 						scene = new Scene(root);
@@ -273,12 +283,14 @@ public class PlayController implements Initializable {
 	
 	public void dontKnow(ActionEvent event) throws IOException { // Method that controls the behaviour of the button that is pressed when the user doesn't know the word
 		if (wordList.isEmpty()) {
+			endTime = System.nanoTime();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
 			root = loader.load();
 			
 			RewardController RewardController = loader.getController();
 			RewardController.setScored(score);
 			RewardController.setTopic(topic);
+			RewardController.setTimeElapsed(endTime-startTime);
 			
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
