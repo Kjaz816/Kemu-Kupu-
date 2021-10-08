@@ -38,10 +38,7 @@ public class RewardController {
 				root = loader.load();
 				
 				PlayController PlayController = loader.getController();
-				PlayController.randWord(topic);
-				PlayController.newWord();
 				PlayController.setTopic(topic);
-				PlayController.defaultWordLabel(PlayController.getWord());
 				// Starts a new game
 				
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();

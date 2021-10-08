@@ -23,8 +23,9 @@ import javafx.stage.Stage;
 
 public class PlayController implements Initializable {
 	
+	private Word Word;
+	
 	private int score = 0;
-	private String word;
 	private int incorrect = 0;
 	
 	private Stage stage;
@@ -58,13 +59,9 @@ public class PlayController implements Initializable {
 	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
 	private double voiceSpeed = 1.0; // Variable which will be put into the festival command to control the playback speed
 	
-	private Stack<String> wordList = new Stack<String>();
-	
-	private String topic;
-	
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
 		try {
-			festival(word);
+			festival(Word.getWord());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -83,38 +80,6 @@ public class PlayController implements Initializable {
 		voiceSpeed = Math.round((voiceSpeed+0.1)*10)/10.0;
 		// Increments / Decrements "displaySpeed" and "voiceSpeed" variables by 0.1, which will be used by the speedLabel and festival respectively.
 		speedLabel.setText("Current Speed: " + displaySpeed);
-	}
-	
-	
-	public void randWord(String topic) { // Method that fetches the random words from the chosen word list
-		// Inputs: 
-		// topic = title of the chosen word list
-		try {
-			String command = new String ("shuf -n 5 " + "words/" + topic + ".txt");
-			// Sets up the bash command to shuffle the words in the word list file
-			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
-			Process process = pb.start();
-			// Creates a process with the bash command and starts it
-			
-			BufferedReader stdout = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			BufferedReader stderr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-			// Pipelines the stdout and stderror to the variables
-			
-			int exitStatus = process.waitFor();
-			
-			if (exitStatus == 0) {
-				String line;
-				while ((line = stdout.readLine()) != null) {
-					wordList.add(line); 
-					// Adds the current line to the word list 
-				}
-				while ((line = stderr.readLine()) != null) {
-				}
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public void festival(String word) { // Method to speak the current word
@@ -138,17 +103,16 @@ public class PlayController implements Initializable {
 	
 	public void check(ActionEvent event) throws IOException, InterruptedException { // Method to check if the word was spelled correctly
 	
-			if(userSpelling.getText().toString().equalsIgnoreCase(this.word)) {
+			if(userSpelling.getText().toString().equalsIgnoreCase(Word.getWord())) {
 				this.incrementScore();
 				this.showCorrectMessage();
 				// Checks if the user input word is the same as the word to be spelled, ignoring case
-				if (wordList.isEmpty()) {
+				if (Word.getWordList().isEmpty()) {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
 					root = loader.load();
 					
 					RewardController RewardController = loader.getController();
 					RewardController.setScored(score);
-					RewardController.setTopic(topic);
 					
 					stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 					scene = new Scene(root);
@@ -156,26 +120,27 @@ public class PlayController implements Initializable {
 					stage.show();
 					// Progresses the scene if the word list is empty
 				}
-				this.newWord();
+				Word.newWord();
+				festival(Word.getWord());
 				incorrect = 0; // Sets the incorrect count to 0 as the user got the spelling correct
-				defaultWordLabel(word); // Sets the word length display to the length of the new word
+				defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
 			}
 			else {
 				switch (incorrect) { // Does different things based on whether it is the first or second time the user spelled the word incorrectly
 				case 0:
 					incorrect++; // Increments the incorrect count to 1 so that the switch will change case the next time the user spells the word incorrectly
-					showSecondLetter(word); // Shows the second letter of the word to the user as a hint
+					showSecondLetter(Word.getWord()); // Shows the second letter of the word to the user as a hint
 					this.showTryAgainMessage(); // Shows the try again message
-					this.festival(word); // Speaks the word out again using festival TTS
+					this.festival(Word.getWord()); // Speaks the word out again using festival TTS
 					break;
 				case 1:
-					if (wordList.isEmpty()) {
+					if (Word.getWordList().isEmpty()) {
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
 						root = loader.load();
 						
 						RewardController RewardController = loader.getController();
 						RewardController.setScored(score);
-						RewardController.setTopic(topic);
+						RewardController.setTopic(Word.getTopic());
 						
 						stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 						scene = new Scene(root);
@@ -183,32 +148,19 @@ public class PlayController implements Initializable {
 						stage.show();
 						// Progresses the scene if the word list is empty
 					}
-					this.newWord();
+					Word.newWord();
+					this.festival(Word.getWord());
 					// Moves on to the next word as the user has spelled the word incorrectly twice
 					showEncouragingMessage(); 
 					// Shows a message to encorage the user to try again
 					incorrect = 0;
 					// Resets the incorrect counter to 0 as the word has progressed
-					defaultWordLabel(word);
+					defaultWordLabel(Word.getWord());
 					// Sets the word length display to the length of the new word
 					break;
 				}
 			}
-			
 			userSpelling.clear();
-	}
-	
-	public void newWord() { // Method that moves the game on to the next word in the list and speaks it using TTS
-		if (!wordList.isEmpty()) {
-		word = wordList.pop();
-		// Pops the current word from the word list and inputs it into the "word" variable
-		this.festival(word);
-		// Speaks the new 
-		}
-	}
-	
-	public String getWord() { // Method that returns the current word
-		return this.word; 
 	}
 	
 	public void incrementScore() { // Method that increments the user's score
@@ -223,10 +175,13 @@ public class PlayController implements Initializable {
 	public void setTopic(String topic) { // Method to choose the spelling quiz topic
 		// Inputs:
 		// topic = the topic that the user chose
-		this.topic = topic;
+		this.Word = new Word(topic);
 		// Changes the global topic variable to the chosen topic
 		topicLabel.setText("Topic: " + topic);
 		// Sets the scoreLabel to display the user's current topic
+		this.defaultWordLabel(Word.getWord());
+		//Read the first word
+		this.festival(Word.getWord());
 	}
 	
 	public void showEncouragingMessage() { // Method to show the user an encouraging message
@@ -272,13 +227,13 @@ public class PlayController implements Initializable {
 	}
 	
 	public void dontKnow(ActionEvent event) throws IOException { // Method that controls the behaviour of the button that is pressed when the user doesn't know the word
-		if (wordList.isEmpty()) {
+		if (Word.getWordList().isEmpty()) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
 			root = loader.load();
 			
 			RewardController RewardController = loader.getController();
 			RewardController.setScored(score);
-			RewardController.setTopic(topic);
+			RewardController.setTopic(Word.getTopic());
 			
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
@@ -289,7 +244,9 @@ public class PlayController implements Initializable {
 		else {
 			showEncouragingMessage();
 			// Uses TTS to speak "incorrect" and then prints the encouraging message to the screen
-			this.newWord();
+			Word.newWord();
+			this.defaultWordLabel(Word.getWord());
+			this.festival(Word.getWord());
 			// Progresses to the next word
 			incorrect = 0;
 			// Resets the incorrect count as the program is progressing to a new word
