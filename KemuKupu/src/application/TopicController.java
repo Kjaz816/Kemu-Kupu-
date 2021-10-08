@@ -104,6 +104,7 @@ public class TopicController implements Initializable {
 			PlayController.newWord();
 			PlayController.setTopic(topic);
 			PlayController.defaultWordLabel(PlayController.getWord());
+			PlayController.setStartTime();
 			// Starts a new game
 		
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();

@@ -1,7 +1,8 @@
 package application;
 
 import java.io.IOException;
-
+import java.math.BigDecimal;
+import java.util.concurrent.TimeUnit;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +26,8 @@ public class RewardController {
 	private Button mainMenuButton;
 	@FXML
 	private Label topicLabel;
+	@FXML
+	private Label timeLabel;
 	
 	private Stage stage;
 	private Scene scene;
@@ -63,6 +66,13 @@ public class RewardController {
 		// Gets the topic chosen by the user and sets it to the topic variable
 		topicLabel.setText("Topic: " + topic);
 		// Sets the topicLabel to display the current topic
+	}
+	
+	public void setTimeElapsed(long nanoTimeElapsed) {
+		double millisecElapsed = (double) TimeUnit.MILLISECONDS.convert(nanoTimeElapsed,TimeUnit.NANOSECONDS);
+		double secElapsed = millisecElapsed/1000.0;
+		secElapsed = Math.round(secElapsed*100.0)/100.0;
+		timeLabel.setText("Time Elapsed: " + secElapsed + " seconds");
 	}
 	
 	public void returnToMainMenu(ActionEvent event) { // Method that controls the "Return to Main Menu" button
