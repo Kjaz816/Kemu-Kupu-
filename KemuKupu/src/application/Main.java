@@ -22,12 +22,19 @@ import javafx.scene.Scene;
 
 */
 public class Main extends Application {
+	
+	private String theme = "default.css";
+	
+	public void setTheme(String theme) {
+		this.theme = theme;
+	}
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("Main2.fxml"));
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("default.css").toExternalForm());
 			primaryStage.setTitle("Kēmu Kupu");
 			primaryStage.setScene(scene);
 			primaryStage.show();
