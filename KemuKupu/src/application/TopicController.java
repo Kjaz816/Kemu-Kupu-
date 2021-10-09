@@ -25,6 +25,9 @@ import javafx.stage.Stage;
 public class TopicController implements Initializable {
 	
 	@FXML
+	private Button playButton;
+	
+	@FXML
 	private Button practiceButton;
 	
 	@FXML
@@ -97,6 +100,23 @@ public class TopicController implements Initializable {
 	public void practice(ActionEvent event) throws IOException { // Method which controls the play button 
 		if (!topicLabel.getText().equals("Choose a topic:")) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice.fxml"));
+			root = loader.load();
+		
+			PracticeController PracticeController = loader.getController();
+			PracticeController.setTopic(topic);
+			// Starts a new game
+		
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+			// Sets the scene to the new game scene
+		}
+	}
+	
+	public void play(ActionEvent event) throws IOException { // Method which controls the play button 
+		if (!topicLabel.getText().equals("Choose a topic:")) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Play.fxml"));
 			root = loader.load();
 		
 			PracticeController PracticeController = loader.getController();

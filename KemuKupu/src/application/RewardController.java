@@ -22,7 +22,9 @@ public class RewardController {
 	@FXML
 	private Label rewardLabel;
 	@FXML
-	private Button againButton;
+	private Button playAgainButton;
+	@FXML
+	private Button PracticeAgainButton;
 	@FXML
 	private Button mainMenuButton;
 	@FXML
@@ -42,6 +44,27 @@ public class RewardController {
 	public void practiceAgain(ActionEvent event) { // Method that controls the "Play again" button
 		try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice.fxml"));
+				root = loader.load();
+				
+				PracticeController PracticeController = loader.getController();
+				PracticeController.setTopic(topic);
+				// Starts a new game
+				
+				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+				scene = new Scene(root);
+				stage.setScene(scene);
+				stage.show();
+				// Sets the scene to the new game scene
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void playAgain(ActionEvent event) { // Method that controls the "Play again" button
+		try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Play.fxml"));
 				root = loader.load();
 				
 				PracticeController PracticeController = loader.getController();

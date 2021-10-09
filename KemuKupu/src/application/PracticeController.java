@@ -23,13 +23,13 @@ import javafx.stage.Stage;
 
 public class PracticeController implements Initializable {
 
-	private Word Word;
-	private Score Score;
+	protected Word Word;
+	protected Score Score;
 	private int incorrect = 0;
 
-	private Stage stage;
-	private Scene scene;
-	private Parent root;
+	protected Stage stage;
+	protected Scene scene;
+	protected Parent root;
 
 	@FXML
 	private Label scoreLabel;
@@ -38,7 +38,7 @@ public class PracticeController implements Initializable {
 	@FXML
 	private Label wordLabel;
 	@FXML
-	private TextField userSpelling;
+	protected TextField userSpelling;
 	@FXML
 	private Button repeatWord;
 	@FXML
@@ -58,8 +58,8 @@ public class PracticeController implements Initializable {
 	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
 	private double voiceSpeed = 1.0; // Variable which will be put into the festival command to control the playback speed
 
-	private long startTime;
-	private long endTime;
+	protected long startTime;
+	protected long endTime;
 
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
 		try {
