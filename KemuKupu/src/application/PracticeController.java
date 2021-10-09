@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class PracticeController implements Initializable {
@@ -53,6 +54,8 @@ public class PracticeController implements Initializable {
 	private Button slower;
 	@FXML
 	private Label topicLabel;
+	@FXML
+	private ImageView spellingImage;
 	// Sets up UI Elements
 
 	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
