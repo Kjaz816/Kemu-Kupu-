@@ -105,7 +105,7 @@ public class TopicController implements Initializable {
 	
 	public void practice(ActionEvent event) throws IOException { // Method which controls the play button 
 		if (!topicLabel.getText().equals("Choose a topic:")) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice2.fxml"));
 			root = loader.load();
 		
 			PracticeController PracticeController = loader.getController();
@@ -114,7 +114,7 @@ public class TopicController implements Initializable {
 		
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 			// Sets the scene to the new game scene
@@ -132,7 +132,7 @@ public class TopicController implements Initializable {
 		
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 			// Sets the scene to the new game scene

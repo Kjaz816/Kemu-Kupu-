@@ -9,7 +9,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(#8693AB,#BDD4E7);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TopicController">
    <children>
       <ListView fx:id="topicList" layoutX="200.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" />
-      <Button fx:id="practiceButton" layoutX="252.0" layoutY="321.0" mnemonicParsing="false" onAction="#practice" prefHeight="41.0" prefWidth="99.0" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Practice">
+      <Button fx:id="practiceButton" layoutX="158.0" layoutY="321.0" mnemonicParsing="false" onAction="#practice" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Practice">
          <font>
             <Font size="20.0" />
          </font></Button>
@@ -17,7 +17,7 @@
          <font>
             <Font size="24.0" />
          </font></Label>
-      <Button fx:id="playButton" layoutX="384.0" layoutY="329.0" mnemonicParsing="false" onAction="#play" prefHeight="41.0" prefWidth="99.0" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Play">
+      <Button fx:id="playButton" layoutX="314.0" layoutY="321.0" mnemonicParsing="false" onAction="#play" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Play">
          <font>
             <Font size="20.0" />
          </font>
