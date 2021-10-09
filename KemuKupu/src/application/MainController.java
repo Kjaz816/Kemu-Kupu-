@@ -36,6 +36,7 @@ public class MainController {
 			root = FXMLLoader.load(getClass().getResource("Topic.fxml"));
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {
@@ -48,6 +49,12 @@ public class MainController {
 		// Gets the current scene
 		stage.close(); 
 		// closes the current scene
+	}
+	
+	protected String theme = "default.css";
+	
+	public void setTheme(String theme) {
+		this.theme = theme + ".css";
 	}
 }
 

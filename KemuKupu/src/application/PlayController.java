@@ -27,6 +27,7 @@ public class PlayController extends PracticeController {
 
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 				stage.setScene(scene);
 				stage.show();
 				// Progresses the scene if the word list is empty
@@ -51,6 +52,7 @@ public class PlayController extends PracticeController {
 
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 				stage.setScene(scene);
 				stage.show();
 				// Progresses the scene if the word list is empty

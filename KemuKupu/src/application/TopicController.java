@@ -38,6 +38,12 @@ public class TopicController implements Initializable {
 	
 	private String topic;
 	
+	private String theme = "default.css";
+	
+	public void setTheme(String theme) {
+		this.theme = theme + ".css";
+	}
+	
 	public void getTopic(){
 		
 		try {
@@ -108,6 +114,7 @@ public class TopicController implements Initializable {
 		
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 			// Sets the scene to the new game scene
@@ -125,6 +132,7 @@ public class TopicController implements Initializable {
 		
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 			// Sets the scene to the new game scene

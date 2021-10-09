@@ -60,6 +60,12 @@ public class PracticeController implements Initializable {
 
 	protected long startTime;
 	protected long endTime;
+	
+	protected String theme = "default.css";
+	
+	public void setTheme(String theme) {
+		this.theme = theme + ".css";
+	}
 
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
 		try {

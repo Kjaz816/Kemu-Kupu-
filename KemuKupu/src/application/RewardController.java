@@ -41,6 +41,12 @@ public class RewardController {
 	@FXML
 	private ListView<String> scoreBoard;
 	
+	private String theme = "default.css";
+	
+	public void setTheme(String theme) {
+		this.theme = theme + ".css";
+	}
+	
 	public void practiceAgain(ActionEvent event) { // Method that controls the "Play again" button
 		try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice.fxml"));
@@ -52,6 +58,7 @@ public class RewardController {
 				
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 				stage.setScene(scene);
 				stage.show();
 				// Sets the scene to the new game scene
@@ -73,6 +80,7 @@ public class RewardController {
 				
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 				stage.setScene(scene);
 				stage.show();
 				// Sets the scene to the new game scene
@@ -104,6 +112,7 @@ public class RewardController {
 			root = FXMLLoader.load(getClass().getResource("Main.fxml"));
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 			// Returns the scene to the default scene

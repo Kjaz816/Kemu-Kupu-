@@ -26,7 +26,7 @@ public class Main extends Application {
 	private String theme = "default.css";
 	
 	public void setTheme(String theme) {
-		this.theme = theme;
+		this.theme = theme + ".css";
 	}
 	
 	@Override
@@ -34,7 +34,7 @@ public class Main extends Application {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("Main2.fxml"));
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("default.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			primaryStage.setTitle("Kēmu Kupu");
 			primaryStage.setScene(scene);
 			primaryStage.show();
