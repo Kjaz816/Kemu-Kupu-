@@ -28,29 +28,29 @@
             <RowConstraints maxHeight="1.7976931348623157E308" minHeight="8.0" percentHeight="10.0" prefHeight="79.0" vgrow="ALWAYS" />
           <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
           <RowConstraints maxHeight="1.7976931348623157E308" minHeight="9.0" percentHeight="8.0" prefHeight="27.0" vgrow="ALWAYS" />
-          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" percentHeight="8.0" prefHeight="21.0" vgrow="ALWAYS" />
-            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="8.0" prefHeight="57.0" vgrow="ALWAYS" />
+          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" percentHeight="8.0" prefHeight="50.0" vgrow="ALWAYS" />
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="8.0" prefHeight="60.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <Button fx:id="slower" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#slower" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Slower" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+            <Button fx:id="slower" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#slower" style="-fx-background-radius: 5;" text="Slower" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <font>
-                  <Font size="20.0" />
+                  <Font size="24.0" />
                </font>
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="repeatWord" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#repeatWord" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Repeat Word" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+            <Button fx:id="repeatWord" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#repeatWord" text="Repeat Word" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <font>
-                  <Font size="20.0" />
+                  <Font size="24.0" />
                </font>
                <GridPane.margin>
                   <Insets bottom="10.0" left="60.0" right="40.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="faster" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#faster" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Faster" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+            <Button fx:id="faster" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#faster" text="Faster" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <font>
-                  <Font size="20.0" />
+                  <Font size="24.0" />
                </font>
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
@@ -66,17 +66,17 @@
                   <Font size="20.0" />
                </font>
             </TextField>
-            <Button fx:id="check" defaultButton="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#check" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Check" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+            <Button fx:id="check" defaultButton="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#check" text="Check" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <font>
-                  <Font size="20.0" />
+                  <Font size="24.0" />
                </font>
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="dontKnow" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#dontKnow" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Don't Know" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+            <Button fx:id="dontKnow" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#dontKnow" text="Don't Know" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
                <font>
-                  <Font size="20.0" />
+                  <Font size="24.0" />
                </font>
                <GridPane.margin>
                   <Insets bottom="10.0" right="10.0" top="10.0" />

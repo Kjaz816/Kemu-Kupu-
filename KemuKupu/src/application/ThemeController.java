@@ -25,23 +25,25 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class ThemeController implements Initializable {
-	
+
 	private String theme;
+
+	private String currentTheme;
 
 	@FXML
 	private Label myLabel;
 
 	@FXML
 	private ChoiceBox<String> myChoiceBox;
-	
+
 	private List<String> data = new ArrayList<>();
-	
+
 	@FXML
 	ImageView myImageView;
-	
+
 	@FXML
 	private Button applyButton;
-	
+
 	@FXML
 	private Button mainMenuButton;
 
@@ -51,7 +53,7 @@ public class ThemeController implements Initializable {
 		this.getData();
 		myChoiceBox.setOnAction(this::changeTheme);
 	}
-	
+
 	public void setTheme(String theme) {
 		this.theme = theme;
 	}
@@ -89,7 +91,7 @@ public class ThemeController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void getData(){
 		try {
 			String command = "cat data.txt";
@@ -123,15 +125,15 @@ public class ThemeController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void changeTheme (ActionEvent event) {
-		
+
 		String theme = myChoiceBox.getValue();
 		//show picture
 		Image myImage = new Image(getClass().getResourceAsStream("./css/" + theme + ".jpg"));
 		myImageView.setImage(myImage);
 		// Changes the background image
-		
+
 		if (data.contains(theme)) {
 			this.theme = theme + ".css";
 		}
@@ -139,20 +141,20 @@ public class ThemeController implements Initializable {
 			myLabel.setText("Master " + theme.toLowerCase() + " to unlock this theme!");
 		}
 	}
-	
+
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
-	
+
 	public void returnToMainMenu(ActionEvent event) { // Method that controls the "Return to Main Menu" button
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main2.fxml"));
 			root = loader.load();
-			
+
 			MainController MainController = loader.getController();
 			MainController.setTheme(theme);
 			// Sets the theme to the selected theme
-			
+
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
@@ -161,6 +163,28 @@ public class ThemeController implements Initializable {
 			// Returns the scene to the default scene
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void apply(ActionEvent event) { // Method that controls the "Return to Main Menu" button
+		if (data.contains(theme)){
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Main2.fxml"));
+				root = loader.load();
+
+				MainController MainController = loader.getController();
+				MainController.setTheme(theme);
+				// Sets the theme to the selected theme
+
+				stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+				scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+				stage.setScene(scene);
+				stage.show();
+				// Returns the scene to the default scene
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
