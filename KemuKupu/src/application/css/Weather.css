@@ -6,22 +6,23 @@
 	-fx-background-size: 100% 100%;
 	-fx-background-repeat: no-repeat no-repeat;
 	-fx-background-position: center;
-	-fx-background-image: url("./babies.jpg");
+	-fx-background-image: url("./azure.jpg");
 }
 
 .label{
-	-fx-font-family: 'Architects Daughter', cursive;
-	-fx-text-fill: #0000FF;
+    -fx-font-family: 'Architects Daughter', cursive;
+	-fx-text-fill: black;
 	-fx-alignment: center;
 }
 
 .button{
-	-fx-font-family: 'Architects Daughter', cursive;
+    -fx-font-family: 'Architects Daughter', cursive;
 	-fx-font-size: 24;
+	-fx-background-color: white;
 }
 
 .button:hover {
-	-fx-background-color: #0000FF;
+	-fx-background-color: black;
 	-fx-text-fill: white;
   	-fx-font-size: 24;
 }

@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
@@ -26,7 +27,7 @@ public class MainController {
 	private Button quitButton;
 	
 	@FXML 
-	private AnchorPane scenePane;
+	private BorderPane scenePane;
 	
 	@FXML
 	private Label title;
