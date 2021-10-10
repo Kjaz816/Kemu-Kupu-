@@ -21,15 +21,15 @@
          <font>
             <Font size="24.0" />
          </font></Label>
-      <Button fx:id="check" defaultButton="true" layoutX="259.0" layoutY="264.0" mnemonicParsing="false" onAction="#check" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Check">
+      <Button fx:id="check" defaultButton="true" layoutX="259.0" layoutY="264.0" mnemonicParsing="false" onAction="#check" text="Check">
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Button fx:id="dontKnow" layoutX="364.0" layoutY="264.0" mnemonicParsing="false" onAction="#dontKnow" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Don't Know">
+      <Button fx:id="dontKnow" layoutX="364.0" layoutY="264.0" mnemonicParsing="false" onAction="#dontKnow" text="Don't Know">
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Button fx:id="repeatWord" layoutX="97.0" layoutY="264.0" mnemonicParsing="false" onAction="#repeatWord" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Repeat Word">
+      <Button fx:id="repeatWord" layoutX="97.0" layoutY="264.0" mnemonicParsing="false" onAction="#repeatWord" text="Repeat Word">
          <font>
             <Font size="20.0" />
          </font></Button>
@@ -41,11 +41,11 @@
          <font>
             <Font size="24.0" />
          </font></Label>
-      <Button fx:id="slower" layoutX="184.0" layoutY="357.0" mnemonicParsing="false" onAction="#slower" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Slower">
+      <Button fx:id="slower" layoutX="184.0" layoutY="357.0" mnemonicParsing="false" onAction="#slower" style="-fx-background-radius: 5;" text="Slower">
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Button fx:id="faster" layoutX="345.0" layoutY="357.0" mnemonicParsing="false" onAction="#faster" style="-fx-background-color: #eae7d8; -fx-background-radius: 5;" text="Faster">
+      <Button fx:id="faster" layoutX="345.0" layoutY="357.0" mnemonicParsing="false" onAction="#faster" style="-fx-background-radius: 5;" text="Faster">
          <font>
             <Font size="20.0" />
          </font></Button>

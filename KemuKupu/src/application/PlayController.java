@@ -24,7 +24,8 @@ public class PlayController extends PracticeController {
 				RewardController RewardController = loader.getController();
 				RewardController.setScored(Score);
 				RewardController.setTimeElapsed(endTime-startTime);
-
+				RewardController.setTheme(theme);
+				
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				scene = new Scene(root);
 				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
@@ -49,6 +50,7 @@ public class PlayController extends PracticeController {
 				RewardController.setScored(Score);
 				RewardController.setTopic(Word.getTopic());
 				RewardController.setTimeElapsed(endTime-startTime);
+				RewardController.setTheme(theme);
 
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				scene = new Scene(root);

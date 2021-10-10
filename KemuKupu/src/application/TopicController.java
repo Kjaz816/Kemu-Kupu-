@@ -41,11 +41,10 @@ public class TopicController implements Initializable {
 	private String theme = "default.css";
 	
 	public void setTheme(String theme) {
-		this.theme = theme + ".css";
+		this.theme = theme;
 	}
 	
 	public void getTopic(){
-		
 		try {
 			String command = "ls -1 words | sed -e 's/\\.txt$//'";
 			// Sets the bash command
@@ -110,6 +109,7 @@ public class TopicController implements Initializable {
 		
 			PracticeController PracticeController = loader.getController();
 			PracticeController.setTopic(topic);
+			PracticeController.setTheme(this.theme);
 			// Starts a new game
 		
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -126,8 +126,9 @@ public class TopicController implements Initializable {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Play.fxml"));
 			root = loader.load();
 		
-			PracticeController PracticeController = loader.getController();
-			PracticeController.setTopic(topic);
+			PlayController PlayController = loader.getController();
+			PlayController.setTopic(topic);
+			PlayController.setTheme(theme);
 			// Starts a new game
 		
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();

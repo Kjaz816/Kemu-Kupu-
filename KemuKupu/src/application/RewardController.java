@@ -44,7 +44,7 @@ public class RewardController {
 	private String theme = "default.css";
 	
 	public void setTheme(String theme) {
-		this.theme = theme + ".css";
+		this.theme = theme;
 	}
 	
 	public void practiceAgain(ActionEvent event) { // Method that controls the "Play again" button
@@ -54,6 +54,7 @@ public class RewardController {
 				
 				PracticeController PracticeController = loader.getController();
 				PracticeController.setTopic(topic);
+				PracticeController.setTheme(theme);
 				// Starts a new game
 				
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -74,8 +75,10 @@ public class RewardController {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("Play.fxml"));
 				root = loader.load();
 				
-				PracticeController PracticeController = loader.getController();
-				PracticeController.setTopic(topic);
+				PlayController PlayController = loader.getController();
+				PlayController.setTopic(topic);
+				PlayController.setTheme(theme);
+				
 				// Starts a new game
 				
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -109,7 +112,12 @@ public class RewardController {
 	
 	public void returnToMainMenu(ActionEvent event) { // Method that controls the "Return to Main Menu" button
 		try {
-			root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main2.fxml"));
+			root = loader.load();
+			
+			MainController MainController = loader.getController();
+			MainController.setTheme(theme);
+			
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());

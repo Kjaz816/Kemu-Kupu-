@@ -61,10 +61,10 @@ public class PracticeController implements Initializable {
 	protected long startTime;
 	protected long endTime;
 	
-	protected String theme = "default.css";
+	protected String theme = "default";
 	
 	public void setTheme(String theme) {
-		this.theme = theme + ".css";
+		this.theme = theme;
 	}
 
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
@@ -127,9 +127,11 @@ public class PracticeController implements Initializable {
 				RewardController RewardController = loader.getController();
 				RewardController.setScored(Score);
 				RewardController.setTimeElapsed(endTime-startTime);
+				RewardController.setTheme(theme);
 
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 				stage.setScene(scene);
 				stage.show();
 				// Progresses the scene if the word list is empty
@@ -160,9 +162,11 @@ public class PracticeController implements Initializable {
 					RewardController.setScored(Score);
 					RewardController.setTopic(Word.getTopic());
 					RewardController.setTimeElapsed(endTime-startTime);
+					RewardController.setTheme(theme);
 
 					stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 					scene = new Scene(root);
+					scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 					stage.setScene(scene);
 					stage.show();
 					// Progresses the scene if the word list is empty
@@ -251,9 +255,11 @@ public class PracticeController implements Initializable {
 			RewardController RewardController = loader.getController();
 			RewardController.setScored(Score);
 			RewardController.setTopic(Word.getTopic());
+			RewardController.setTheme(theme);
 
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 			// Progresses the scene if the word list is empty
