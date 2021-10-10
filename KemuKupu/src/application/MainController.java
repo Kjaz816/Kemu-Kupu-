@@ -33,7 +33,7 @@ public class MainController {
 	
 	public void switchToTopic(ActionEvent event) {
 		try {
-			root = FXMLLoader.load(getClass().getResource("Topic.fxml"));
+			root = FXMLLoader.load(getClass().getResource("Topic2.fxml"));
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
 			//scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
