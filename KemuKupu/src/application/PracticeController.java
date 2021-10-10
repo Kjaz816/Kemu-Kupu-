@@ -136,7 +136,7 @@ public class PracticeController implements Initializable {
 			// Checks if the user input word is the same as the word to be spelled, ignoring case
 			if (Word.getWordList().isEmpty()) {
 				endTime = System.nanoTime();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
 				root = loader.load();
 
 				RewardController RewardController = loader.getController();
@@ -168,7 +168,7 @@ public class PracticeController implements Initializable {
 				Score.addWrong(Word.getWord());
 				if (Word.getWordList().isEmpty()) {
 					endTime = System.nanoTime();
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
 					root = loader.load();
 
 					RewardController RewardController = loader.getController();
@@ -260,7 +260,7 @@ public class PracticeController implements Initializable {
 		// Method that controls the behaviour of the button that is pressed when the user doesn't know the word
 		Score.addWrong(Word.getWord());
 		if (Word.getWordList().isEmpty()) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
 			root = loader.load();
 
 			RewardController RewardController = loader.getController();
