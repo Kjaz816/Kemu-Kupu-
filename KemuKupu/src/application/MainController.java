@@ -51,6 +51,21 @@ public class MainController extends Main {
 		}
 	}
 	
+	public void switchToTheme(ActionEvent event) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Theme.fxml"));
+			root =  loader.load();
+			
+			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void quit(ActionEvent event) { // Method that controls the Quit Button
 		stage = (Stage) scenePane.getScene().getWindow();
 		// Gets the current scene

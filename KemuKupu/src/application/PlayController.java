@@ -25,6 +25,7 @@ public class PlayController extends PracticeController {
 				RewardController.setScored(Score);
 				RewardController.setTimeElapsed(endTime-startTime);
 				RewardController.setTheme(theme);
+				RewardController.addMastered(Score);
 				
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				scene = new Scene(root);
