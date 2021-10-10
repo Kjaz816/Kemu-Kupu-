@@ -23,7 +23,7 @@ import javafx.scene.Scene;
 */
 public class Main extends Application {
 	
-	protected String theme = "default.css";
+	protected String theme = "Default.css";
 	
 	public void setTheme(String theme) {
 		this.theme = theme;
