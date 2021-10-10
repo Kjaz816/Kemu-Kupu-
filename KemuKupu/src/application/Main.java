@@ -23,10 +23,10 @@ import javafx.scene.Scene;
 */
 public class Main extends Application {
 	
-	private String theme = "default.css";
+	protected String theme = "Engineering.css";
 	
 	public void setTheme(String theme) {
-		this.theme = theme + ".css";
+		this.theme = theme;
 	}
 	
 	@Override
@@ -34,7 +34,7 @@ public class Main extends Application {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("Main2.fxml"));
 			Scene scene = new Scene(root);
-			//scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			primaryStage.setTitle("Kēmu Kupu");
 			primaryStage.setScene(scene);
 			primaryStage.show();

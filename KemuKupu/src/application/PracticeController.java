@@ -1,7 +1,6 @@
 package application;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -20,8 +19,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class PracticeController implements Initializable {
@@ -56,8 +53,6 @@ public class PracticeController implements Initializable {
 	private Button slower;
 	@FXML
 	private Label topicLabel;
-	@FXML
-	private ImageView spellingImage;
 	// Sets up UI Elements
 
 	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
@@ -66,10 +61,10 @@ public class PracticeController implements Initializable {
 	protected long startTime;
 	protected long endTime;
 	
-	protected String theme = "default.css";
+	protected String theme = "default";
 	
 	public void setTheme(String theme) {
-		this.theme = theme + ".css";
+		this.theme = theme;
 	}
 
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
@@ -88,43 +83,26 @@ public class PracticeController implements Initializable {
 		displaySpeed = Math.round((displaySpeed+0.1)*10)/10.0;
 		voiceSpeed = Math.round((voiceSpeed-0.1)*10)/10.0;
 		// Increments / Decrements "displaySpeed" and "voiceSpeed" variables by 0.1, which will be used by the speedLabel and festival respectively.
-		if (displaySpeed > 1.5) {
-			displaySpeed = 1.5;
-			voiceSpeed = 0.5;
-			speedLabel.setText("Speed cannot got higher than 1.5");
-		} else {
 		speedLabel.setText("Current Speed: " + displaySpeed);	
-		}
 		// Sets the speedLabel to display the current speed.
 	}
-	
+
 	public void slower(ActionEvent event) { // Method that decreases the playback speed of words
 		displaySpeed = Math.round((displaySpeed-0.1)*10)/10.0;
 		voiceSpeed = Math.round((voiceSpeed+0.1)*10)/10.0;
 		// Increments / Decrements "displaySpeed" and "voiceSpeed" variables by 0.1, which will be used by the speedLabel and festival respectively.
-		if(displaySpeed < 0.5) {
-			displaySpeed = 0.5;
-			voiceSpeed = 1.5;
-			speedLabel.setText("Speed cannot go lower than 0.5");
-		} else {
 		speedLabel.setText("Current Speed: " + displaySpeed);
-		}
 	}
 
 	public void festival(String word) { // Method to speak the current word
 		// Inputs: 
 		// word = the current word
 		try {
-			String currentUrl = ("Pictures" + File.separator + Word.getTopic() + File.separator + word + ".png");
-			System.out.println(currentUrl);
 			PrintWriter speechWriter = new PrintWriter("speech.scm");
 			speechWriter.println("(voice_akl_mi_pk06_cg)");
 			speechWriter.println("(Parameter.set 'Duration_Stretch " + voiceSpeed + " )");
 			speechWriter.println("(SayText \""  + word + "\")");
 			speechWriter.close();
-			Image image = new Image(currentUrl);
-			spellingImage.setImage(image);
-			
 			// Sets the voice pack and playback speed of the festival TTS, and sets the word to be played as the input word
 			String command = new String("festival -b speech.scm");
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
@@ -143,15 +121,19 @@ public class PracticeController implements Initializable {
 			// Checks if the user input word is the same as the word to be spelled, ignoring case
 			if (Word.getWordList().isEmpty()) {
 				endTime = System.nanoTime();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
 				root = loader.load();
 
 				RewardController RewardController = loader.getController();
 				RewardController.setScored(Score);
 				RewardController.setTimeElapsed(endTime-startTime);
+				RewardController.setTheme(theme);
+				RewardController.addMastered(Score);
+				
 
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 				scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 				stage.setScene(scene);
 				stage.show();
 				// Progresses the scene if the word list is empty
@@ -175,16 +157,18 @@ public class PracticeController implements Initializable {
 				Score.addWrong(Word.getWord());
 				if (Word.getWordList().isEmpty()) {
 					endTime = System.nanoTime();
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
 					root = loader.load();
 
 					RewardController RewardController = loader.getController();
 					RewardController.setScored(Score);
 					RewardController.setTopic(Word.getTopic());
 					RewardController.setTimeElapsed(endTime-startTime);
+					RewardController.setTheme(theme);
 
 					stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 					scene = new Scene(root);
+					scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 					stage.setScene(scene);
 					stage.show();
 					// Progresses the scene if the word list is empty
@@ -267,15 +251,17 @@ public class PracticeController implements Initializable {
 		// Method that controls the behaviour of the button that is pressed when the user doesn't know the word
 		Score.addWrong(Word.getWord());
 		if (Word.getWordList().isEmpty()) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
 			root = loader.load();
 
 			RewardController RewardController = loader.getController();
 			RewardController.setScored(Score);
 			RewardController.setTopic(Word.getTopic());
+			RewardController.setTheme(theme);
 
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 			// Progresses the scene if the word list is empty

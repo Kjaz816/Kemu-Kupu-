@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,11 +43,10 @@ public class TopicController implements Initializable {
 	private String theme = "default.css";
 	
 	public void setTheme(String theme) {
-		this.theme = theme + ".css";
+		this.theme = theme;
 	}
 	
 	public void getTopic(){
-		
 		try {
 			String command = "ls -1 words | sed -e 's/\\.txt$//'";
 			// Sets the bash command
@@ -105,16 +106,17 @@ public class TopicController implements Initializable {
 	
 	public void practice(ActionEvent event) throws IOException { // Method which controls the play button 
 		if (!topicLabel.getText().equals("Choose a topic:")) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice2.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice.fxml"));
 			root = loader.load();
 		
 			PracticeController PracticeController = loader.getController();
 			PracticeController.setTopic(topic);
+			PracticeController.setTheme(this.theme);
 			// Starts a new game
 		
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
-			//scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 			// Sets the scene to the new game scene
@@ -123,16 +125,17 @@ public class TopicController implements Initializable {
 	
 	public void play(ActionEvent event) throws IOException { // Method which controls the play button 
 		if (!topicLabel.getText().equals("Choose a topic:")) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Play2.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Play.fxml"));
 			root = loader.load();
 		
-			PracticeController PracticeController = loader.getController();
-			PracticeController.setTopic(topic);
+			PlayController PlayController = loader.getController();
+			PlayController.setTopic(topic);
+			PlayController.setTheme(theme);
 			// Starts a new game
 		
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
-			//scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			stage.setScene(scene);
 			stage.show();
 			// Sets the scene to the new game scene
