@@ -28,7 +28,7 @@ public class ThemeController implements Initializable {
 
 	private String theme;
 
-	private String currentTheme;
+	private String applyTheme;
 
 	@FXML
 	private Label myLabel;
@@ -129,6 +129,7 @@ public class ThemeController implements Initializable {
 	public void changeTheme (ActionEvent event) {
 
 		String theme = myChoiceBox.getValue();
+		applyTheme = theme;
 		//show picture
 		Image myImage = new Image(getClass().getResourceAsStream("./css/" + theme + ".jpg"));
 		myImageView.setImage(myImage);
@@ -167,7 +168,7 @@ public class ThemeController implements Initializable {
 	}
 
 	public void apply(ActionEvent event) { // Method that controls the "Return to Main Menu" button
-		if (data.contains(theme)){
+		if (data.contains(applyTheme)){
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("Main2.fxml"));
 				root = loader.load();
