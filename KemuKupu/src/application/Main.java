@@ -34,7 +34,7 @@ public class Main extends Application {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("Main2.fxml"));
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			primaryStage.setTitle("Kēmu Kupu");
 			primaryStage.setScene(scene);
 			primaryStage.show();
