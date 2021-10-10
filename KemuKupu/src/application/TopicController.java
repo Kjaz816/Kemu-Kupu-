@@ -123,7 +123,7 @@ public class TopicController implements Initializable {
 	
 	public void play(ActionEvent event) throws IOException { // Method which controls the play button 
 		if (!topicLabel.getText().equals("Choose a topic:")) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Play.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Play2.fxml"));
 			root = loader.load();
 		
 			PracticeController PracticeController = loader.getController();

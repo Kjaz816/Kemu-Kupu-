@@ -49,7 +49,7 @@ public class RewardController {
 	
 	public void practiceAgain(ActionEvent event) { // Method that controls the "Play again" button
 		try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice2.fxml"));
 				root = loader.load();
 				
 				PracticeController PracticeController = loader.getController();
@@ -109,7 +109,7 @@ public class RewardController {
 	
 	public void returnToMainMenu(ActionEvent event) { // Method that controls the "Return to Main Menu" button
 		try {
-			root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+			root = FXMLLoader.load(getClass().getResource("Main2.fxml"));
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());

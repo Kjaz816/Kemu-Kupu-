@@ -18,7 +18,7 @@ public class PlayController extends PracticeController {
 			// Checks if the user input word is the same as the word to be spelled, ignoring case
 			if (Word.getWordList().isEmpty()) {
 				endTime = System.nanoTime();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
 				root = loader.load();
 
 				RewardController RewardController = loader.getController();
@@ -42,7 +42,7 @@ public class PlayController extends PracticeController {
 			Score.addWrong(Word.getWord());
 			if (Word.getWordList().isEmpty()) {
 				endTime = System.nanoTime();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
 				root = loader.load();
 
 				RewardController RewardController = loader.getController();
