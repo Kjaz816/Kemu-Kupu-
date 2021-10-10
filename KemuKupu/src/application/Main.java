@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 /*Kemu Kupu
  * By Owen Eng - David Tran - Kian Jazayeri 
  * 
- * This application allows the user to practise spelling Māori words in several different topics.
+ * This application allows the user to practice spelling Māori words in several different topics.
  * 
  * 		The user first picks the topic that they want to practice from the 13 different topics.
  * 		The program will then pick 5 random words from that topic, and place them into a list.

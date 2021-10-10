@@ -1,6 +1,7 @@
 package application;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -19,6 +20,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class PracticeController implements Initializable {
@@ -53,6 +56,8 @@ public class PracticeController implements Initializable {
 	private Button slower;
 	@FXML
 	private Label topicLabel;
+	@FXML
+	private ImageView spellingImage;
 	// Sets up UI Elements
 
 	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
@@ -103,6 +108,9 @@ public class PracticeController implements Initializable {
 			speechWriter.println("(Parameter.set 'Duration_Stretch " + voiceSpeed + " )");
 			speechWriter.println("(SayText \""  + word + "\")");
 			speechWriter.close();
+			String currentUrl = ("Pictures" + File.separator + Word.getTopic() + File.separator + word + ".png");
+			Image image = new Image(currentUrl);
+			spellingImage.setImage(image);
 			// Sets the voice pack and playback speed of the festival TTS, and sets the word to be played as the input word
 			String command = new String("festival -b speech.scm");
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
