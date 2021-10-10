@@ -130,12 +130,13 @@ public class ThemeController implements Initializable {
 		//show picture
 		Image myImage = new Image(getClass().getResourceAsStream("./css/" + theme + ".jpg"));
 		myImageView.setImage(myImage);
+		// Changes the background image
 		
 		if (data.contains(theme)) {
 			this.theme = theme + ".css";
 		}
 		else {
-			myLabel.setText("Beome mastered at " + theme.toLowerCase() + " to unlock");
+			myLabel.setText("Master " + theme.toLowerCase() + " to unlock this theme!");
 		}
 	}
 	
@@ -150,6 +151,7 @@ public class ThemeController implements Initializable {
 			
 			MainController MainController = loader.getController();
 			MainController.setTheme(theme);
+			// Sets the theme to the selected theme
 			
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			scene = new Scene(root);

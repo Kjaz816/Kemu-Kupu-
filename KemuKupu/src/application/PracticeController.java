@@ -108,10 +108,13 @@ public class PracticeController implements Initializable {
 			speechWriter.println("(Parameter.set 'Duration_Stretch " + voiceSpeed + " )");
 			speechWriter.println("(SayText \""  + word + "\")");
 			speechWriter.close();
+			// Sets the voice pack and playback speed of the festival TTS, and sets the word to be played as the input word
+			
 			String currentUrl = ("Pictures" + File.separator + Word.getTopic() + File.separator + word + ".png");
 			Image image = new Image(currentUrl);
 			spellingImage.setImage(image);
-			// Sets the voice pack and playback speed of the festival TTS, and sets the word to be played as the input word
+			// Opens the image that corresponds to the current word
+			
 			String command = new String("festival -b speech.scm");
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 			Process process = pb.start();
@@ -137,6 +140,7 @@ public class PracticeController implements Initializable {
 				RewardController.setTimeElapsed(endTime-startTime);
 				RewardController.setTheme(theme);
 				RewardController.addMastered(Score);
+				// Shows the users score and the words that the user got currect or incorrect
 				
 
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -173,6 +177,7 @@ public class PracticeController implements Initializable {
 					RewardController.setTopic(Word.getTopic());
 					RewardController.setTimeElapsed(endTime-startTime);
 					RewardController.setTheme(theme);
+					// Shows the users score and the words that the user got currect or incorrect
 
 					stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 					scene = new Scene(root);

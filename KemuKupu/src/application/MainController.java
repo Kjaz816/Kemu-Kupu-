@@ -39,13 +39,15 @@ public class MainController extends Main {
 			
 			TopicController TopicController = loader.getController();
 			TopicController.setTheme(this.theme);
+			// Sets the theme of the topic controller to the currently selected theme
 			
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-			
+			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());		
 			stage.setScene(scene);
 			stage.show();
+			// Sets the theme of the application to the selected one
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -64,6 +66,8 @@ public class MainController extends Main {
 			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			stage.setScene(scene);
 			stage.show();
+			// Sets the theme of the application to the selected one
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
