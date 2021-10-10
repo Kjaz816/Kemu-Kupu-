@@ -51,6 +51,10 @@ public class ThemeController implements Initializable {
 		this.getData();
 		myChoiceBox.setOnAction(this::changeTheme);
 	}
+	
+	public void setTheme(String theme) {
+		this.theme = theme;
+	}
 
 	public void getTopic(){
 		try {

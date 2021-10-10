@@ -56,6 +56,9 @@ public class MainController extends Main {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Theme.fxml"));
 			root =  loader.load();
 			
+			ThemeController ThemeController = loader.getController();
+			ThemeController.setTheme(theme);
+
 			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
