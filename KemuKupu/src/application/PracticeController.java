@@ -139,7 +139,7 @@ public class PracticeController implements Initializable {
 				RewardController.setScored(Score);
 				RewardController.setTimeElapsed(endTime-startTime);
 				RewardController.setTheme(theme);
-				RewardController.addMastered(Score);
+				RewardController.addMastered(Score, Word.getTopic());
 				// Shows the users score and the words that the user got currect or incorrect
 				
 

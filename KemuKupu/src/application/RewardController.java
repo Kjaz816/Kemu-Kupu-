@@ -147,7 +147,7 @@ public class RewardController {
 		// Sets the rewardLabel text that displays to the user after a game based on how well they did
 	}
 
-	public void addMastered(Score Score) {
+	public void addMastered(Score Score, String topic) {
 		if (Score.getScore() == 5 || secElapsed <= 60.00) {
 			try {
 				String command = "echo '" + topic + "' >> data.txt";
