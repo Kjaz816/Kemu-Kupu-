@@ -53,7 +53,7 @@ public class RewardController {
 
 	public void practiceAgain(ActionEvent event) { // Method that controls the "Play again" button
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice2.fxml"));
 			root = loader.load();
 
 			PracticeController PracticeController = loader.getController();
@@ -76,7 +76,7 @@ public class RewardController {
 
 	public void playAgain(ActionEvent event) { // Method that controls the "Play again" button
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Play.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Play2.fxml"));
 			root = loader.load();
 
 			PlayController PlayController = loader.getController();

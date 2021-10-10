@@ -18,7 +18,7 @@ public class PlayController extends PracticeController {
 			// Checks if the user input word is the same as the word to be spelled, ignoring case
 			if (Word.getWordList().isEmpty()) {
 				endTime = System.nanoTime();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
 				root = loader.load();
 
 				RewardController RewardController = loader.getController();
@@ -44,7 +44,7 @@ public class PlayController extends PracticeController {
 			Score.addWrong(Word.getWord());
 			if (Word.getWordList().isEmpty()) {
 				endTime = System.nanoTime();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
 				root = loader.load();
 
 				RewardController RewardController = loader.getController();
@@ -65,7 +65,7 @@ public class PlayController extends PracticeController {
 				this.festival(Word.getWord());
 				// Moves on to the next word as the user has spelled the word incorrectly twice
 				showEncouragingMessage(); 
-				// Shows a message to encorage the user to try again
+				// Shows a message to encourage the user to try again
 				defaultWordLabel(Word.getWord());
 				// Sets the word length display to the length of the new word
 			}

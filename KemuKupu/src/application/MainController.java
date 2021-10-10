@@ -34,7 +34,7 @@ public class MainController extends Main {
 	
 	public void switchToTopic(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Topic.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Topic2.fxml"));
 			root =  loader.load();
 			
 			TopicController TopicController = loader.getController();
