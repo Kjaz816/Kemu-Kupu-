@@ -41,6 +41,9 @@ public class ThemeController implements Initializable {
 	
 	@FXML
 	private Button applyButton;
+	
+	@FXML
+	private Button mainMenuButton;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
