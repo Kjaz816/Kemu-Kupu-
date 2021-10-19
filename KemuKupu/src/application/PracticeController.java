@@ -74,7 +74,7 @@ public class PracticeController implements Initializable {
 
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
 		try {
-			festival(Word.getWord());
+			festival(Word);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,18 +99,18 @@ public class PracticeController implements Initializable {
 		speedLabel.setText("Current Speed: " + displaySpeed);
 	}
 
-	public void festival(String word) { // Method to speak the current word
+	public void festival(Word word) { // Method to speak the current word
 		// Inputs: 
 		// word = the current word
 		try {
 			PrintWriter speechWriter = new PrintWriter("speech.scm");
 			speechWriter.println("(voice_akl_mi_pk06_cg)");
 			speechWriter.println("(Parameter.set 'Duration_Stretch " + voiceSpeed + " )");
-			speechWriter.println("(SayText \""  + word + "\")");
+			speechWriter.println("(SayText \""  + word.removeHyphen() + "\")");
 			speechWriter.close();
 			// Sets the voice pack and playback speed of the festival TTS, and sets the word to be played as the input word
 			
-			String currentUrl = ("Pictures" + File.separator + Word.getTopic() + File.separator + word + ".png");
+			String currentUrl = ("Pictures" + File.separator + word.getTopic() + File.separator + word.getWord() + ".png");
 			Image image = new Image(currentUrl);
 			spellingImage.setImage(image);
 			// Opens the image that corresponds to the current word
@@ -140,7 +140,7 @@ public class PracticeController implements Initializable {
 				RewardController.setTimeElapsed(endTime-startTime);
 				RewardController.setTheme(theme);
 				RewardController.addMastered(Score, Word.getTopic());
-				// Shows the users score and the words that the user got currect or incorrect
+				// Shows the users score and the words that the user got current or incorrect
 				
 
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -152,7 +152,7 @@ public class PracticeController implements Initializable {
 			}
 			else {
 				Word.newWord();
-				festival(Word.getWord());
+				festival(Word);
 				incorrect = 0; // Sets the incorrect count to 0 as the user got the spelling correct
 				defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
 			}
@@ -163,7 +163,7 @@ public class PracticeController implements Initializable {
 				incorrect++; // Increments the incorrect count to 1 so that the switch will change case the next time the user spells the word incorrectly
 				showSecondLetter(Word.getWord()); // Shows the second letter of the word to the user as a hint
 				this.showTryAgainMessage(); // Shows the try again message
-				this.festival(Word.getWord()); // Speaks the word out again using festival TTS
+				this.festival(Word); // Speaks the word out again using festival TTS
 				break;
 			case 1:
 				Score.addWrong(Word.getWord());
@@ -188,7 +188,7 @@ public class PracticeController implements Initializable {
 				}
 				else {
 					Word.newWord();
-					this.festival(Word.getWord());
+					this.festival(Word);
 					// Moves on to the next word as the user has spelled the word incorrectly twice
 					showEncouragingMessage(); 
 					// Shows a message to encorage the user to try again
@@ -213,7 +213,7 @@ public class PracticeController implements Initializable {
 		// Sets the scoreLabel to display the user's current topic
 		this.defaultWordLabel(Word.getWord());
 		//Read the first word
-		this.festival(Word.getWord());
+		this.festival(Word);
 		//
 		this.setStartTime();
 	}
@@ -284,7 +284,7 @@ public class PracticeController implements Initializable {
 			// Uses TTS to speak "incorrect" and then prints the encouraging message to the screen
 			Word.newWord();
 			this.defaultWordLabel(Word.getWord());
-			this.festival(Word.getWord());
+			this.festival(Word);
 			// Progresses to the next word
 			incorrect = 0;
 			// Resets the incorrect count as the program is progressing to a new word

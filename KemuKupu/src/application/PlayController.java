@@ -36,7 +36,7 @@ public class PlayController extends PracticeController {
 			}
 			else {
 				Word.newWord();
-				festival(Word.getWord());
+				festival(Word);
 				defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
 			}
 		}
@@ -62,7 +62,7 @@ public class PlayController extends PracticeController {
 			}
 			else {
 				Word.newWord();
-				this.festival(Word.getWord());
+				this.festival(Word);
 				// Moves on to the next word as the user has spelled the word incorrectly twice
 				showEncouragingMessage(); 
 				// Shows a message to encourage the user to try again

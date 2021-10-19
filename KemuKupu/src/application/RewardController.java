@@ -93,7 +93,6 @@ public class RewardController {
 			// Sets the scene to the new game scene
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
