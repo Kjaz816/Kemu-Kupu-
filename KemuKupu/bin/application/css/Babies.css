@@ -6,12 +6,12 @@
 	-fx-background-size: 100% 100%;
 	-fx-background-repeat: no-repeat no-repeat;
 	-fx-background-position: center;
-	-fx-background-image: url("./babies.jpg");
+	-fx-background-image: url("./Babies.jpg");
 }
 
 .label{
 	-fx-font-family: 'Architects Daughter', cursive;
-	-fx-text-fill: #0000FF;
+	-fx-text-fill: #3aba6d;
 	-fx-alignment: center;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .button:hover {
-	-fx-background-color: #0000FF;
+	-fx-background-color: #3aba6d;
 	-fx-text-fill: white;
   	-fx-font-size: 24;
 }
