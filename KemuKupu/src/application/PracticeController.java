@@ -28,14 +28,14 @@ public class PracticeController implements Initializable {
 
 	protected Word Word;
 	protected Score Score;
-	private int incorrect = 0;
+	protected int incorrect = 0;
 
 	protected Stage stage;
 	protected Scene scene;
 	protected Parent root;
 
 	@FXML
-	private Label scoreLabel;
+	protected Label scoreLabel;
 	@FXML
 	private Label currentMessage;
 	@FXML
@@ -55,16 +55,13 @@ public class PracticeController implements Initializable {
 	@FXML
 	private Button slower;
 	@FXML
-	private Label topicLabel;
+	protected Label topicLabel;
 	@FXML
 	private ImageView spellingImage;
 	// Sets up UI Elements
 
 	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
 	private double voiceSpeed = 1.0; // Variable which will be put into the festival command to control the playback speed
-
-	protected long startTime;
-	protected long endTime;
 	
 	protected String theme = "default";
 	
@@ -78,10 +75,6 @@ public class PracticeController implements Initializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void setStartTime() {
-		startTime = System.nanoTime();
 	}
 
 	public void faster(ActionEvent event) { // Method that increases the playback speed of words
@@ -140,16 +133,15 @@ public class PracticeController implements Initializable {
 
 		if(userSpelling.getText().toString().equalsIgnoreCase(Word.getWord())) {
 			Score.incrementScore(Word.getWord());
+			scoreLabel.setText("Score: " + Score.getScore());
 			this.showCorrectMessage();
 			// Checks if the user input word is the same as the word to be spelled, ignoring case
 			if (Word.getWordList().isEmpty()) {
-				endTime = System.nanoTime();
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
 				root = loader.load();
 
 				RewardController RewardController = loader.getController();
-				RewardController.setScored(Score);
-				RewardController.setTimeElapsed(endTime-startTime);
+				RewardController.setScoreBoard(Score);
 				RewardController.setTheme(theme);
 				RewardController.addMastered(Score, Word.getTopic());
 				// Shows the users score and the words that the user got current or incorrect
@@ -180,14 +172,12 @@ public class PracticeController implements Initializable {
 			case 1:
 				Score.addWrong(Word.getWord());
 				if (Word.getWordList().isEmpty()) {
-					endTime = System.nanoTime();
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
 					root = loader.load();
 
 					RewardController RewardController = loader.getController();
-					RewardController.setScored(Score);
+					RewardController.setScoreBoard(Score);
 					RewardController.setTopic(Word.getTopic());
-					RewardController.setTimeElapsed(endTime-startTime);
 					RewardController.setTheme(theme);
 					// Shows the users score and the words that the user got currect or incorrect
 
@@ -203,7 +193,7 @@ public class PracticeController implements Initializable {
 					this.festival(Word);
 					// Moves on to the next word as the user has spelled the word incorrectly twice
 					showEncouragingMessage(); 
-					// Shows a message to encorage the user to try again
+					// Shows a message to encourage the user to try again
 					incorrect = 0;
 					// Resets the incorrect counter to 0 as the word has progressed
 					defaultWordLabel(Word.getWord());
@@ -220,14 +210,12 @@ public class PracticeController implements Initializable {
 		// topic = the topic that the user chose
 		this.Word = new Word(topic);
 		this.Score = new Score();
-		// Changes the global topic variable to the chosen topic
+		// Changes the global topic variable to the chosen topic		
 		topicLabel.setText("Topic: " + topic);
-		// Sets the scoreLabel to display the user's current topic
+		// Sets the topicLabel to display the user's current topic
 		this.defaultWordLabel(Word.getWord());
 		//Read the first word
 		this.festival(Word);
-		//
-		this.setStartTime();
 	}
 
 	public void showEncouragingMessage() { // Method to show the user an encouraging message
@@ -280,7 +268,8 @@ public class PracticeController implements Initializable {
 			root = loader.load();
 
 			RewardController RewardController = loader.getController();
-			RewardController.setScored(Score);
+			RewardController.setScoreBoard(Score);
+			RewardController.setScore(Score);
 			RewardController.setTopic(Word.getTopic());
 			RewardController.setTheme(theme);
 

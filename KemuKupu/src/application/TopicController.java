@@ -33,7 +33,7 @@ public class TopicController implements Initializable {
 	private Button practiceButton;
 	
 	@FXML
-	private Label topicLabel;
+	protected Label topicLabel;
 	
 	@FXML
 	private ListView<String> topicList;

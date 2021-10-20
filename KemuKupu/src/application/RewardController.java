@@ -33,6 +33,8 @@ public class RewardController {
 	private Label topicLabel;
 	@FXML
 	private Label timeLabel;
+	@FXML
+	private Label scoreLabel;
 
 	private Stage stage;
 	private Scene scene;
@@ -131,19 +133,23 @@ public class RewardController {
 			e.printStackTrace();
 		}
 	}
+	
+	public void setScore(Score Score) { //Method to display the score to the screen. 
+		int score = Score.getScore();
+		scoreLabel.setText("Score: " + score);
 
-	public void setScored(Score Score) { // Method that dispays the user's score to the screen
-		// Inputs:
-		scoreBoard.getItems().addAll(Score.getTime());
-		// score = the user's score from the last game
-		if (Score.getScore() < 3) {
-			rewardLabel.setText("Good try, you scored " + Score.getScore() + ". Play more to master your spelling!");
-		} else if (Score.getScore() == 3) {
-			rewardLabel.setText("Not bad! You scored " + Score.getScore() + "! A little more practise and you could get a perfect score!");
-		} else {
-			rewardLabel.setText("Congratulations! You scored " + Score.getScore() + "! Well done");
-		}
 		// Sets the rewardLabel text that displays to the user after a game based on how well they did
+		if (score < 3) {
+			rewardLabel.setText("Good try, you scored " + score + ". Play more to master your spelling!");
+		} else if (Score.getScore() == 3) {
+			rewardLabel.setText("Not bad! You scored " + score + "! A little more practise and you could get a perfect score!");
+		} else {
+			rewardLabel.setText("Congratulations! You scored " + score + "! Well done");
+		}
+	}
+
+	public void setScoreBoard(Score Score) { // Method that displays words in the quiz to the screen. 
+		scoreBoard.getItems().addAll(Score.getWords());
 	}
 
 	public void addMastered(Score Score, String topic) {
