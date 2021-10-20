@@ -47,8 +47,8 @@ public class PlayController extends PracticeController {
 	}
 	
 	public void startTiming(){
-		int initialDelay = 10;
-		int period = 10;
+		int initialDelay = 1000;
+		int period = 1000;
 		updateTime = new TimerTask() {
 			@Override
 			public void run()  {
@@ -56,8 +56,8 @@ public class PlayController extends PracticeController {
 					@Override
 					public void run() {
 						timePassed++;
-						int minutes = timePassed/60000;
-						int seconds = (timePassed%60000)/100;
+						int minutes = timePassed/60;
+						int seconds = timePassed%60;
 						timeElapsed.setText("Time Elapsed:" + String.format("%02d:%02d",minutes,seconds));
 					}
 			});
@@ -78,8 +78,8 @@ public class PlayController extends PracticeController {
 	public void check(ActionEvent event) throws IOException, InterruptedException { // Method to check if the word was spelled correctly
 
 		if(userSpelling.getText().toString().equalsIgnoreCase(Word.getWord())) {
+			Score.updateScore(Word.getWord(),timePassed,incorrect);
 			this.stopTiming();
-			Score.incrementScore(Word.getWord());
 			scoreLabel.setText("Score: " + Score.getScore());
 			this.showCorrectMessage();
 			// Checks if the user input word is the same as the word to be spelled, ignoring case
@@ -192,6 +192,7 @@ public class PlayController extends PracticeController {
 			// Progresses to the next word
 			incorrect = 0;
 			// Resets the incorrect count as the program is progressing to a new word
+			this.startTiming();
 		}
 	}
 }

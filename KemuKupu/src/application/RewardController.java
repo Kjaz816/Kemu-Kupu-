@@ -109,10 +109,10 @@ public class RewardController {
 	}
 
 	public void setTimeElapsed(long nanoTimeElapsed) {
-		double millisecElapsed = (double) TimeUnit.MILLISECONDS.convert(nanoTimeElapsed,TimeUnit.NANOSECONDS);
-		secElapsed = millisecElapsed/1000.0;
-		secElapsed = Math.round(secElapsed*100.0)/100.0;
-		timeLabel.setText("Time Elapsed: " + secElapsed + " seconds");
+		int secondsElapsed = (int) TimeUnit.SECONDS.convert(nanoTimeElapsed,TimeUnit.NANOSECONDS);
+		int minutesElapsed = secondsElapsed/60;
+		secondsElapsed = secondsElapsed%60;
+		timeLabel.setText(" Time Elapsed: " + String.format("%02d:%02d", minutesElapsed,secondsElapsed));
 	}
 
 	public void returnToMainMenu(ActionEvent event) { // Method that controls the "Return to Main Menu" button
