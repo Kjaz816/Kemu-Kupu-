@@ -61,7 +61,7 @@ public class PracticeController implements Initializable {
 	@FXML
 	private ImageView spellingImage;
 	@FXML
-	private Slider speedSlider;
+	private Slider speedSlider = new Slider(0.5,1.5,1);
 	// Sets up UI Elements
 
 	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
@@ -75,6 +75,8 @@ public class PracticeController implements Initializable {
 	public void setTheme(String theme) {
 		this.theme = theme;
 	}
+	
+	
 
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
 		try {
@@ -330,8 +332,10 @@ public class PracticeController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
 				
-				// implement slider
-
+				displaySpeed = Math.round(speedSlider.getValue());
+				voiceSpeed = Math.round(speedSlider.getValue());
+				speedLabel.setText("Current Speed: " + displaySpeed);
+				
 			}
 		});
 	}

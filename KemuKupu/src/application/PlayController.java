@@ -17,59 +17,47 @@ public class PlayController extends PracticeController {
 			this.showCorrectMessage();
 			// Checks if the user input word is the same as the word to be spelled, ignoring case
 			if (Word.getWordList().isEmpty()) {
-				endTime = System.nanoTime();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
-				root = loader.load();
-
-				RewardController RewardController = loader.getController();
-				RewardController.setScored(Score);
-				RewardController.setTimeElapsed(endTime-startTime);
-				RewardController.setTheme(theme);
-				RewardController.addMastered(Score, Word.getTopic());
-				
-				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-				stage.setScene(scene);
-				stage.show();
+				setStage(event);
 				// Progresses the scene if the word list is empty
 			}
 			else {
-				Word.newWord();
-				festival(Word.getWord());
-				defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
+				newWord();
 			}
 		}
 		else {
 			Score.addWrong(Word.getWord());
 			if (Word.getWordList().isEmpty()) {
-				endTime = System.nanoTime();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
-				root = loader.load();
-
-				RewardController RewardController = loader.getController();
-				RewardController.setScored(Score);
-				RewardController.setTopic(Word.getTopic());
-				RewardController.setTimeElapsed(endTime-startTime);
-				RewardController.setTheme(theme);
-
-				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-				stage.setScene(scene);
-				stage.show();
+				setStage(event);
 				// Progresses the scene if the word list is empty
 			}
 			else {
-				Word.newWord();
-				this.festival(Word.getWord());
-				// Moves on to the next word as the user has spelled the word incorrectly twice
 				showEncouragingMessage(); 
-				// Shows a message to encourage the user to try again
-				defaultWordLabel(Word.getWord());
-				// Sets the word length display to the length of the new word
+				newWord();			
 			}
 		}
 		userSpelling.clear();
+	}
+	
+	public void setStage(ActionEvent event) throws IOException {
+		endTime = System.nanoTime();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
+		root = loader.load();
+		RewardController RewardController = loader.getController();
+		RewardController.setScored(Score);
+		RewardController.setTimeElapsed(endTime-startTime);
+		RewardController.setTheme(theme);
+		RewardController.addMastered(Score, Word.getTopic());
+		
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+		stage.setScene(scene);
+		stage.show();
+	}
+	
+	public void newWord() {
+		Word.newWord();
+		festival(Word.getWord());
+		defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
 	}
 }
