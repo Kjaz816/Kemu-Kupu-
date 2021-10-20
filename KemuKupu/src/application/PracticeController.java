@@ -88,7 +88,13 @@ public class PracticeController implements Initializable {
 		displaySpeed = Math.round((displaySpeed+0.1)*10)/10.0;
 		voiceSpeed = Math.round((voiceSpeed-0.1)*10)/10.0;
 		// Increments / Decrements "displaySpeed" and "voiceSpeed" variables by 0.1, which will be used by the speedLabel and festival respectively.
+		if (displaySpeed > 1.5) {
+			displaySpeed = 1.5;
+			voiceSpeed = 0.5;
+			speedLabel.setText("Speed cannot got higher than 1.5");
+		} else {
 		speedLabel.setText("Current Speed: " + displaySpeed);	
+		}
 		// Sets the speedLabel to display the current speed.
 	}
 
@@ -96,7 +102,13 @@ public class PracticeController implements Initializable {
 		displaySpeed = Math.round((displaySpeed-0.1)*10)/10.0;
 		voiceSpeed = Math.round((voiceSpeed+0.1)*10)/10.0;
 		// Increments / Decrements "displaySpeed" and "voiceSpeed" variables by 0.1, which will be used by the speedLabel and festival respectively.
+		if(displaySpeed < 0.5) {
+			displaySpeed = 0.5;
+			voiceSpeed = 1.5;
+			speedLabel.setText("Speed cannot go lower than 0.5");
+		} else {
 		speedLabel.setText("Current Speed: " + displaySpeed);
+		}
 	}
 
 	public void festival(Word word) { // Method to speak the current word
