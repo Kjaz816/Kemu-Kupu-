@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -59,6 +60,8 @@ public class PracticeController implements Initializable {
 	private Label topicLabel;
 	@FXML
 	private ImageView spellingImage;
+	@FXML
+	private Slider speedSlider;
 	// Sets up UI Elements
 
 	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
@@ -319,6 +322,16 @@ public class PracticeController implements Initializable {
 					userSpelling.positionCaret(newValue.length());
 					// Replaces the double-vowel with the corresponding vowel with a macron
 				});
+			}
+		});
+		
+		speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+				
+				// implement slider
+
 			}
 		});
 	}
