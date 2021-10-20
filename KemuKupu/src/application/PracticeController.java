@@ -69,14 +69,14 @@ public class PracticeController implements Initializable {
 
 	protected long startTime;
 	protected long endTime;
-	
+
 	protected String theme = "default";
-	
+
 	public void setTheme(String theme) {
 		this.theme = theme;
 	}
-	
-	
+
+
 
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
 		try {
@@ -115,12 +115,12 @@ public class PracticeController implements Initializable {
 			speechWriter.println("(SayText \""  + word + "\")");
 			speechWriter.close();
 			// Sets the voice pack and playback speed of the festival TTS, and sets the word to be played as the input word
-			
+
 			String currentUrl = ("Pictures" + File.separator + Word.getTopic() + File.separator + word + ".png");
 			Image image = new Image(currentUrl);
 			spellingImage.setImage(image);
 			// Opens the image that corresponds to the current word
-			
+
 			String command = new String("festival -b speech.scm");
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 			Process process = pb.start();
@@ -137,24 +137,7 @@ public class PracticeController implements Initializable {
 			this.showCorrectMessage();
 			// Checks if the user input word is the same as the word to be spelled, ignoring case
 			if (Word.getWordList().isEmpty()) {
-				endTime = System.nanoTime();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
-				root = loader.load();
-
-				RewardController RewardController = loader.getController();
-				RewardController.setScored(Score);
-				RewardController.setTimeElapsed(endTime-startTime);
-				RewardController.setTheme(theme);
-				RewardController.addMastered(Score, Word.getTopic());
-				// Shows the users score and the words that the user got currect or incorrect
-				
-
-				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-				stage.setScene(scene);
-				stage.show();
-				// Progresses the scene if the word list is empty
+				showRewards(true, event);
 			}
 			else {
 				Word.newWord();
@@ -174,23 +157,7 @@ public class PracticeController implements Initializable {
 			case 1:
 				Score.addWrong(Word.getWord());
 				if (Word.getWordList().isEmpty()) {
-					endTime = System.nanoTime();
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
-					root = loader.load();
-
-					RewardController RewardController = loader.getController();
-					RewardController.setScored(Score);
-					RewardController.setTopic(Word.getTopic());
-					RewardController.setTimeElapsed(endTime-startTime);
-					RewardController.setTheme(theme);
-					// Shows the users score and the words that the user got currect or incorrect
-
-					stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-					scene = new Scene(root);
-					scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-					stage.setScene(scene);
-					stage.show();
-					// Progresses the scene if the word list is empty
+					showRewards(false, event);
 				}
 				else {
 					Word.newWord();
@@ -207,6 +174,30 @@ public class PracticeController implements Initializable {
 			}
 		}
 		userSpelling.clear();
+	}
+
+	public void showRewards(boolean correct, ActionEvent event) throws IOException {
+		endTime = System.nanoTime();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
+		root = loader.load();
+
+		RewardController RewardController = loader.getController();
+		RewardController.setScored(Score);
+
+		if (correct) {
+			RewardController.addMastered(Score, Word.getTopic());
+		} else {
+			RewardController.setTopic(Word.getTopic());
+		}
+		RewardController.setTheme(theme);
+		// Shows the users score and the words that the user got correct or incorrect
+
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+		stage.setScene(scene);
+		stage.show();
+		// Progresses the scene if the word list is empty
 	}
 
 	public void setTopic(String topic) { // Method to choose the spelling quiz topic
@@ -326,16 +317,16 @@ public class PracticeController implements Initializable {
 				});
 			}
 		});
-		
+
 		speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-				
+
 				displaySpeed = Math.round(speedSlider.getValue());
 				voiceSpeed = Math.round(speedSlider.getValue());
 				speedLabel.setText("Current Speed: " + displaySpeed);
-				
+
 			}
 		});
 	}
