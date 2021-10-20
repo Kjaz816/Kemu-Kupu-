@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.util.*;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -311,14 +312,13 @@ public class PracticeController implements Initializable {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue.toLowerCase().contains("aa") || newValue.toLowerCase().contains("ee") || newValue.toLowerCase().contains("ii") 
-						|| newValue.toLowerCase().contains("oo") || newValue.toLowerCase().contains("uu")) {
-					// Checks if the answer field contains a double-vowel
-					userSpelling.setText(newValue.replaceAll("Aa|AA", "Ā").replaceAll("aa", "ā").replaceAll("Ee|EE", "Ē").replaceAll("ee", "ē")
-							.replaceAll("Ii|II", "Ī").replaceAll("ii", "ī").replaceAll("Oo|OO", "Ō").replaceAll("oo", "ō").replaceAll("Uu|UU", "Ū")
-							.replaceAll("uu", "ū"));
+				Platform.runLater(()-> {
+					userSpelling.setText(newValue.replaceAll("~A|`A", "Ā").replaceAll("~a|`a", "ā").replaceAll("~E|`E", "Ē").replaceAll("~e|`e", "ē")
+							.replaceAll("~I|`I", "Ī").replaceAll("~i|`i", "ī").replaceAll("~O|`O", "Ō").replaceAll("~o|`o", "ō").replaceAll("~U|`U", "Ū")
+							.replaceAll("~u|`u", "ū"));
+					userSpelling.positionCaret(newValue.length());
 					// Replaces the double-vowel with the corresponding vowel with a macron
-				}
+				});
 			}
 		});
 	}
