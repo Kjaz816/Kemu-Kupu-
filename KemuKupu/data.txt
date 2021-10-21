@@ -1,11 +1,5 @@
 Engineering
 Babies
-Babies
-Babies
-Engineering
 Days_of_Week_1
 Days_of_Week_2
-Months_of_Year_2
-Months_of_Year_2
-Months_of_Year_2
-Months_of_Year_2
+Compass_Points
