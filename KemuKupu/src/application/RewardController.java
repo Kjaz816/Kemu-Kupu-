@@ -63,11 +63,7 @@ public class RewardController {
 			PracticeController.setTheme(theme);
 			// Starts a new game
 
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-			stage.setScene(scene);
-			stage.show();
+			setStage(event);
 			// Sets the scene to the new game scene
 
 		} catch (IOException e) {
@@ -87,11 +83,7 @@ public class RewardController {
 
 			// Starts a new game
 
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-			stage.setScene(scene);
-			stage.show();
+			setStage(event);
 			// Sets the scene to the new game scene
 
 		} catch (IOException e) {
@@ -123,12 +115,9 @@ public class RewardController {
 			MainController MainController = loader.getController();
 			MainController.setTheme(theme);
 
-			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-			stage.setScene(scene);
-			stage.show();
+			setStage(event);
 			// Returns the scene to the default scene
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -186,6 +175,15 @@ public class RewardController {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void setStage(ActionEvent event) throws IOException {
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+		stage.setScene(scene);
+		stage.show();
+		// Sets the scene to the new game scene
 	}
 
 }

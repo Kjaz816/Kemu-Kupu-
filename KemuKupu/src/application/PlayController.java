@@ -84,30 +84,11 @@ public class PlayController extends PracticeController {
 			this.showCorrectMessage();
 			// Checks if the user input word is the same as the word to be spelled, ignoring case
 			if (Word.getWordList().isEmpty()) {
-				endTime = System.nanoTime();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
-				root = loader.load();
-
-				RewardController RewardController = loader.getController();
-				RewardController.setScoreBoard(Score);
-				RewardController.setScore(Score);
-				RewardController.setTimeElapsed(endTime-startTime);
-				RewardController.setTheme(theme);
-				RewardController.addMastered(Score, Word.getTopic());
-				
-				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-				stage.setScene(scene);
-				stage.show();
+				setStage(event);
 				// Progresses the scene if the word list is empty
 			}
 			else {
-				Word.newWord();
-				festival(Word);
-				incorrect = 0;
-				defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
-				this.startTiming();
+				newWord();
 			}
 		} else {
 		switch (incorrect) { // Does different things based on whether it is the first or second time the user spelled the word incorrectly
@@ -121,36 +102,12 @@ public class PlayController extends PracticeController {
 			this.stopTiming();
 			Score.addWrong(Word.getWord());
 			if (Word.getWordList().isEmpty()) {
-				endTime = System.nanoTime();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
-				root = loader.load();
-
-				RewardController RewardController = loader.getController();
-				RewardController.setScoreBoard(Score);
-				RewardController.setScore(Score);
-				RewardController.setTimeElapsed(endTime-startTime);
-				RewardController.setTopic(Word.getTopic());
-				RewardController.setTheme(theme);
-				// Shows the users score and the words that the user got current or incorrect
-
-				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-				stage.setScene(scene);
-				stage.show();
+				setStage(event);
 				// Progresses the scene if the word list is empty
 			}
 			else {
-				Word.newWord();
-				this.festival(Word);
-				// Moves on to the next word as the user has spelled the word incorrectly twice
 				showEncouragingMessage(); 
-				// Shows a message to encourage the user to try again
-				incorrect = 0;
-				// Resets the incorrect counter to 0 as the word has progressed
-				defaultWordLabel(Word.getWord());
-				// Sets the word length display to the length of the new word
-				this.startTiming();
+				newWord();			
 			}
 			break;
 		}
@@ -194,5 +151,33 @@ public class PlayController extends PracticeController {
 			// Resets the incorrect count as the program is progressing to a new word
 			this.startTiming();
 		}
+	}
+	
+	public void setStage(ActionEvent event) throws IOException {
+		endTime = System.nanoTime();
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
+				root = loader.load();
+
+				RewardController RewardController = loader.getController();
+				RewardController.setScoreBoard(Score);
+				RewardController.setScore(Score);
+				RewardController.setTimeElapsed(endTime-startTime);
+				RewardController.setTheme(theme);
+				RewardController.addMastered(Score, Word.getTopic());
+				
+				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+				scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+				stage.setScene(scene);
+				stage.show();
+				// Progresses the scene if the word list is empty
+	}
+	
+	public void newWord() {
+		Word.newWord();
+				festival(Word);
+				incorrect = 0;
+				defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
+				this.startTiming();
 	}
 }

@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.util.*;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -58,16 +60,20 @@ public class PracticeController implements Initializable {
 	protected Label topicLabel;
 	@FXML
 	private ImageView spellingImage;
+	@FXML
+	private Slider speedSlider = new Slider(0.5,1.5,1);
 	// Sets up UI Elements
 
 	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
 	private double voiceSpeed = 1.0; // Variable which will be put into the festival command to control the playback speed
-	
+
 	protected String theme = "default";
-	
+
 	public void setTheme(String theme) {
 		this.theme = theme;
 	}
+
+
 
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
 		try {
@@ -116,10 +122,11 @@ public class PracticeController implements Initializable {
 			// Sets the voice pack and playback speed of the festival TTS, and sets the word to be played as the input word
 			
 			String currentUrl = ("Pictures" + File.separator + word.getTopic() + File.separator + word.getWord() + ".png");
+      
 			Image image = new Image(currentUrl);
 			spellingImage.setImage(image);
 			// Opens the image that corresponds to the current word
-			
+
 			String command = new String("festival -b speech.scm");
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 			Process process = pb.start();
@@ -137,22 +144,7 @@ public class PracticeController implements Initializable {
 			this.showCorrectMessage();
 			// Checks if the user input word is the same as the word to be spelled, ignoring case
 			if (Word.getWordList().isEmpty()) {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
-				root = loader.load();
-
-				RewardController RewardController = loader.getController();
-				RewardController.setScoreBoard(Score);
-				RewardController.setTheme(theme);
-				RewardController.addMastered(Score, Word.getTopic());
-				// Shows the users score and the words that the user got current or incorrect
-				
-
-				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-				stage.setScene(scene);
-				stage.show();
-				// Progresses the scene if the word list is empty
+				showRewards(true, event);
 			}
 			else {
 				Word.newWord();
@@ -172,21 +164,7 @@ public class PracticeController implements Initializable {
 			case 1:
 				Score.addWrong(Word.getWord());
 				if (Word.getWordList().isEmpty()) {
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
-					root = loader.load();
-
-					RewardController RewardController = loader.getController();
-					RewardController.setScoreBoard(Score);
-					RewardController.setTopic(Word.getTopic());
-					RewardController.setTheme(theme);
-					// Shows the users score and the words that the user got currect or incorrect
-
-					stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-					scene = new Scene(root);
-					scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-					stage.setScene(scene);
-					stage.show();
-					// Progresses the scene if the word list is empty
+					showRewards(false, event);
 				}
 				else {
 					Word.newWord();
@@ -203,6 +181,31 @@ public class PracticeController implements Initializable {
 			}
 		}
 		userSpelling.clear();
+	}
+
+	public void showRewards(boolean correct, ActionEvent event) throws IOException {
+		endTime = System.nanoTime();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
+		root = loader.load();
+
+		RewardController RewardController = loader.getController();
+		RewardController.setScoreBoard(Score);
+		RewardController.setTheme(theme);
+
+		if (correct) {
+			RewardController.addMastered(Score, Word.getTopic());
+		} else {
+			RewardController.setTopic(Word.getTopic());
+		}
+		RewardController.setTheme(theme);
+		// Shows the users score and the words that the user got correct or incorrect
+
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+		stage.setScene(scene);
+		stage.show();
+		// Progresses the scene if the word list is empty
 	}
 
 	public void setTopic(String topic) { // Method to choose the spelling quiz topic
@@ -312,14 +315,25 @@ public class PracticeController implements Initializable {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue.toLowerCase().contains("aa") || newValue.toLowerCase().contains("ee") || newValue.toLowerCase().contains("ii") 
-						|| newValue.toLowerCase().contains("oo") || newValue.toLowerCase().contains("uu")) {
-					// Checks if the answer field contains a double-vowel
-					userSpelling.setText(newValue.replaceAll("Aa|AA", "Ā").replaceAll("aa", "ā").replaceAll("Ee|EE", "Ē").replaceAll("ee", "ē")
-							.replaceAll("Ii|II", "Ī").replaceAll("ii", "ī").replaceAll("Oo|OO", "Ō").replaceAll("oo", "ō").replaceAll("Uu|UU", "Ū")
-							.replaceAll("uu", "ū"));
+				Platform.runLater(()-> {
+					userSpelling.setText(newValue.replaceAll("~A|`A", "Ā").replaceAll("~a|`a", "ā").replaceAll("~E|`E", "Ē").replaceAll("~e|`e", "ē")
+							.replaceAll("~I|`I", "Ī").replaceAll("~i|`i", "ī").replaceAll("~O|`O", "Ō").replaceAll("~o|`o", "ō").replaceAll("~U|`U", "Ū")
+							.replaceAll("~u|`u", "ū"));
+					userSpelling.positionCaret(newValue.length());
 					// Replaces the double-vowel with the corresponding vowel with a macron
-				}
+				});
+			}
+		});
+
+		speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+
+				displaySpeed = Math.round(speedSlider.getValue());
+				voiceSpeed = Math.round(speedSlider.getValue());
+				speedLabel.setText("Current Speed: " + displaySpeed);
+
 			}
 		});
 	}

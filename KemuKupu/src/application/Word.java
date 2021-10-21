@@ -50,6 +50,7 @@ public class Word {
 	public void newWord() { // Method that moves the game on to the next word in the list and speaks it using TTS
 		if (!wordList.isEmpty()) {
 			word = wordList.pop();
+			
 			// Pops the current word from the word list and inputs it into the "word"		}
 		}
 	}
