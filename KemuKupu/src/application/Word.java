@@ -66,5 +66,16 @@ public class Word {
 	public String getTopic() { // Method that returns the current word
 		return this.topic; 
 	}
+	
+	public String removeHyphen() {
+		String word = null;
+		if(this.word.contains("-")) {
+			word = this.word.replaceAll("-"," ");
+			return word;
+		}
+		else {
+			return this.word;
+		}
+	}
 }
 

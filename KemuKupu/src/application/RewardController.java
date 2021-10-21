@@ -33,6 +33,8 @@ public class RewardController {
 	private Label topicLabel;
 	@FXML
 	private Label timeLabel;
+	@FXML
+	private Label scoreLabel;
 
 	private Stage stage;
 	private Scene scene;
@@ -85,7 +87,6 @@ public class RewardController {
 			// Sets the scene to the new game scene
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -100,10 +101,10 @@ public class RewardController {
 	}
 
 	public void setTimeElapsed(long nanoTimeElapsed) {
-		double millisecElapsed = (double) TimeUnit.MILLISECONDS.convert(nanoTimeElapsed,TimeUnit.NANOSECONDS);
-		secElapsed = millisecElapsed/1000.0;
-		secElapsed = Math.round(secElapsed*100.0)/100.0;
-		timeLabel.setText("Time Elapsed: " + secElapsed + " seconds");
+		int secondsElapsed = (int) TimeUnit.SECONDS.convert(nanoTimeElapsed,TimeUnit.NANOSECONDS);
+		int minutesElapsed = secondsElapsed/60;
+		secondsElapsed = secondsElapsed%60;
+		timeLabel.setText(" Time Elapsed: " + String.format("%02d:%02d", minutesElapsed,secondsElapsed));
 	}
 
 	public void returnToMainMenu(ActionEvent event) { // Method that controls the "Return to Main Menu" button
@@ -121,19 +122,23 @@ public class RewardController {
 			e.printStackTrace();
 		}
 	}
+	
+	public void setScore(Score Score) { //Method to display the score to the screen. 
+		int score = Score.getScore();
+		scoreLabel.setText("Score: " + score);
 
-	public void setScored(Score Score) { // Method that dispays the user's score to the screen
-		// Inputs:
-		scoreBoard.getItems().addAll(Score.getTime());
-		// score = the user's score from the last game
-		if (Score.getScore() < 3) {
-			rewardLabel.setText("Good try, you scored " + Score.getScore() + ". Play more to master your spelling!");
-		} else if (Score.getScore() == 3) {
-			rewardLabel.setText("Not bad! You scored " + Score.getScore() + "! A little more practise and you could get a perfect score!");
-		} else {
-			rewardLabel.setText("Congratulations! You scored " + Score.getScore() + "! Well done");
-		}
 		// Sets the rewardLabel text that displays to the user after a game based on how well they did
+		if (score < 3) {
+			rewardLabel.setText("Good try, you scored " + score + ". Play more to master your spelling!");
+		} else if (Score.getScore() == 3) {
+			rewardLabel.setText("Not bad! You scored " + score + "! A little more practise and you could get a perfect score!");
+		} else {
+			rewardLabel.setText("Congratulations! You scored " + score + "! Well done");
+		}
+	}
+
+	public void setScoreBoard(Score Score) { // Method that displays words in the quiz to the screen. 
+		scoreBoard.getItems().addAll(Score.getWords());
 	}
 
 	public void addMastered(Score Score, String topic) {

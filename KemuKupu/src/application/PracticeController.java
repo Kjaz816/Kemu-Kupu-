@@ -30,14 +30,14 @@ public class PracticeController implements Initializable {
 
 	protected Word Word;
 	protected Score Score;
-	private int incorrect = 0;
+	protected int incorrect = 0;
 
 	protected Stage stage;
 	protected Scene scene;
 	protected Parent root;
 
 	@FXML
-	private Label scoreLabel;
+	protected Label scoreLabel;
 	@FXML
 	private Label currentMessage;
 	@FXML
@@ -57,7 +57,7 @@ public class PracticeController implements Initializable {
 	@FXML
 	private Button slower;
 	@FXML
-	private Label topicLabel;
+	protected Label topicLabel;
 	@FXML
 	private ImageView spellingImage;
 	@FXML
@@ -66,9 +66,6 @@ public class PracticeController implements Initializable {
 
 	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
 	private double voiceSpeed = 1.0; // Variable which will be put into the festival command to control the playback speed
-
-	protected long startTime;
-	protected long endTime;
 
 	protected String theme = "default";
 
@@ -80,21 +77,23 @@ public class PracticeController implements Initializable {
 
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
 		try {
-			festival(Word.getWord());
+			festival(Word);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void setStartTime() {
-		startTime = System.nanoTime();
 	}
 
 	public void faster(ActionEvent event) { // Method that increases the playback speed of words
 		displaySpeed = Math.round((displaySpeed+0.1)*10)/10.0;
 		voiceSpeed = Math.round((voiceSpeed-0.1)*10)/10.0;
 		// Increments / Decrements "displaySpeed" and "voiceSpeed" variables by 0.1, which will be used by the speedLabel and festival respectively.
+		if (displaySpeed > 1.5) {
+			displaySpeed = 1.5;
+			voiceSpeed = 0.5;
+			speedLabel.setText("Speed cannot got higher than 1.5");
+		} else {
 		speedLabel.setText("Current Speed: " + displaySpeed);	
+		}
 		// Sets the speedLabel to display the current speed.
 	}
 
@@ -102,21 +101,28 @@ public class PracticeController implements Initializable {
 		displaySpeed = Math.round((displaySpeed-0.1)*10)/10.0;
 		voiceSpeed = Math.round((voiceSpeed+0.1)*10)/10.0;
 		// Increments / Decrements "displaySpeed" and "voiceSpeed" variables by 0.1, which will be used by the speedLabel and festival respectively.
+		if(displaySpeed < 0.5) {
+			displaySpeed = 0.5;
+			voiceSpeed = 1.5;
+			speedLabel.setText("Speed cannot go lower than 0.5");
+		} else {
 		speedLabel.setText("Current Speed: " + displaySpeed);
+		}
 	}
 
-	public void festival(String word) { // Method to speak the current word
+	public void festival(Word word) { // Method to speak the current word
 		// Inputs: 
 		// word = the current word
 		try {
 			PrintWriter speechWriter = new PrintWriter("speech.scm");
 			speechWriter.println("(voice_akl_mi_pk06_cg)");
 			speechWriter.println("(Parameter.set 'Duration_Stretch " + voiceSpeed + " )");
-			speechWriter.println("(SayText \""  + word + "\")");
+			speechWriter.println("(SayText \""  + word.removeHyphen() + "\")");
 			speechWriter.close();
 			// Sets the voice pack and playback speed of the festival TTS, and sets the word to be played as the input word
-
-			String currentUrl = ("Pictures" + File.separator + Word.getTopic() + File.separator + word + ".png");
+			
+			String currentUrl = ("Pictures" + File.separator + word.getTopic() + File.separator + word.getWord() + ".png");
+      
 			Image image = new Image(currentUrl);
 			spellingImage.setImage(image);
 			// Opens the image that corresponds to the current word
@@ -134,6 +140,7 @@ public class PracticeController implements Initializable {
 
 		if(userSpelling.getText().toString().equalsIgnoreCase(Word.getWord())) {
 			Score.incrementScore(Word.getWord());
+			scoreLabel.setText("Score: " + Score.getScore());
 			this.showCorrectMessage();
 			// Checks if the user input word is the same as the word to be spelled, ignoring case
 			if (Word.getWordList().isEmpty()) {
@@ -141,7 +148,7 @@ public class PracticeController implements Initializable {
 			}
 			else {
 				Word.newWord();
-				festival(Word.getWord());
+				festival(Word);
 				incorrect = 0; // Sets the incorrect count to 0 as the user got the spelling correct
 				defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
 			}
@@ -152,7 +159,7 @@ public class PracticeController implements Initializable {
 				incorrect++; // Increments the incorrect count to 1 so that the switch will change case the next time the user spells the word incorrectly
 				showSecondLetter(Word.getWord()); // Shows the second letter of the word to the user as a hint
 				this.showTryAgainMessage(); // Shows the try again message
-				this.festival(Word.getWord()); // Speaks the word out again using festival TTS
+				this.festival(Word); // Speaks the word out again using festival TTS
 				break;
 			case 1:
 				Score.addWrong(Word.getWord());
@@ -161,10 +168,10 @@ public class PracticeController implements Initializable {
 				}
 				else {
 					Word.newWord();
-					this.festival(Word.getWord());
+					this.festival(Word);
 					// Moves on to the next word as the user has spelled the word incorrectly twice
 					showEncouragingMessage(); 
-					// Shows a message to encorage the user to try again
+					// Shows a message to encourage the user to try again
 					incorrect = 0;
 					// Resets the incorrect counter to 0 as the word has progressed
 					defaultWordLabel(Word.getWord());
@@ -182,7 +189,8 @@ public class PracticeController implements Initializable {
 		root = loader.load();
 
 		RewardController RewardController = loader.getController();
-		RewardController.setScored(Score);
+		RewardController.setScoreBoard(Score);
+		RewardController.setTheme(theme);
 
 		if (correct) {
 			RewardController.addMastered(Score, Word.getTopic());
@@ -205,14 +213,12 @@ public class PracticeController implements Initializable {
 		// topic = the topic that the user chose
 		this.Word = new Word(topic);
 		this.Score = new Score();
-		// Changes the global topic variable to the chosen topic
+		// Changes the global topic variable to the chosen topic		
 		topicLabel.setText("Topic: " + topic);
-		// Sets the scoreLabel to display the user's current topic
+		// Sets the topicLabel to display the user's current topic
 		this.defaultWordLabel(Word.getWord());
 		//Read the first word
-		this.festival(Word.getWord());
-		//
-		this.setStartTime();
+		this.festival(Word);
 	}
 
 	public void showEncouragingMessage() { // Method to show the user an encouraging message
@@ -265,7 +271,8 @@ public class PracticeController implements Initializable {
 			root = loader.load();
 
 			RewardController RewardController = loader.getController();
-			RewardController.setScored(Score);
+			RewardController.setScoreBoard(Score);
+			RewardController.setScore(Score);
 			RewardController.setTopic(Word.getTopic());
 			RewardController.setTheme(theme);
 
@@ -281,7 +288,7 @@ public class PracticeController implements Initializable {
 			// Uses TTS to speak "incorrect" and then prints the encouraging message to the screen
 			Word.newWord();
 			this.defaultWordLabel(Word.getWord());
-			this.festival(Word.getWord());
+			this.festival(Word);
 			// Progresses to the next word
 			incorrect = 0;
 			// Resets the incorrect count as the program is progressing to a new word
