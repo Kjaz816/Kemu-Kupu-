@@ -117,12 +117,12 @@ public class RewardController {
 
 			setStage(event);
 			// Returns the scene to the default scene
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setScore(Score Score) { //Method to display the score to the screen. 
 		int score = Score.getScore();
 		scoreLabel.setText("Score: " + score);
@@ -160,7 +160,7 @@ public class RewardController {
 				if (exitStatus == 0) {
 					String line;
 					while ((line = stdout.readLine()) != null) {
-						
+
 						// Adds the current line to the topic list 
 					}
 				} else {
@@ -176,7 +176,7 @@ public class RewardController {
 			}
 		}
 	}
-	
+
 	public void setStage(ActionEvent event) throws IOException {
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);

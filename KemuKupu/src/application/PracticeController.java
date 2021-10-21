@@ -32,6 +32,7 @@ public class PracticeController implements Initializable {
 	protected Score Score;
 	protected int incorrect = 0;
 
+
 	protected Stage stage;
 	protected Scene scene;
 	protected Parent root;
@@ -92,7 +93,7 @@ public class PracticeController implements Initializable {
 			voiceSpeed = 0.5;
 			speedLabel.setText("Speed cannot got higher than 1.5");
 		} else {
-		speedLabel.setText("Current Speed: " + displaySpeed);	
+			speedLabel.setText("Current Speed: " + displaySpeed);	
 		}
 		// Sets the speedLabel to display the current speed.
 	}
@@ -106,7 +107,7 @@ public class PracticeController implements Initializable {
 			voiceSpeed = 1.5;
 			speedLabel.setText("Speed cannot go lower than 0.5");
 		} else {
-		speedLabel.setText("Current Speed: " + displaySpeed);
+			speedLabel.setText("Current Speed: " + displaySpeed);
 		}
 	}
 
@@ -120,9 +121,9 @@ public class PracticeController implements Initializable {
 			speechWriter.println("(SayText \""  + word.removeHyphen() + "\")");
 			speechWriter.close();
 			// Sets the voice pack and playback speed of the festival TTS, and sets the word to be played as the input word
-			
+
 			String currentUrl = ("Pictures" + File.separator + word.getTopic() + File.separator + word.getWord() + ".png");
-      
+
 			Image image = new Image(currentUrl);
 			spellingImage.setImage(image);
 			// Opens the image that corresponds to the current word
@@ -184,7 +185,6 @@ public class PracticeController implements Initializable {
 	}
 
 	public void showRewards(boolean correct, ActionEvent event) throws IOException {
-		endTime = System.nanoTime();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
 		root = loader.load();
 
@@ -194,6 +194,7 @@ public class PracticeController implements Initializable {
 
 		if (correct) {
 			RewardController.addMastered(Score, Word.getTopic());
+			RewardController.setTopic(Word.getTopic());
 		} else {
 			RewardController.setTopic(Word.getTopic());
 		}

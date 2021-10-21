@@ -13,18 +13,18 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class PlayController extends PracticeController {
-	
+
 	@FXML
 	private Label timeElapsed;
-	
+
 	private long startTime;
 	private long endTime;
-	
+
 	private Timer timer;
 	private TimerTask updateTime;
-	
+
 	private int timePassed = 0;
-	
+
 	@Override
 	public void setTopic(String topic) { // Method to choose the spelling quiz topic
 		// Inputs:
@@ -41,11 +41,11 @@ public class PlayController extends PracticeController {
 		this.setStartTime();
 		this.startTiming();
 	}
-	
+
 	public void setStartTime() {
 		startTime = System.nanoTime();
 	}
-	
+
 	public void startTiming(){
 		int initialDelay = 1000;
 		int period = 1000;
@@ -60,20 +60,20 @@ public class PlayController extends PracticeController {
 						int seconds = timePassed%60;
 						timeElapsed.setText("Time Elapsed:" + String.format("%02d:%02d",minutes,seconds));
 					}
-			});
+				});
 			};
 		};
 		timePassed = 0;
 		timer = new Timer();
 		timer.scheduleAtFixedRate(updateTime, initialDelay, period);
 	}
-	
+
 	public void stopTiming() {
 		updateTime.cancel();
 		timer.cancel();
 		timer.purge();
 	}
-	
+
 	@Override
 	public void check(ActionEvent event) throws IOException, InterruptedException { // Method to check if the word was spelled correctly
 
@@ -91,31 +91,31 @@ public class PlayController extends PracticeController {
 				newWord();
 			}
 		} else {
-		switch (incorrect) { // Does different things based on whether it is the first or second time the user spelled the word incorrectly
-		case 0:
-			incorrect++; // Increments the incorrect count to 1 so that the switch will change case the next time the user spells the word incorrectly
-			showSecondLetter(Word.getWord()); // Shows the second letter of the word to the user as a hint
-			this.showTryAgainMessage(); // Shows the try again message
-			this.festival(Word); // Speaks the word out again using festival TTS
-			break;
-		case 1:
-			this.stopTiming();
-			Score.addWrong(Word.getWord());
-			if (Word.getWordList().isEmpty()) {
-				setStage(event);
-				// Progresses the scene if the word list is empty
+			switch (incorrect) { // Does different things based on whether it is the first or second time the user spelled the word incorrectly
+			case 0:
+				incorrect++; // Increments the incorrect count to 1 so that the switch will change case the next time the user spells the word incorrectly
+				showSecondLetter(Word.getWord()); // Shows the second letter of the word to the user as a hint
+				this.showTryAgainMessage(); // Shows the try again message
+				this.festival(Word); // Speaks the word out again using festival TTS
+				break;
+			case 1:
+				this.stopTiming();
+				Score.addWrong(Word.getWord());
+				if (Word.getWordList().isEmpty()) {
+					setStage(event);
+					// Progresses the scene if the word list is empty
+				}
+				else {
+					showEncouragingMessage(); 
+					newWord();			
+				}
+				break;
 			}
-			else {
-				showEncouragingMessage(); 
-				newWord();			
-			}
-			break;
 		}
+		userSpelling.clear();
 	}
-	userSpelling.clear();
-}
 
-	
+
 	@Override
 	public void dontKnow(ActionEvent event) throws IOException {
 		// Method that controls the behaviour of the button that is pressed when the user doesn't know the word
@@ -152,32 +152,33 @@ public class PlayController extends PracticeController {
 			this.startTiming();
 		}
 	}
-	
+
 	public void setStage(ActionEvent event) throws IOException {
 		endTime = System.nanoTime();
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
-				root = loader.load();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
+		root = loader.load();
 
-				RewardController RewardController = loader.getController();
-				RewardController.setScoreBoard(Score);
-				RewardController.setScore(Score);
-				RewardController.setTimeElapsed(endTime-startTime);
-				RewardController.setTheme(theme);
-				RewardController.addMastered(Score, Word.getTopic());
-				
-				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-				stage.setScene(scene);
-				stage.show();
-				// Progresses the scene if the word list is empty
+		RewardController RewardController = loader.getController();
+		RewardController.setScoreBoard(Score);
+		RewardController.setScore(Score);
+		RewardController.setTimeElapsed(endTime-startTime);
+		RewardController.setTheme(theme);
+		RewardController.setTopic(Word.getTopic());
+		RewardController.addMastered(Score, Word.getTopic());
+
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+		stage.setScene(scene);
+		stage.show();
+		// Progresses the scene if the word list is empty
 	}
-	
+
 	public void newWord() {
 		Word.newWord();
-				festival(Word);
-				incorrect = 0;
-				defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
-				this.startTiming();
+		festival(Word);
+		incorrect = 0;
+		defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
+		this.startTiming();
 	}
 }
