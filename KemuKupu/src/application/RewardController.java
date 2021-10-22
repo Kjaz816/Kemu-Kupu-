@@ -210,5 +210,9 @@ public class RewardController {
 			in.close();
 		}
 	}
+	
+	public Label getTimeLabel() {
+		return timeLabel;
+	}
 
 }

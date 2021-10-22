@@ -163,6 +163,8 @@ public class PracticeController implements Initializable {
 
 		RewardController RewardController = loader.getController();
 		RewardController.setScoreBoard(Score);
+		RewardController.setScore(Score);
+		RewardController.getTimeLabel().setVisible(false);
 		RewardController.setTheme(theme);
 
 		if (correct) {
@@ -243,21 +245,7 @@ public class PracticeController implements Initializable {
 		// Method that controls the behaviour of the button that is pressed when the user doesn't know the word
 		Score.addWrong(Word.getWord());
 		if (Word.getWordList().isEmpty()) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
-			root = loader.load();
-
-			RewardController RewardController = loader.getController();
-			RewardController.setScoreBoard(Score);
-			RewardController.setScore(Score);
-			RewardController.setTopic(Word.getTopic());
-			RewardController.setTheme(theme);
-
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-			stage.setScene(scene);
-			stage.show();
-			// Progresses the scene if the word list is empty
+			showRewards(false,event);
 		}
 		else {
 			showEncouragingMessage();
