@@ -187,6 +187,7 @@ public class PracticeController implements Initializable {
 		// topic = the topic that the user chose
 		this.Word = new Word(topic);
 		this.Score = new Score();
+		scoreLabel.setText("Score: 0");
 		// Changes the global topic variable to the chosen topic		
 		topicLabel.setText("Topic: " + topic);
 		// Sets the topicLabel to display the user's current topic
