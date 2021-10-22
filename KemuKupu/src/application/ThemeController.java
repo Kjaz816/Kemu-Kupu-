@@ -128,18 +128,18 @@ public class ThemeController extends Controller implements Initializable {
 
 	public void changeTheme (ActionEvent event) {
 
-		String theme = myChoiceBox.getValue();
-		applyTheme = theme;
+		String newTheme = myChoiceBox.getValue();
+		applyTheme = newTheme;
 		//show picture
-		Image myImage = new Image(getClass().getResourceAsStream("./css/" + theme + ".jpg"));
+		Image myImage = new Image(getClass().getResourceAsStream("./css/" + newTheme + ".jpg"));
 		myImageView.setImage(myImage);
 		// Changes the background image
 
-		if (data.contains(theme)) {
-			this.theme = theme + ".css";
+		if (data.contains(newTheme)) {
+			myLabel.setText("Able to set " + applyTheme.toLowerCase() + " theme");
 		}
 		else {
-			myLabel.setText("Master " + theme.toLowerCase() + " to unlock this theme!");
+			myLabel.setText("Master " + applyTheme.toLowerCase() + " to unlock this theme!");
 		}
 	}
 
@@ -170,12 +170,12 @@ public class ThemeController extends Controller implements Initializable {
 				root = loader.load();
 
 				MainController MainController = loader.getController();
-				MainController.setTheme(theme);
+				MainController.setTheme(applyTheme + ".css");
 				// Sets the theme to the selected theme
 
 				stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 				scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
+				scene.getStylesheets().add(getClass().getResource("css/" + applyTheme + ".css").toExternalForm());
 				stage.setScene(scene);
 				stage.show();
 				// Returns the scene to the default scene

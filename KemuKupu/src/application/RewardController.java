@@ -1,9 +1,13 @@
 package application;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
@@ -42,6 +46,8 @@ public class RewardController extends Controller {
 	private Label scoreLabel;
 
 	private String topic;
+
+	private ArrayList<String> masteredTopics = new ArrayList<String>();
 
 	@FXML
 	private ListView<String> scoreBoard;
@@ -92,10 +98,10 @@ public class RewardController extends Controller {
 	}
 
 	public void setTimeElapsed(long nanoTimeElapsed) {
-		int secondsElapsed = (int) TimeUnit.SECONDS.convert(nanoTimeElapsed,TimeUnit.NANOSECONDS);
-		int minutesElapsed = secondsElapsed/60;
-		secondsElapsed = secondsElapsed%60;
-		timeLabel.setText(" Time Elapsed: " + String.format("%02d:%02d", minutesElapsed,secondsElapsed));
+		int secondsElapsed = (int) TimeUnit.SECONDS.convert(nanoTimeElapsed, TimeUnit.NANOSECONDS);
+		int minutesElapsed = secondsElapsed / 60;
+		secondsElapsed = secondsElapsed % 60;
+		timeLabel.setText(" Time Elapsed: " + String.format("%02d:%02d", minutesElapsed, secondsElapsed));
 	}
 
 	public void returnToMainMenu(ActionEvent event) { // Method that controls the "Return to Main Menu" button
@@ -111,14 +117,14 @@ public class RewardController extends Controller {
 		}
 	}
 
-	public void setScore(Score Score) { //Method to display the score to the screen. 
+	public void setScore(Score Score) { // Method to display the score to the screen.
 		int score = Score.getScore();
 		scoreLabel.setText("Score: " + score);
-		// Sets the rewardLabel text that displays to the user after a game based on how well they did
 		if (score < 3) {
 			rewardLabel.setText("Good try, you scored " + score + ". Play more to master your spelling!");
 		} else if (Score.getScore() == 3) {
-			rewardLabel.setText("Not bad! You scored " + score + "! A little more practise and you could get a perfect score!");
+			rewardLabel.setText(
+					"Not bad! You scored " + score + "! A little more practise and you could get a perfect score!");
 		} else {
 			rewardLabel.setText("Congratulations! You scored " + score + "! Well done");
 		}
@@ -127,32 +133,34 @@ public class RewardController extends Controller {
 	public void addMastered(Score Score, String topic) {
 		if (Score.getScore() == 5 || secElapsed <= 60.00) {
 			try {
-				String command = "echo '" + topic + "' >> data.txt";
-				// Sets the bash command
+				this.getMastered();
+				if (!masteredTopics.contains(topic)) {
+					String command = "echo '" + topic + "' >> data.txt";
+					// Sets the bash command
 
-				ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
-				Process process = pb.start();
-				// Creates a process with the bash command and starts it
+					ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
+					Process process = pb.start();
+					// Creates a process with the bash command and starts it
 
-				BufferedReader stdout = new BufferedReader(new InputStreamReader(process.getInputStream()));
-				BufferedReader stderr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-				// Pipelines the stdout and stderror to the variables
+					BufferedReader stdout = new BufferedReader(new InputStreamReader(process.getInputStream()));
+					BufferedReader stderr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+					// Pipelines the stdout and stderror to the variables
 
-				int exitStatus = process.waitFor();
+					int exitStatus = process.waitFor();
 
-				if (exitStatus == 0) {
-					String line;
-					while ((line = stdout.readLine()) != null) {
+					if (exitStatus == 0) {
+						String line;
+						while ((line = stdout.readLine()) != null) {
 
-						// Adds the current line to the topic list 
-					}
-				} else {
-					String line;
-					while ((line = stderr.readLine()) != null) {
-						System.err.println(line);
+							// Adds the current line to the topic list
+						}
+					} else {
+						String line;
+						while ((line = stderr.readLine()) != null) {
+							System.err.println(line);
+						}
 					}
 				}
-
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -181,7 +189,25 @@ public class RewardController extends Controller {
 		resultTable.getColumns().addAll(Arrays.asList(word, answer));
 
 		// color based on isCorrect
+	}
 
+	public void getMastered() throws IOException {
+		File data = new File("data.txt");
+		// Checks if the data.txt
+		if (data.exists()) {
+			// Writes each line in the file to a new element on the current stat array that
+			// corresponds to its name
+			BufferedReader in = new BufferedReader(new FileReader(data));
+			String line;
+			while ((line = in.readLine()) != null) {
+				masteredTopics.add(line);
+			}
+			in.close();
+		}
+	}
+	
+	public Label getTimeLabel() {
+		return timeLabel;
 	}
 
 }

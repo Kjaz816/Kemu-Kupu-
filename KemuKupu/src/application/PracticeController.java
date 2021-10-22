@@ -48,7 +48,7 @@ public class PracticeController extends Controller implements Initializable {
 	@FXML
 	private Button dontKnow;
 	@FXML
-	private Label speedLabel;
+	protected Label speedLabel;
 	@FXML
 	protected Label topicLabel;
 	@FXML
@@ -76,12 +76,6 @@ public class PracticeController extends Controller implements Initializable {
 			speechWriter.close();
 			// Sets the voice pack and playback speed of the festival TTS, and sets the word to be played as the input word
 
-			String currentUrl = ("Pictures" + File.separator + word.getTopic() + File.separator + word.getWord() + ".png");
-
-			Image image = new Image(currentUrl);
-			spellingImage.setImage(image);
-			// Opens the image that corresponds to the current word
-
 			String command = new String("festival -b speech.scm");
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 			Process process = pb.start();
@@ -89,6 +83,14 @@ public class PracticeController extends Controller implements Initializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setWordImage(Word word) {
+		String currentUrl = ("Pictures" + File.separator + word.getTopic() + File.separator + word.getWord() + ".png");
+
+		Image image = new Image(currentUrl);
+		spellingImage.setImage(image);
+		// Opens the image that corresponds to the current word
 	}
 
 	public void check(ActionEvent event) throws IOException, InterruptedException { // Method to check if the word was spelled correctly
@@ -160,7 +162,8 @@ public class PracticeController extends Controller implements Initializable {
 		// topic = the topic that the user chose
 		this.Word = new Word(topic);
 		this.Score = new Score();
-		// Changes the global topic variable to the chosen topic
+		scoreLabel.setText("Score: 0");
+		// Changes the global topic variable to the chosen topic		
 		topicLabel.setText("Topic: " + topic);
 		// Sets the scoreLabel to display the user's current topic
 		this.defaultWordLabel(Word.getWord());
@@ -230,6 +233,7 @@ public class PracticeController extends Controller implements Initializable {
 			this.festival(Word);
 			// Progresses to the next word
 			incorrect = false;
+			this.setWordImage(Word);
 			// Resets the incorrect count as the program is progressing to a new word
 			this.startTiming();
 		}
@@ -309,8 +313,10 @@ public class PracticeController extends Controller implements Initializable {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-				voiceSpeed = Math.round(speedSlider.getValue());
-				speedLabel.setText("Current Speed: " + voiceSpeed);
+
+				double displaySpeed = speedSlider.getValue();
+				voiceSpeed = 1.0/speedSlider.getValue();
+				speedLabel.setText(String.format("Current Speed: %.2f", displaySpeed));
 
 			}
 		});
