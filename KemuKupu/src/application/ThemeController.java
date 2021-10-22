@@ -24,7 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class ThemeController implements Initializable {
+public class ThemeController extends Controller implements Initializable {
 
 	private String theme;
 
@@ -94,7 +94,7 @@ public class ThemeController implements Initializable {
 
 	public void getData(){
 		try {
-			String command = "cat data.txt";
+			String command = "cat theme.txt";
 			// Sets the bash command
 
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
@@ -142,10 +142,6 @@ public class ThemeController implements Initializable {
 			myLabel.setText("Master " + theme.toLowerCase() + " to unlock this theme!");
 		}
 	}
-
-	private Stage stage;
-	private Scene scene;
-	private Parent root;
 
 	public void returnToMainMenu(ActionEvent event) { // Method that controls the "Return to Main Menu" button
 		try {

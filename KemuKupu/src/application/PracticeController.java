@@ -26,11 +26,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class PracticeController extends controller implements Initializable {
+public class PracticeController extends Controller implements Initializable {
 
 	protected Word Word;
 	protected Score Score;
-	protected int incorrect = 0;
+	
+	private boolean incorrect = false;
 
 	@FXML
 	protected Label scoreLabel;
@@ -49,19 +50,11 @@ public class PracticeController extends controller implements Initializable {
 	@FXML
 	private Label speedLabel;
 	@FXML
-	private Button faster;
-	@FXML
-	private Button slower;
-	@FXML
 	protected Label topicLabel;
 	@FXML
 	private ImageView spellingImage;
 	@FXML
 	private Slider speedSlider = new Slider(0.5,1.5,1);
-	// Sets up UI Elements
-
-	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
-
 	private double voiceSpeed = 1.0; // Variable which will be put into the festival command to control the playback speed
 
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
@@ -69,33 +62,6 @@ public class PracticeController extends controller implements Initializable {
 			festival(Word);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-
-	public void faster(ActionEvent event) { // Method that increases the playback speed of words
-		displaySpeed = Math.round((displaySpeed+0.1)*10)/10.0;
-		voiceSpeed = Math.round((voiceSpeed-0.1)*10)/10.0;
-		// Increments / Decrements "displaySpeed" and "voiceSpeed" variables by 0.1, which will be used by the speedLabel and festival respectively.
-		if (displaySpeed > 1.5) {
-			displaySpeed = 1.5;
-			voiceSpeed = 0.5;
-			speedLabel.setText("Speed cannot got higher than 1.5");
-		} else {
-			speedLabel.setText("Current Speed: " + displaySpeed);	
-		}
-		// Sets the speedLabel to display the current speed.
-	}
-
-	public void slower(ActionEvent event) { // Method that decreases the playback speed of words
-		displaySpeed = Math.round((displaySpeed-0.1)*10)/10.0;
-		voiceSpeed = Math.round((voiceSpeed+0.1)*10)/10.0;
-		// Increments / Decrements "displaySpeed" and "voiceSpeed" variables by 0.1, which will be used by the speedLabel and festival respectively.
-		if(displaySpeed < 0.5) {
-			displaySpeed = 0.5;
-			voiceSpeed = 1.5;
-			speedLabel.setText("Speed cannot go lower than 0.5");
-		} else {
-			speedLabel.setText("Current Speed: " + displaySpeed);
 		}
 	}
 
@@ -126,71 +92,67 @@ public class PracticeController extends controller implements Initializable {
 	}
 
 	public void check(ActionEvent event) throws IOException, InterruptedException { // Method to check if the word was spelled correctly
-
 		if(userSpelling.getText().toString().equalsIgnoreCase(Word.getWord())) {
-			Score.incrementScore(Word.getWord());
+			Word.update(userSpelling.getText(), true);
+			Score.addResult(Word);
+			Score.updateScore(timePassed);
+			this.stopTiming();
 			scoreLabel.setText("Score: " + Score.getScore());
 			this.showCorrectMessage();
 			// Checks if the user input word is the same as the word to be spelled, ignoring case
 			if (Word.getWordList().isEmpty()) {
-				showRewards(true, event);
+				endTime = System.nanoTime();
+				this.switchToReward(event);
 			}
 			else {
 				Word.newWord();
-				festival(Word);
-				incorrect = 0; // Sets the incorrect count to 0 as the user got the spelling correct
-				defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
+				this.festival(Word);
+				this.defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
+				this.startTiming(); // Sets the word length display to the length of the new word
 			}
 		}
 		else {
-			switch (incorrect) { // Does different things based on whether it is the first or second time the user spelled the word incorrectly
-			case 0:
-				incorrect++; // Increments the incorrect count to 1 so that the switch will change case the next time the user spells the word incorrectly
+			if (!incorrect) {
+				incorrect = true; // Increments the incorrect count to 1 so that the switch will change case the next time the user spells the word incorrectly
 				showSecondLetter(Word.getWord()); // Shows the second letter of the word to the user as a hint
 				this.showTryAgainMessage(); // Shows the try again message
 				this.festival(Word); // Speaks the word out again using festival TTS
-				break;
-			case 1:
-				Score.addWrong(Word.getWord());
+			}
+			else {
+				this.stopTiming();
+				Word.update(userSpelling.getText(), false);
+				Score.addResult(Word);
 				if (Word.getWordList().isEmpty()) {
-					showRewards(false, event);
+					this.switchToReward(event);
 				}
 				else {
+					incorrect = false;
 					Word.newWord();
 					this.festival(Word);
 					// Moves on to the next word as the user has spelled the word incorrectly twice
-					showEncouragingMessage(); 
+					this.showEncouragingMessage(); 
 					// Shows a message to encourage the user to try again
-					incorrect = 0;
-					// Resets the incorrect counter to 0 as the word has progressed
-					defaultWordLabel(Word.getWord());
+					this.defaultWordLabel(Word.getWord());
 					// Sets the word length display to the length of the new word
+					this.startTiming();
 				}
-				break;
 			}
 		}
 		userSpelling.clear();
 	}
 
-	public void showRewards(boolean correct, ActionEvent event) throws IOException {
+	public void switchToReward(ActionEvent event) {
 		this.setLoader("Reward2.fxml");
-		root = loader.load();
-
-		RewardController RewardController = loader.getController();
-		RewardController.setScoreBoard(Score);
-		RewardController.setTheme(theme);
-
-		if (correct) {
-			RewardController.addMastered(Score, Word.getTopic());
-			RewardController.setTopic(Word.getTopic());
-		} else {
-			RewardController.setTopic(Word.getTopic());
+		try {
+			root = loader.load();
+			RewardController RewardController = loader.getController();
+			RewardController.setTheme(theme);
+			this.showStage(event);
 		}
-		RewardController.setTheme(theme);
-		// Shows the users score and the words that the user got correct or incorrect
- 
-		this.showStage(event);
-		// Progresses the scene if the word list is empty
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setTopic(String topic) { // Method to choose the spelling quiz topic
@@ -198,12 +160,15 @@ public class PracticeController extends controller implements Initializable {
 		// topic = the topic that the user chose
 		this.Word = new Word(topic);
 		this.Score = new Score();
-		// Changes the global topic variable to the chosen topic		
+		// Changes the global topic variable to the chosen topic
 		topicLabel.setText("Topic: " + topic);
-		// Sets the topicLabel to display the user's current topic
+		// Sets the scoreLabel to display the user's current topic
 		this.defaultWordLabel(Word.getWord());
 		//Read the first word
 		this.festival(Word);
+		//
+		this.setStartTime();
+		this.startTiming();
 	}
 
 	public void showEncouragingMessage() { // Method to show the user an encouraging message
@@ -250,29 +215,23 @@ public class PracticeController extends controller implements Initializable {
 
 	public void dontKnow(ActionEvent event) throws IOException {
 		// Method that controls the behaviour of the button that is pressed when the user doesn't know the word
-		Score.addWrong(Word.getWord());
+		this.stopTiming();
+		Word.update(userSpelling.getText(), false);
+		Score.addResult(Word);
 		if (Word.getWordList().isEmpty()) {
-			this.setLoader("Reward2.fxml");
-			root = loader.load();
-
-			RewardController RewardController = loader.getController();
-			RewardController.setScoreBoard(Score);
-			RewardController.setScore(Score);
-			RewardController.setTopic(Word.getTopic());
-			RewardController.setTheme(theme);
-			
-			this.showStage(event);
-			// Progresses the scene if the word list is empty
+			endTime = System.nanoTime();
+			this.switchToReward(event);
 		}
 		else {
-			showEncouragingMessage();
+			this.showEncouragingMessage();
 			// Uses TTS to speak "incorrect" and then prints the encouraging message to the screen
 			Word.newWord();
 			this.defaultWordLabel(Word.getWord());
 			this.festival(Word);
 			// Progresses to the next word
-			incorrect = 0;
+			incorrect = false;
 			// Resets the incorrect count as the program is progressing to a new word
+			this.startTiming();
 		}
 	}
 
@@ -287,6 +246,46 @@ public class PracticeController extends controller implements Initializable {
 		currentMessage.setVisible(true);
 		// Sets the "currentMessage" label to be visible
 		currentMessage.setText("Correct!");
+	}
+	
+	@FXML
+	protected Label timeElapsed;
+	protected long startTime;
+	protected long endTime;
+	protected Timer timer;
+	protected TimerTask updateTime;
+	protected int timePassed = 0;
+	
+	public void setStartTime() {
+		startTime = System.nanoTime();
+	}
+
+	public void startTiming(){
+		int initialDelay = 1000;
+		int period = 1000;
+		updateTime = new TimerTask() {
+			@Override
+			public void run()  {
+				javafx.application.Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						timePassed++;
+						int minutes = timePassed/60;
+						int seconds = timePassed%60;
+						timeElapsed.setText("Time Elapsed:" + String.format("%02d:%02d",minutes,seconds));
+					}
+				});
+			};
+		};
+		timePassed = 0;
+		timer = new Timer();
+		timer.scheduleAtFixedRate(updateTime, initialDelay, period);
+	}
+
+	public void stopTiming() {
+		updateTime.cancel();
+		timer.cancel();
+		timer.purge();
 	}
 
 	@Override
@@ -310,10 +309,8 @@ public class PracticeController extends controller implements Initializable {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-
-				displaySpeed = Math.round(speedSlider.getValue());
 				voiceSpeed = Math.round(speedSlider.getValue());
-				speedLabel.setText("Current Speed: " + displaySpeed);
+				speedLabel.setText("Current Speed: " + voiceSpeed);
 
 			}
 		});

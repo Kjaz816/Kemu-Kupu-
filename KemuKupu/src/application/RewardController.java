@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 
 // This class controls the rewards screen after the user finishes a quiz
 
-public class RewardController extends controller {
+public class RewardController extends Controller {
 
 	@FXML
 	private Label rewardLabel;
@@ -55,15 +55,12 @@ public class RewardController extends controller {
 		try {
 			this.setLoader("Practice2.fxml");
 			root = loader.load();
-
 			PracticeController PracticeController = loader.getController();
 			PracticeController.setTopic(topic);
 			PracticeController.setTheme(theme);
 			// Starts a new game
-
 			this.showStage(event);
 			// Sets the scene to the new game scene
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,20 +71,17 @@ public class RewardController extends controller {
 		try {
 			this.setLoader("Play2.fxml");
 			root = loader.load();
-
 			PlayController PlayController = loader.getController();
 			PlayController.setTopic(topic);
 			PlayController.setTheme(theme);
-
 			// Starts a new game
 			this.showStage(event);
 			// Sets the scene to the new game scene
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void setTopic(String topic) { // Method that sets the topic for the next quiz
 		// Inputs:
 		// topic = the topic chosen by the user
@@ -108,13 +102,10 @@ public class RewardController extends controller {
 		try {
 			this.setLoader("Main2.fxml");
 			root = loader.load();
-
 			MainController MainController = loader.getController();
 			MainController.setTheme(theme);
-
 			this.showStage(event);
 			// Returns the scene to the default scene
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -123,7 +114,6 @@ public class RewardController extends controller {
 	public void setScore(Score Score) { //Method to display the score to the screen. 
 		int score = Score.getScore();
 		scoreLabel.setText("Score: " + score);
-
 		// Sets the rewardLabel text that displays to the user after a game based on how well they did
 		if (score < 3) {
 			rewardLabel.setText("Good try, you scored " + score + ". Play more to master your spelling!");

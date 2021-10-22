@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class controller extends Main {
+public class Controller extends Main {
 	
 	protected Stage stage;
 	protected Scene scene;

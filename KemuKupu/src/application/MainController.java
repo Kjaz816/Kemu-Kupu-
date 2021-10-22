@@ -14,7 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
-public class MainController extends controller {
+public class MainController extends Controller {
 
 	@FXML
 	private Button gameButton;
