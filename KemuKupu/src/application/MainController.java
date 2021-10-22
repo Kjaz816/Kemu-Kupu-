@@ -14,15 +14,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
-public class MainController extends Main {
-
-	private Stage stage;
-	private Scene scene;
-	private Parent root;
+public class MainController extends controller {
 
 	@FXML
 	private Button gameButton;
-
+	
 	@FXML
 	private Button quitButton;
 
@@ -34,18 +30,14 @@ public class MainController extends Main {
 
 	public void switchToTopic(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Topic2.fxml"));
+			this.setLoader("Topic2.fxml");
 			root =  loader.load();
 
 			TopicController TopicController = loader.getController();
 			TopicController.setTheme(this.theme);
 			// Sets the theme of the topic controller to the currently selected theme
 
-			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());		
-			stage.setScene(scene);
-			stage.show();
+			this.showStage(event);
 			// Sets the theme of the application to the selected one
 
 		} catch (IOException e) {
@@ -55,17 +47,29 @@ public class MainController extends Main {
 
 	public void switchToTheme(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Theme.fxml"));
+			this.setLoader("Theme.fxml");
+			root =  loader.load();
+
+			ThemeController ThemeController = loader.getController();
+			ThemeController.setTheme(theme);
+			
+			this.showStage(event);
+			// Sets the theme of the application to the selected one
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void switchToScoreBoard(ActionEvent event) {
+		try {
+			this.setLoader("scoreBoard.fxml");
 			root =  loader.load();
 
 			ThemeController ThemeController = loader.getController();
 			ThemeController.setTheme(theme);
 
-			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-			stage.setScene(scene);
-			stage.show();
+			this.showStage(event);
 			// Sets the theme of the application to the selected one
 
 		} catch (IOException e) {

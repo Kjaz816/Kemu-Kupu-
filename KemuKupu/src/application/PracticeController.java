@@ -26,16 +26,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class PracticeController implements Initializable {
+public class PracticeController extends controller implements Initializable {
 
 	protected Word Word;
 	protected Score Score;
 	protected int incorrect = 0;
-
-
-	protected Stage stage;
-	protected Scene scene;
-	protected Parent root;
 
 	@FXML
 	protected Label scoreLabel;
@@ -66,15 +61,8 @@ public class PracticeController implements Initializable {
 	// Sets up UI Elements
 
 	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
+
 	private double voiceSpeed = 1.0; // Variable which will be put into the festival command to control the playback speed
-
-	protected String theme = "default";
-
-	public void setTheme(String theme) {
-		this.theme = theme;
-	}
-
-
 
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
 		try {
@@ -185,7 +173,7 @@ public class PracticeController implements Initializable {
 	}
 
 	public void showRewards(boolean correct, ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
+		this.setLoader("Reward2.fxml");
 		root = loader.load();
 
 		RewardController RewardController = loader.getController();
@@ -200,12 +188,8 @@ public class PracticeController implements Initializable {
 		}
 		RewardController.setTheme(theme);
 		// Shows the users score and the words that the user got correct or incorrect
-
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-		stage.setScene(scene);
-		stage.show();
+ 
+		this.showStage(event);
 		// Progresses the scene if the word list is empty
 	}
 
@@ -268,7 +252,7 @@ public class PracticeController implements Initializable {
 		// Method that controls the behaviour of the button that is pressed when the user doesn't know the word
 		Score.addWrong(Word.getWord());
 		if (Word.getWordList().isEmpty()) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
+			this.setLoader("Reward2.fxml");
 			root = loader.load();
 
 			RewardController RewardController = loader.getController();
@@ -276,12 +260,8 @@ public class PracticeController implements Initializable {
 			RewardController.setScore(Score);
 			RewardController.setTopic(Word.getTopic());
 			RewardController.setTheme(theme);
-
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-			stage.setScene(scene);
-			stage.show();
+			
+			this.showStage(event);
 			// Progresses the scene if the word list is empty
 		}
 		else {

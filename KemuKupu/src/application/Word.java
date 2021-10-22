@@ -8,6 +8,8 @@ public class Word {
 	private String topic;
 	private Stack<String> wordList = new Stack<String>();
 	private String word;
+	private String userSpelling;
+	private boolean isCorrect;
 	
 	public Word(String topic) {
 		this.topic = topic;
@@ -77,5 +79,11 @@ public class Word {
 			return this.word;
 		}
 	}
+	
+	public void update(String userSpelling, boolean isCorrect) {
+		this.userSpelling = userSpelling;
+		this.isCorrect = isCorrect;
+	}
 }
+
 

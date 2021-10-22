@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,11 +17,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 // This class controls the rewards screen after the user finishes a quiz
 
-public class RewardController {
+public class RewardController extends controller {
 
 	@FXML
 	private Label rewardLabel;
@@ -36,26 +41,19 @@ public class RewardController {
 	@FXML
 	private Label scoreLabel;
 
-	private Stage stage;
-	private Scene scene;
-	private Parent root;
-
 	private String topic;
 
 	@FXML
 	private ListView<String> scoreBoard;
+	
+	@FXML
+	private TableView<Score> resultTable;
 
 	private double secElapsed;
 
-	private String theme = "default.css";
-
-	public void setTheme(String theme) {
-		this.theme = theme;
-	}
-
 	public void practiceAgain(ActionEvent event) { // Method that controls the "Play again" button
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice2.fxml"));
+			this.setLoader("Practice2.fxml");
 			root = loader.load();
 
 			PracticeController PracticeController = loader.getController();
@@ -63,7 +61,7 @@ public class RewardController {
 			PracticeController.setTheme(theme);
 			// Starts a new game
 
-			setStage(event);
+			this.showStage(event);
 			// Sets the scene to the new game scene
 
 		} catch (IOException e) {
@@ -74,7 +72,7 @@ public class RewardController {
 
 	public void playAgain(ActionEvent event) { // Method that controls the "Play again" button
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Play2.fxml"));
+			this.setLoader("Play2.fxml");
 			root = loader.load();
 
 			PlayController PlayController = loader.getController();
@@ -82,8 +80,7 @@ public class RewardController {
 			PlayController.setTheme(theme);
 
 			// Starts a new game
-
-			setStage(event);
+			this.showStage(event);
 			// Sets the scene to the new game scene
 
 		} catch (IOException e) {
@@ -109,13 +106,13 @@ public class RewardController {
 
 	public void returnToMainMenu(ActionEvent event) { // Method that controls the "Return to Main Menu" button
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main2.fxml"));
+			this.setLoader("Main2.fxml");
 			root = loader.load();
 
 			MainController MainController = loader.getController();
 			MainController.setTheme(theme);
 
-			setStage(event);
+			this.showStage(event);
 			// Returns the scene to the default scene
 
 		} catch (IOException e) {
@@ -135,10 +132,6 @@ public class RewardController {
 		} else {
 			rewardLabel.setText("Congratulations! You scored " + score + "! Well done");
 		}
-	}
-
-	public void setScoreBoard(Score Score) { // Method that displays words in the quiz to the screen. 
-		scoreBoard.getItems().addAll(Score.getWords());
 	}
 
 	public void addMastered(Score Score, String topic) {
@@ -176,14 +169,29 @@ public class RewardController {
 			}
 		}
 	}
+	
+	public void setUpResults(ObservableList<Score> tableData) {
+		// set up table
+		resultTable.setEditable(false);
+		resultTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-	public void setStage(ActionEvent event) throws IOException {
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-		stage.setScene(scene);
-		stage.show();
-		// Sets the scene to the new game scene
+		// create columns
+		TableColumn<Score, String> word = new TableColumn<>("Word");
+		word.setCellValueFactory(new PropertyValueFactory<>("word"));
+		TableColumn<Score, String> answer = new TableColumn<>("You Spelled");
+		answer.setCellValueFactory(new PropertyValueFactory<>("answer"));
+
+		word.setSortable(false);
+		answer.setSortable(false);
+		word.setReorderable(false);
+		answer.setReorderable(false);
+
+		// add data to table
+		resultTable.setItems(tableData);
+		resultTable.getColumns().addAll(Arrays.asList(word, answer));
+
+		// color based on isCorrect
+
 	}
 
 }

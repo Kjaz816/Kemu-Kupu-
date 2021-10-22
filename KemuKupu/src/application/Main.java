@@ -4,6 +4,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 /*Kemu Kupu
  * By Owen Eng - David Tran - Kian Jazayeri 
  * 
@@ -20,15 +23,15 @@ import javafx.scene.Scene;
  * "Faster" and "Slower" - Speeds up or slows down the playback of the words.
  * "Repeat Word" - Repeats the current word.
 
-*/
+ */
 public class Main extends Application {
-	
+
 	protected String theme = "Default.css";
-	
+
 	public void setTheme(String theme) {
 		this.theme = theme;
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -38,11 +41,29 @@ public class Main extends Application {
 			primaryStage.setTitle("Kēmu Kupu");
 			primaryStage.setScene(scene);
 			primaryStage.show();
+
+			primaryStage.setOnCloseRequest(event -> {
+				event.consume();
+				logout(primaryStage);	
+			});
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public void logout(Stage stage){	
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Logout");
+		alert.setHeaderText("You're about to logout!");
+		alert.setContentText("Do you want to save before exiting?");
+
+		if (alert.showAndWait().get() == ButtonType.OK){
+			System.out.println("You successfully logged out");
+			stage.close();
+		} 
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}

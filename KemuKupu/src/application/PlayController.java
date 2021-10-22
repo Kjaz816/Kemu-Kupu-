@@ -78,6 +78,8 @@ public class PlayController extends PracticeController {
 	public void check(ActionEvent event) throws IOException, InterruptedException { // Method to check if the word was spelled correctly
 
 		if(userSpelling.getText().toString().equalsIgnoreCase(Word.getWord())) {
+			Word.update("", false);
+			Score.addResult(Word);
 			Score.updateScore(Word.getWord(),timePassed,incorrect);
 			this.stopTiming();
 			scoreLabel.setText("Score: " + Score.getScore());
@@ -90,26 +92,18 @@ public class PlayController extends PracticeController {
 			else {
 				newWord();
 			}
-		} else {
-			switch (incorrect) { // Does different things based on whether it is the first or second time the user spelled the word incorrectly
-			case 0:
-				incorrect++; // Increments the incorrect count to 1 so that the switch will change case the next time the user spells the word incorrectly
-				showSecondLetter(Word.getWord()); // Shows the second letter of the word to the user as a hint
-				this.showTryAgainMessage(); // Shows the try again message
-				this.festival(Word); // Speaks the word out again using festival TTS
-				break;
-			case 1:
-				this.stopTiming();
-				Score.addWrong(Word.getWord());
-				if (Word.getWordList().isEmpty()) {
-					setStage(event);
-					// Progresses the scene if the word list is empty
-				}
-				else {
-					showEncouragingMessage(); 
-					newWord();			
-				}
-				break;
+		} 
+		else {
+			this.stopTiming();
+			Word.update("", false);
+			Score.addResult(Word);
+			if (Word.getWordList().isEmpty()) {
+				setStage(event);
+				// Progresses the scene if the word list is empty
+			}
+			else {
+				this.showEncouragingMessage(); 
+				this.newWord();			
 			}
 		}
 		userSpelling.clear();
@@ -120,7 +114,8 @@ public class PlayController extends PracticeController {
 	public void dontKnow(ActionEvent event) throws IOException {
 		// Method that controls the behaviour of the button that is pressed when the user doesn't know the word
 		this.stopTiming();
-		Score.addWrong(Word.getWord());
+		Word.update("", false);
+		Score.addResult(Word);
 		if (Word.getWordList().isEmpty()) {
 			endTime = System.nanoTime();
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Reward2.fxml"));
@@ -133,11 +128,7 @@ public class PlayController extends PracticeController {
 			RewardController.setTopic(Word.getTopic());
 			RewardController.setTheme(theme);
 
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-			stage.setScene(scene);
-			stage.show();
+			this.showStage(event);
 			// Progresses the scene if the word list is empty
 		}
 		else {
