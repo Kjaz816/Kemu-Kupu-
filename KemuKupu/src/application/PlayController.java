@@ -37,6 +37,8 @@ public class PlayController extends PracticeController {
 		defaultWordLabel(Word.getWord());
 		//Read the first word
 		festival(Word);
+		//Sets the image of the first word
+		setWordImage(Word);
 		//
 		this.setStartTime();
 		this.startTiming();
@@ -97,6 +99,7 @@ public class PlayController extends PracticeController {
 				showSecondLetter(Word.getWord()); // Shows the second letter of the word to the user as a hint
 				this.showTryAgainMessage(); // Shows the try again message
 				this.festival(Word); // Speaks the word out again using festival TTS
+				this.setWordImage(Word); // Sets image of the next word
 				break;
 			case 1:
 				this.stopTiming();
@@ -146,6 +149,7 @@ public class PlayController extends PracticeController {
 			Word.newWord();
 			this.defaultWordLabel(Word.getWord());
 			this.festival(Word);
+			this.setWordImage(Word);
 			// Progresses to the next word
 			incorrect = 0;
 			// Resets the incorrect count as the program is progressing to a new word
@@ -177,6 +181,7 @@ public class PlayController extends PracticeController {
 	public void newWord() {
 		Word.newWord();
 		festival(Word);
+		setWordImage(Word);
 		incorrect = 0;
 		defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
 		this.startTiming();

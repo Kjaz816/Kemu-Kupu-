@@ -52,21 +52,17 @@ public class PracticeController implements Initializable {
 	@FXML
 	private Button dontKnow;
 	@FXML
-	private Label speedLabel;
-	@FXML
-	private Button faster;
-	@FXML
-	private Button slower;
+	protected Label speedLabel;
 	@FXML
 	protected Label topicLabel;
 	@FXML
 	private ImageView spellingImage;
 	@FXML
-	private Slider speedSlider = new Slider(0.5,1.5,1);
+	protected Slider speedSlider = new Slider(0.5,1.5,1);
 	// Sets up UI Elements
 
-	private double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
-	private double voiceSpeed = 1.0; // Variable which will be put into the festival command to control the playback speed
+	protected double displaySpeed = 1.0; // Variable which will be used to display the current playback speed
+	protected double voiceSpeed = 1.0; // Variable which will be put into the festival command to control the playback speed
 
 	protected String theme = "default";
 
@@ -84,33 +80,6 @@ public class PracticeController implements Initializable {
 		}
 	}
 
-	public void faster(ActionEvent event) { // Method that increases the playback speed of words
-		displaySpeed = Math.round((displaySpeed+0.1)*10)/10.0;
-		voiceSpeed = Math.round((voiceSpeed-0.1)*10)/10.0;
-		// Increments / Decrements "displaySpeed" and "voiceSpeed" variables by 0.1, which will be used by the speedLabel and festival respectively.
-		if (displaySpeed > 1.5) {
-			displaySpeed = 1.5;
-			voiceSpeed = 0.5;
-			speedLabel.setText("Speed cannot got higher than 1.5");
-		} else {
-			speedLabel.setText("Current Speed: " + displaySpeed);	
-		}
-		// Sets the speedLabel to display the current speed.
-	}
-
-	public void slower(ActionEvent event) { // Method that decreases the playback speed of words
-		displaySpeed = Math.round((displaySpeed-0.1)*10)/10.0;
-		voiceSpeed = Math.round((voiceSpeed+0.1)*10)/10.0;
-		// Increments / Decrements "displaySpeed" and "voiceSpeed" variables by 0.1, which will be used by the speedLabel and festival respectively.
-		if(displaySpeed < 0.5) {
-			displaySpeed = 0.5;
-			voiceSpeed = 1.5;
-			speedLabel.setText("Speed cannot go lower than 0.5");
-		} else {
-			speedLabel.setText("Current Speed: " + displaySpeed);
-		}
-	}
-
 	public void festival(Word word) { // Method to speak the current word
 		// Inputs: 
 		// word = the current word
@@ -122,12 +91,6 @@ public class PracticeController implements Initializable {
 			speechWriter.close();
 			// Sets the voice pack and playback speed of the festival TTS, and sets the word to be played as the input word
 
-			String currentUrl = ("Pictures" + File.separator + word.getTopic() + File.separator + word.getWord() + ".png");
-
-			Image image = new Image(currentUrl);
-			spellingImage.setImage(image);
-			// Opens the image that corresponds to the current word
-
 			String command = new String("festival -b speech.scm");
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 			Process process = pb.start();
@@ -135,6 +98,14 @@ public class PracticeController implements Initializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setWordImage(Word word) {
+		String currentUrl = ("Pictures" + File.separator + word.getTopic() + File.separator + word.getWord() + ".png");
+
+		Image image = new Image(currentUrl);
+		spellingImage.setImage(image);
+		// Opens the image that corresponds to the current word
 	}
 
 	public void check(ActionEvent event) throws IOException, InterruptedException { // Method to check if the word was spelled correctly
@@ -150,6 +121,7 @@ public class PracticeController implements Initializable {
 			else {
 				Word.newWord();
 				festival(Word);
+				setWordImage(Word);
 				incorrect = 0; // Sets the incorrect count to 0 as the user got the spelling correct
 				defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
 			}
@@ -171,6 +143,7 @@ public class PracticeController implements Initializable {
 					Word.newWord();
 					this.festival(Word);
 					// Moves on to the next word as the user has spelled the word incorrectly twice
+					this.setWordImage(Word);
 					showEncouragingMessage(); 
 					// Shows a message to encourage the user to try again
 					incorrect = 0;
@@ -220,6 +193,7 @@ public class PracticeController implements Initializable {
 		this.defaultWordLabel(Word.getWord());
 		//Read the first word
 		this.festival(Word);
+		this.setWordImage(Word);
 	}
 
 	public void showEncouragingMessage() { // Method to show the user an encouraging message
@@ -291,6 +265,7 @@ public class PracticeController implements Initializable {
 			this.defaultWordLabel(Word.getWord());
 			this.festival(Word);
 			// Progresses to the next word
+			this.setWordImage(Word);
 			incorrect = 0;
 			// Resets the incorrect count as the program is progressing to a new word
 		}
@@ -331,9 +306,9 @@ public class PracticeController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
 
-				displaySpeed = Math.round(speedSlider.getValue());
-				voiceSpeed = Math.round(speedSlider.getValue());
-				speedLabel.setText("Current Speed: " + displaySpeed);
+				displaySpeed = speedSlider.getValue();
+				voiceSpeed = 1.0/speedSlider.getValue();
+				speedLabel.setText(String.format("Current Speed: %.2f", displaySpeed));
 
 			}
 		});
