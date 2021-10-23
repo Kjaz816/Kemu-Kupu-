@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -23,13 +24,16 @@ public class Controller extends Main {
 	
 	protected FXMLLoader loader;
 	
+	@FXML
+	protected BorderPane scenePane;
+	
 	public void setLoader(String fxml) {
 		loader = new FXMLLoader(getClass().getResource(fxml));
 	}
 	
 	public void showStage(ActionEvent buttonEvent) {
 		stage = (Stage) ((Node) buttonEvent.getSource()).getScene().getWindow();
-		scene = new Scene(root);
+		scene = new Scene(root,scenePane.getWidth(),scenePane.getHeight());
 		scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());		
 		stage.setScene(scene);
 		stage.show();

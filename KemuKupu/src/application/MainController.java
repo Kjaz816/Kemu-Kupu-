@@ -22,8 +22,6 @@ public class MainController extends Controller {
 	private Button scoreboardButton;
 	@FXML
 	private Button quitButton;
-	@FXML 
-	private BorderPane scenePane;
 	@FXML
 	private Label title;
 
