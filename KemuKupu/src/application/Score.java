@@ -23,6 +23,7 @@ public class Score {
 		return score;
 		// Gets the user's current score
 	}
+	
 
 	public void updateScore(int TimePassed) {
 

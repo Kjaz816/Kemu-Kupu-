@@ -49,7 +49,9 @@ public class RewardController extends Controller {
 	private Label scoreLabel;
 	@FXML
 	private TableView<Word> resultTable;
-
+	
+	private ArrayList<String> masteredTopics = new ArrayList<String> ();
+	
 	public void practiceAgain(ActionEvent event) { // Method that controls the "Play again" button
 		try {
 			this.setLoader("Practice2.fxml");
@@ -163,8 +165,15 @@ public class RewardController extends Controller {
 	}
 	
 	public void unlockTheme(int score, String topic) {
-		if(score >= 900) {
+		if(score >= 850) {
+			try {
+				this.getMastered();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(!masteredTopics.contains(topic)) {
 			this.addLineToFile(topic , ".theme.txt");
+			}
 		}
 	}
 	
@@ -180,7 +189,24 @@ public class RewardController extends Controller {
 		}
 	}
 	
+	public void getMastered() throws IOException {
+		File data = new File("theme.txt");
+		// Checks if the data.txt
+		if (data.exists()) {
+			// Writes each line in the file to a new element on the current stat array that
+			// corresponds to its name
+			BufferedReader in = new BufferedReader(new FileReader(data));
+			String line;
+			while ((line = in.readLine()) != null) {
+				masteredTopics.add(line);
+			}
+			in.close();
+		}
+	}
 	
+	public Label getTimeLabel() {
+		return timeLabel;
+	}
 	
 	
 }

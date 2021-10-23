@@ -1,12 +1,10 @@
 package application;
 
 import java.io.File;
-import javafx.scene.control.ButtonType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.*;
-import javafx.animation.PauseTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -30,9 +28,19 @@ public class PracticeController extends Controller implements Initializable {
 
 	protected Word Word;
 	protected Score Score;
+	
 	protected double voiceSpeed = 1.0;
-	protected boolean incorrect = false;
 	protected double displaySpeed = 1.0;
+	
+	protected long startTime;
+	protected long endTime;
+	
+	protected Timer timer;
+	protected TimerTask updateTime;
+	protected int timePassed = 0;
+	
+	protected boolean incorrect = false;
+	
 	@FXML
 	protected Label scoreLabel;
 	@FXML
@@ -55,6 +63,9 @@ public class PracticeController extends Controller implements Initializable {
 	private ImageView spellingImage;
 	@FXML
 	protected Slider speedSlider = new Slider(0.5,1.5,1);
+	@FXML
+	protected Label timeElapsed;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) { // Method that changes double-vowels into the vowel with a macron
 		userSpelling.textProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
@@ -72,6 +83,7 @@ public class PracticeController extends Controller implements Initializable {
 		speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+				displaySpeed = speedSlider.getValue();
 				voiceSpeed = 1.0/speedSlider.getValue();
 				speedLabel.setText(String.format("Current Speed: %.2f", displaySpeed));
 			}
@@ -190,6 +202,7 @@ public class PracticeController extends Controller implements Initializable {
 			RewardController RewardController = loader.getController();
 			RewardController.setTheme(theme);
 			RewardController.setUp(Word.getTopic(), Score, endTime - startTime);
+			RewardController.getTimeLabel().setVisible(false);
 			this.showStage(event);
 		}
 		catch (IOException e) {
@@ -257,12 +270,12 @@ public class PracticeController extends Controller implements Initializable {
 
 	public void showCorrectMessage() {
 		currentMessage.setVisible(true);
-		currentMessage.setText("Correct!, try this word");
+		currentMessage.setText("Correct!");
 	}
 
 	public void showIncorrectMessage() {
 		currentMessage.setVisible(true);
-		currentMessage.setText("Incorrect!, try this word");
+		currentMessage.setText("Incorrect! Keep trying to master it!");
 	}
 
 	public void repeatWord(ActionEvent event) { // Method that repeats the current word
@@ -272,4 +285,38 @@ public class PracticeController extends Controller implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	public void setStartTime() {
+		startTime = System.nanoTime();
+	}
+	
+	public void startTiming(){
+		int initialDelay = 1000;
+		int period = 1000;
+		updateTime = new TimerTask() {
+			@Override
+			public void run()  {
+				javafx.application.Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						timePassed++;
+						int minutes = timePassed/60;
+						int seconds = timePassed%60;
+						timeElapsed.setText("Time Elapsed:" + String.format("%02d:%02d",minutes,seconds));
+					}
+				});
+			};
+		};
+		timePassed = 0;
+		timer = new Timer();
+		timer.scheduleAtFixedRate(updateTime, initialDelay, period);
+	}
+
+	public void stopTiming() {
+		updateTime.cancel();
+		timer.cancel();
+		timer.purge();
+	}
+	
+	
 }
