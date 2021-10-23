@@ -1,38 +1,38 @@
 package application;
 
-import java.io.BufferedReader;
 import java.io.File;
+import javafx.scene.control.ButtonType;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.*;
-
+import javafx.animation.PauseTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class PracticeController extends Controller implements Initializable {
 
 	protected Word Word;
 	protected Score Score;
-	
-	private boolean incorrect = false;
-
+	protected double voiceSpeed = 1.0;
+	protected boolean incorrect = false;
+	protected double displaySpeed = 1.0;
 	@FXML
 	protected Label scoreLabel;
 	@FXML
@@ -54,15 +54,42 @@ public class PracticeController extends Controller implements Initializable {
 	@FXML
 	private ImageView spellingImage;
 	@FXML
-	private Slider speedSlider = new Slider(0.5,1.5,1);
-	private double voiceSpeed = 1.0; // Variable which will be put into the festival command to control the playback speed
+	protected Slider speedSlider = new Slider(0.5,1.5,1);
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) { // Method that changes double-vowels into the vowel with a macron
+		userSpelling.textProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				Platform.runLater(()-> {
+					userSpelling.setText(newValue.replaceAll("~A|`A", "Ā").replaceAll("~a|`a", "ā").replaceAll("~E|`E", "Ē").replaceAll("~e|`e", "ē")
+							.replaceAll("~I|`I", "Ī").replaceAll("~i|`i", "ī").replaceAll("~O|`O", "Ō").replaceAll("~o|`o", "ō").replaceAll("~U|`U", "Ū")
+							.replaceAll("~u|`u", "ū"));
+					userSpelling.positionCaret(newValue.length());
+					// Replaces the double-vowel with the corresponding vowel with a macron
+				});
+			}
+		});
+		speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+				voiceSpeed = 1.0/speedSlider.getValue();
+				speedLabel.setText(String.format("Current Speed: %.2f", displaySpeed));
+			}
+		});
+	}
 
-	public void repeatWord(ActionEvent event) { // Method that repeats the current word
-		try {
-			festival(Word);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void setUp(String topic) { // Method to choose the spelling quiz topic
+		// Inputs:
+		// topic = the topic that the user chose
+		this.Word = new Word(topic);
+		this.Score = new Score();
+		scoreLabel.setText("Score: 0");	
+		topicLabel.setText("Topic: " + topic);
+		this.defaultWordLabel(Word.getWord());
+		this.festival(Word);
+		this.setWordImage(Word);
+		this.setStartTime();
+		this.startTiming();
 	}
 
 	public void festival(Word word) { // Method to speak the current word
@@ -79,12 +106,34 @@ public class PracticeController extends Controller implements Initializable {
 			String command = new String("festival -b speech.scm");
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 			Process process = pb.start();
+			this.disableAllButtonFor(Word.getWord().length()/5*voiceSpeed + 2);
 			// Creates a process to input into bash with the festival settings and the word to be said
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public void disableAllButtonFor(double time) {
+		dontKnow.setDisable(true);
+		check.setDisable(true);
+		repeatWord.setDisable(true);
+		home.setDisable(true);
+		help.setDisable(true);
+		final Timeline animation = new Timeline(
+				new KeyFrame(Duration.seconds(time),
+						new EventHandler<ActionEvent>() {
+					@Override public void handle(ActionEvent actionEvent) {
+						dontKnow.setDisable(false);
+						check.setDisable(false);
+						repeatWord.setDisable(false);
+						home.setDisable(false);
+						help.setDisable(false);
+					}
+				}));
+		animation.setCycleCount(1);
+		animation.play();
+	}
+
 	public void setWordImage(Word word) {
 		String currentUrl = ("Pictures" + File.separator + word.getTopic() + File.separator + word.getWord() + ".png");
 
@@ -95,22 +144,18 @@ public class PracticeController extends Controller implements Initializable {
 
 	public void check(ActionEvent event) throws IOException, InterruptedException { // Method to check if the word was spelled correctly
 		if(userSpelling.getText().toString().equalsIgnoreCase(Word.getWord())) {
-			Word.update(userSpelling.getText(), true);
-			Score.addResult(Word);
-			Score.updateScore(timePassed);
 			this.stopTiming();
+			Word.update(userSpelling.getText(), true);
+			Score.addResult(new Word(Word));
+			Score.updateScore(timePassed);
 			scoreLabel.setText("Score: " + Score.getScore());
 			this.showCorrectMessage();
-			// Checks if the user input word is the same as the word to be spelled, ignoring case
 			if (Word.getWordList().isEmpty()) {
 				endTime = System.nanoTime();
 				this.switchToReward(event);
 			}
 			else {
-				Word.newWord();
-				this.festival(Word);
-				this.defaultWordLabel(Word.getWord()); // Sets the word length display to the length of the new word
-				this.startTiming(); // Sets the word length display to the length of the new word
+				this.nextWord();
 			}
 		}
 		else {
@@ -123,20 +168,15 @@ public class PracticeController extends Controller implements Initializable {
 			else {
 				this.stopTiming();
 				Word.update(userSpelling.getText(), false);
-				Score.addResult(Word);
+				Score.addResult(new Word(Word));
+				this.showIncorrectMessage();
 				if (Word.getWordList().isEmpty()) {
+					endTime = System.nanoTime();
 					this.switchToReward(event);
 				}
 				else {
 					incorrect = false;
-					Word.newWord();
-					this.festival(Word);
-					// Moves on to the next word as the user has spelled the word incorrectly twice
-					this.showEncouragingMessage(); 
-					// Shows a message to encourage the user to try again
-					this.defaultWordLabel(Word.getWord());
-					// Sets the word length display to the length of the new word
-					this.startTiming();
+					this.nextWord();
 				}
 			}
 		}
@@ -149,42 +189,26 @@ public class PracticeController extends Controller implements Initializable {
 			root = loader.load();
 			RewardController RewardController = loader.getController();
 			RewardController.setTheme(theme);
+			RewardController.setUp(Word.getTopic(), Score, endTime - startTime);
 			this.showStage(event);
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public void setTopic(String topic) { // Method to choose the spelling quiz topic
-		// Inputs:
-		// topic = the topic that the user chose
-		this.Word = new Word(topic);
-		this.Score = new Score();
-		scoreLabel.setText("Score: 0");
-		// Changes the global topic variable to the chosen topic		
-		topicLabel.setText("Topic: " + topic);
-		// Sets the scoreLabel to display the user's current topic
-		this.defaultWordLabel(Word.getWord());
-		//Read the first word
+	public void nextWord() {
+		Word.newWord();
 		this.festival(Word);
-		//
-		this.setStartTime();
+		this.setWordImage(Word);
+		this.defaultWordLabel(Word.getWord());
 		this.startTiming();
 	}
 
 	public void showEncouragingMessage() { // Method to show the user an encouraging message
-		currentMessage.setVisible(true);
-		// Sets the "currentMessage" label to be visible
-		currentMessage.setText("Good try, play more to master this word!");
-		// Sets the currentMessage label to an encouraging message for the user
-	}
-
-	public void hideEncouragingMessage() { // Method to hide the encouraging message
-		currentMessage.setVisible(false);
-		// Sets the "currentMessage" label to be invisible
-
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setHeaderText("Try to guess the word!");
+		alert.showAndWait();
 	}
 
 	public void showSecondLetter(String word) { // Method to show the user the second word of the current word to be spelled as a hint
@@ -192,25 +216,19 @@ public class PracticeController extends Controller implements Initializable {
 		// word = the current word to be spelled
 		char secondLetter = word.charAt(1);
 		// Finds the second letter of the word and sets it to the "secondLetter" variable
-		String dashedLines = "_ " + secondLetter;
+		String dashedLines = word.replaceAll(".", "_ ").trim();
 		// Sets the first 2 characters of the string to an underscore and then the second letter of the current word
-		int stringLength = (word.length() - 2);
-		for (int i = 0; i < stringLength; i++) {
-			dashedLines = dashedLines + "_ ";
-		}
+		StringBuilder DashedLines = new StringBuilder(dashedLines);
+		DashedLines.setCharAt(2, secondLetter);
 		// Sets the rest of the string to a number of underscores equal to the length of the word - 2, so that the string in total is the same length as the word
-		wordLabel.setText(dashedLines);
+		wordLabel.setText(DashedLines.toString());
 		// Sets the wordLabel to this string
 	}
 
 	public void defaultWordLabel(String word) { // Method that changes the wordLabel that shows the second letter to the user back to the default state
 		// Inputs:
 		// word = the current word to be spelled
-		String dashedLines = ""; // Creates the empty string
-		int stringLength = word.length();
-		for (int i = 0; i < stringLength; i++) {
-			dashedLines = dashedLines + "_ ";
-		}
+		String dashedLines = word.replaceAll(".", "_ ").trim(); // Creates the empty string
 		// Sets the string to a number of underscores equal to the word length
 		wordLabel.setText(dashedLines);
 		// Sets the wordLabel to this string
@@ -220,105 +238,38 @@ public class PracticeController extends Controller implements Initializable {
 		// Method that controls the behaviour of the button that is pressed when the user doesn't know the word
 		this.stopTiming();
 		Word.update(userSpelling.getText(), false);
-		Score.addResult(Word);
+		Score.addResult(new Word(Word));
 		if (Word.getWordList().isEmpty()) {
 			endTime = System.nanoTime();
 			this.switchToReward(event);
 		}
 		else {
-			this.showEncouragingMessage();
-			// Uses TTS to speak "incorrect" and then prints the encouraging message to the screen
-			Word.newWord();
-			this.defaultWordLabel(Word.getWord());
-			this.festival(Word);
-			// Progresses to the next word
 			incorrect = false;
-			this.setWordImage(Word);
-			// Resets the incorrect count as the program is progressing to a new word
-			this.startTiming();
+			this.showEncouragingMessage();
+			this.nextWord();
 		}
 	}
 
 	public void showTryAgainMessage() { // Method that shows the try again message when the user gets the spelling of the word wrong
 		currentMessage.setVisible(true);
-		// Sets the "currentMessage" label to be visible
 		currentMessage.setText("Incorrect, try once more!");
-		// Sets the currentMessage label to a message telling the user to try again
 	}
 
 	public void showCorrectMessage() {
 		currentMessage.setVisible(true);
-		// Sets the "currentMessage" label to be visible
-		currentMessage.setText("Correct!");
-	}
-	
-	@FXML
-	protected Label timeElapsed;
-	protected long startTime;
-	protected long endTime;
-	protected Timer timer;
-	protected TimerTask updateTime;
-	protected int timePassed = 0;
-	
-	public void setStartTime() {
-		startTime = System.nanoTime();
+		currentMessage.setText("Correct!, try this word");
 	}
 
-	public void startTiming(){
-		int initialDelay = 1000;
-		int period = 1000;
-		updateTime = new TimerTask() {
-			@Override
-			public void run()  {
-				javafx.application.Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						timePassed++;
-						int minutes = timePassed/60;
-						int seconds = timePassed%60;
-						timeElapsed.setText("Time Elapsed:" + String.format("%02d:%02d",minutes,seconds));
-					}
-				});
-			};
-		};
-		timePassed = 0;
-		timer = new Timer();
-		timer.scheduleAtFixedRate(updateTime, initialDelay, period);
+	public void showIncorrectMessage() {
+		currentMessage.setVisible(true);
+		currentMessage.setText("Incorrect!, try this word");
 	}
 
-	public void stopTiming() {
-		updateTime.cancel();
-		timer.cancel();
-		timer.purge();
-	}
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) { // Method that changes double-vowels into the vowel with a macron
-
-		userSpelling.textProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				Platform.runLater(()-> {
-					userSpelling.setText(newValue.replaceAll("~A|`A", "Ā").replaceAll("~a|`a", "ā").replaceAll("~E|`E", "Ē").replaceAll("~e|`e", "ē")
-							.replaceAll("~I|`I", "Ī").replaceAll("~i|`i", "ī").replaceAll("~O|`O", "Ō").replaceAll("~o|`o", "ō").replaceAll("~U|`U", "Ū")
-							.replaceAll("~u|`u", "ū"));
-					userSpelling.positionCaret(newValue.length());
-					// Replaces the double-vowel with the corresponding vowel with a macron
-				});
-			}
-		});
-
-		speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-
-				double displaySpeed = speedSlider.getValue();
-				voiceSpeed = 1.0/speedSlider.getValue();
-				speedLabel.setText(String.format("Current Speed: %.2f", displaySpeed));
-
-			}
-		});
+	public void repeatWord(ActionEvent event) { // Method that repeats the current word
+		try {
+			festival(Word);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

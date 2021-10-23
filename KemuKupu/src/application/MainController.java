@@ -18,13 +18,10 @@ public class MainController extends Controller {
 
 	@FXML
 	private Button gameButton;
-	
 	@FXML
 	private Button quitButton;
-
 	@FXML 
 	private BorderPane scenePane;
-
 	@FXML
 	private Label title;
 
@@ -32,14 +29,9 @@ public class MainController extends Controller {
 		try {
 			this.setLoader("Topic2.fxml");
 			root =  loader.load();
-
 			TopicController TopicController = loader.getController();
-			TopicController.setTheme(this.theme);
-			// Sets the theme of the topic controller to the currently selected theme
-
+			TopicController.setTheme(theme);
 			this.showStage(event);
-			// Sets the theme of the application to the selected one
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,13 +41,10 @@ public class MainController extends Controller {
 		try {
 			this.setLoader("Theme.fxml");
 			root =  loader.load();
-
 			ThemeController ThemeController = loader.getController();
 			ThemeController.setTheme(theme);
-			
 			this.showStage(event);
 			// Sets the theme of the application to the selected one
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -63,15 +52,10 @@ public class MainController extends Controller {
 	
 	public void switchToScoreBoard(ActionEvent event) {
 		try {
-			this.setLoader("scoreBoard.fxml");
+			this.setLoader("ScoreBoard.fxml");
 			root =  loader.load();
-
-			ThemeController ThemeController = loader.getController();
-			ThemeController.setTheme(theme);
-
 			this.showStage(event);
 			// Sets the theme of the application to the selected one
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -3,14 +3,20 @@ package application;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Score {
 	private int score;
-	private ObservableList<Word> result;
+	private ObservableList<Word> result = FXCollections.observableArrayList();
+
+	public ObservableList<Word> getResult() {
+		// TODO Auto-generated method stub
+		return this.result;
+	}
 
 	public void addResult(Word Word) {
-		result.add(Word);
+		this.result.add(Word);
 	}
 
 	public int getScore() {

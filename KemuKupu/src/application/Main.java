@@ -27,7 +27,7 @@ import javafx.scene.control.Alert.AlertType;
 public class Main extends Application {
 
 	protected String theme = "Default.css";
-
+	
 	public void setTheme(String theme) {
 		this.theme = theme;
 	}

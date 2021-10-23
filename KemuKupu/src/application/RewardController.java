@@ -15,7 +15,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,10 +25,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-// This class controls the rewards screen after the user finishes a quiz
-
 public class RewardController extends Controller {
 
+	private String topic;
 	@FXML
 	private Label rewardLabel;
 	@FXML
@@ -44,26 +42,16 @@ public class RewardController extends Controller {
 	private Label timeLabel;
 	@FXML
 	private Label scoreLabel;
-
-	private String topic;
-
-	private ArrayList<String> masteredTopics = new ArrayList<String>();
-
 	@FXML
-	private ListView<String> scoreBoard;
-	
-	@FXML
-	private TableView<Score> resultTable;
-
-	private double secElapsed;
+	private TableView<Word> resultTable;
 
 	public void practiceAgain(ActionEvent event) { // Method that controls the "Play again" button
 		try {
 			this.setLoader("Practice2.fxml");
 			root = loader.load();
 			PracticeController PracticeController = loader.getController();
-			PracticeController.setTopic(topic);
 			PracticeController.setTheme(theme);
+			PracticeController.setUp(topic);
 			// Starts a new game
 			this.showStage(event);
 			// Sets the scene to the new game scene
@@ -78,23 +66,14 @@ public class RewardController extends Controller {
 			this.setLoader("Play2.fxml");
 			root = loader.load();
 			PlayController PlayController = loader.getController();
-			PlayController.setTopic(topic);
 			PlayController.setTheme(theme);
+			PlayController.setUp(topic);
 			// Starts a new game
 			this.showStage(event);
 			// Sets the scene to the new game scene
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void setTopic(String topic) { // Method that sets the topic for the next quiz
-		// Inputs:
-		// topic = the topic chosen by the user
-		this.topic = topic;
-		// Gets the topic chosen by the user and sets it to the topic variable
-		topicLabel.setText("Topic: " + topic);
-		// Sets the topicLabel to display the current topic
 	}
 
 	public void setTimeElapsed(long nanoTimeElapsed) {
@@ -117,97 +96,47 @@ public class RewardController extends Controller {
 		}
 	}
 
-	public void setScore(Score Score) { // Method to display the score to the screen.
+	public void showScore(Score Score) { // Method to display the score to the screen.
 		int score = Score.getScore();
 		scoreLabel.setText("Score: " + score);
-		if (score < 3) {
+		if (score <= 300) {
 			rewardLabel.setText("Good try, you scored " + score + ". Play more to master your spelling!");
-		} else if (Score.getScore() == 3) {
+		} else if (Score.getScore() <= 600) {
 			rewardLabel.setText(
 					"Not bad! You scored " + score + "! A little more practise and you could get a perfect score!");
 		} else {
 			rewardLabel.setText("Congratulations! You scored " + score + "! Well done");
 		}
 	}
-
-	public void addMastered(Score Score, String topic) {
-		if (Score.getScore() == 5 || secElapsed <= 60.00) {
-			try {
-				this.getMastered();
-				if (!masteredTopics.contains(topic)) {
-					String command = "echo '" + topic + "' >> data.txt";
-					// Sets the bash command
-
-					ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
-					Process process = pb.start();
-					// Creates a process with the bash command and starts it
-
-					BufferedReader stdout = new BufferedReader(new InputStreamReader(process.getInputStream()));
-					BufferedReader stderr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-					// Pipelines the stdout and stderror to the variables
-
-					int exitStatus = process.waitFor();
-
-					if (exitStatus == 0) {
-						String line;
-						while ((line = stdout.readLine()) != null) {
-
-							// Adds the current line to the topic list
-						}
-					} else {
-						String line;
-						while ((line = stderr.readLine()) != null) {
-							System.err.println(line);
-						}
-					}
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+	
+	public void setTopic(String topic) {
+		this.topic = topic;
+		topicLabel.setText("Topic: " + topic);
 	}
 	
-	public void setUpResults(ObservableList<Score> tableData) {
+	public void setUp(String topic, Score Score, long nanoTimeElapsed) {
+		this.setTopic(topic);
+		this.setUpResults(Score.getResult());
+		this.showScore(Score);
+		this.setTimeElapsed(nanoTimeElapsed);
+	}
+	
+	public void setUpResults(ObservableList<Word> tableData) {
 		// set up table
 		resultTable.setEditable(false);
 		resultTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
 		// create columns
-		TableColumn<Score, String> word = new TableColumn<>("Word");
+		TableColumn<Word, String> word = new TableColumn<>("Word");
 		word.setCellValueFactory(new PropertyValueFactory<>("word"));
-		TableColumn<Score, String> answer = new TableColumn<>("You Spelled");
+		TableColumn<Word, String> answer = new TableColumn<>("You Spelled");
 		answer.setCellValueFactory(new PropertyValueFactory<>("answer"));
-
 		word.setSortable(false);
 		answer.setSortable(false);
 		word.setReorderable(false);
 		answer.setReorderable(false);
-
 		// add data to table
 		resultTable.setItems(tableData);
 		resultTable.getColumns().addAll(Arrays.asList(word, answer));
-
 		// color based on isCorrect
 	}
-
-	public void getMastered() throws IOException {
-		File data = new File("data.txt");
-		// Checks if the data.txt
-		if (data.exists()) {
-			// Writes each line in the file to a new element on the current stat array that
-			// corresponds to its name
-			BufferedReader in = new BufferedReader(new FileReader(data));
-			String line;
-			while ((line = in.readLine()) != null) {
-				masteredTopics.add(line);
-			}
-			in.close();
-		}
-	}
-	
-	public Label getTimeLabel() {
-		return timeLabel;
-	}
-
 }

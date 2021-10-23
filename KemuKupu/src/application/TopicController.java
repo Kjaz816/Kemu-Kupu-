@@ -24,43 +24,29 @@ import javafx.stage.Stage;
 
 //This class controls the choose topic screen
 
-public class TopicController implements Initializable {
-
-	@FXML
-	private Button playButton;
-
-	@FXML
-	private Button practiceButton;
-
-	@FXML
-	protected Label topicLabel;
-
-	@FXML
-	private ListView<String> topicList;
+public class TopicController extends Controller implements Initializable {
 
 	private String topic;
-
-	private String theme = "default.css";
-
-	public void setTheme(String theme) {
-		this.theme = theme;
-	}
+	@FXML
+	private Button playButton;
+	@FXML
+	private Button practiceButton;
+	@FXML
+	protected Label topicLabel;
+	@FXML
+	private ListView<String> topicList;
 
 	public void getTopic(){
 		try {
 			String command = "ls -1 words | sed -e 's/\\.txt$//'";
 			// Sets the bash command
-
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
 			Process process = pb.start();
 			// Creates a process with the bash command and starts it
-
 			BufferedReader stdout = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			BufferedReader stderr = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 			// Pipelines the stdout and stderror to the variables
-
 			int exitStatus = process.waitFor();
-
 			if (exitStatus == 0) {
 				String line;
 				while ((line = stdout.readLine()) != null) {
@@ -73,72 +59,44 @@ public class TopicController implements Initializable {
 					System.err.println(line);
 				}
 			}
-
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) { // Method which controls the list that the user chooses a topic from
-
 		this.getTopic();
-
-		topicList.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() { // Sets the list to include all elements in the topic list
-
+		topicList.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() { // Sets the list to include all elements in the topic list	
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-
 				topic = topicList.getSelectionModel().getSelectedItem();
 				// Sets the topic to the topic that the user selected from the list
 				topicLabel.setText(topic);
 				// Sets the topicLabel to the current topic
 			}
-
 		});
 	}
 
-	private Stage stage;
-	private Scene scene;
-	private Parent root;
-
 	public void practice(ActionEvent event) throws IOException { // Method which controls the play button 
 		if (!topicLabel.getText().equals("Choose a topic:")) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Practice2.fxml"));
+			this.setLoader("Practice2.fxml");
 			root = loader.load();
-
 			PracticeController PracticeController = loader.getController();
-			PracticeController.setTopic(topic);
-			PracticeController.setTheme(this.theme);
-			// Starts a new game
-
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-			stage.setScene(scene);
-			stage.show();
-			// Sets the scene to the new game scene
+			PracticeController.setTheme(theme);
+			PracticeController.setUp(topic);
+			this.showStage(event);
 		}
 	}
 
 	public void play(ActionEvent event) throws IOException { // Method which controls the play button 
 		if (!topicLabel.getText().equals("Choose a topic:")) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Play2.fxml"));
+			this.setLoader("Play2.fxml");
 			root = loader.load();
-
+			this.showStage(event);
 			PlayController PlayController = loader.getController();
-			PlayController.setTopic(topic);
 			PlayController.setTheme(theme);
-			// Starts a new game
-
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-			stage.setScene(scene);
-			stage.show();
-			// Sets the scene to the new game scene
+			PlayController.setUp(topic);
 		}
 	}
 

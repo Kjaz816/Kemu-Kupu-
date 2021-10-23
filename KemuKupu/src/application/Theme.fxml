@@ -47,7 +47,7 @@
                   <Insets bottom="30.0" left="10.0" right="10.0" top="30.0" />
                </GridPane.margin>
             </ChoiceBox>
-            <Button fx:id="mainMenuButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#returnToMainMenu" style="-fx-background-radius: 5;" text="Main Menu" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+            <Button fx:id="mainMenuButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#home" style="-fx-background-radius: 5;" text="Main Menu" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <font>
                   <Font size="30.0" />
                </font>

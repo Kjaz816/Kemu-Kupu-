@@ -1,10 +1,18 @@
 package application;
 
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class Controller extends Main {
@@ -30,5 +38,71 @@ public class Controller extends Main {
 			event.consume();
 			logout(stage);	
 		});
+	}
+	
+	@FXML
+	protected Label timeElapsed;
+	protected long startTime;
+	protected long endTime;
+	protected Timer timer;
+	protected TimerTask updateTime;
+	protected int timePassed = 0;
+
+	public void setStartTime() {
+		startTime = System.nanoTime();
+	}
+
+	public void startTiming(){
+		int initialDelay = 1000;
+		int period = 1000;
+		updateTime = new TimerTask() {
+			@Override
+			public void run()  {
+				javafx.application.Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						timePassed++;
+						int minutes = timePassed/60;
+						int seconds = timePassed%60;
+						timeElapsed.setText("Time Elapsed:" + String.format("%02d:%02d",minutes,seconds));
+					}
+				});
+			};
+		};
+		timePassed = 0;
+		timer = new Timer();
+		timer.scheduleAtFixedRate(updateTime, initialDelay, period);
+	}
+
+	public void stopTiming() {
+		updateTime.cancel();
+		timer.cancel();
+		timer.purge();
+	}
+	
+	@FXML
+	protected Button home;
+	@FXML
+	protected Button help;
+	
+	public void home(ActionEvent event) throws IOException {
+		this.setLoader("Main2.fxml");
+		root = loader.load();
+		MainController MainController = loader.getController();
+		MainController.setTheme(theme);
+		this.showStage(event);
+	}
+	
+	public void help(ActionEvent event) throws IOException {
+		loader = new FXMLLoader(getClass().getResource("Help.fxml"));
+		root = (Parent) loader.load();
+		scene = new Scene(root);
+		stage = new Stage();
+		stage.setResizable(false);
+		stage.setScene(scene);
+
+		// disable underlying window
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.showAndWait();
 	}
 }

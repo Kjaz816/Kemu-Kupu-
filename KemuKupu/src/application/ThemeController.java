@@ -26,15 +26,13 @@ import javafx.stage.Stage;
 
 public class ThemeController extends Controller implements Initializable {
 
-	private String theme;
-
-	private String applyTheme;
-
 	@FXML
 	private Label myLabel;
 
 	@FXML
 	private ChoiceBox<String> myChoiceBox;
+
+	private String chosenTheme;
 
 	private List<String> data = new ArrayList<>();
 
@@ -119,8 +117,6 @@ public class ThemeController extends Controller implements Initializable {
 					System.err.println(line);
 				}
 			}
-
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -129,59 +125,24 @@ public class ThemeController extends Controller implements Initializable {
 	public void changeTheme (ActionEvent event) {
 
 		String newTheme = myChoiceBox.getValue();
-		applyTheme = newTheme;
+		chosenTheme = newTheme;
 		//show picture
 		Image myImage = new Image(getClass().getResourceAsStream("./css/" + newTheme + ".jpg"));
 		myImageView.setImage(myImage);
 		// Changes the background image
 
 		if (data.contains(newTheme)) {
-			myLabel.setText("Able to set " + applyTheme.toLowerCase() + " theme");
+			myLabel.setText("Able to set " + newTheme.toLowerCase() + " theme");
 		}
 		else {
-			myLabel.setText("Master " + applyTheme.toLowerCase() + " to unlock this theme!");
+			myLabel.setText("Master " + newTheme.toLowerCase() + " to unlock this theme!");
 		}
 	}
 
-	public void returnToMainMenu(ActionEvent event) { // Method that controls the "Return to Main Menu" button
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main2.fxml"));
-			root = loader.load();
-
-			MainController MainController = loader.getController();
-			MainController.setTheme(theme);
-			// Sets the theme to the selected theme
-
-			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
-			stage.setScene(scene);
-			stage.show();
-			// Returns the scene to the default scene
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void apply(ActionEvent event) { // Method that controls the "Return to Main Menu" button
-		if (data.contains(applyTheme)){
-			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("Main2.fxml"));
-				root = loader.load();
-
-				MainController MainController = loader.getController();
-				MainController.setTheme(applyTheme + ".css");
-				// Sets the theme to the selected theme
-
-				stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("css/" + applyTheme + ".css").toExternalForm());
-				stage.setScene(scene);
-				stage.show();
-				// Returns the scene to the default scene
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	public void apply(ActionEvent event) throws IOException { // Method that controls the "Return to Main Menu" button
+		if (data.contains(chosenTheme)){
+			theme = chosenTheme + ".css";
+			super.home(event);
 		}
 	}
 }

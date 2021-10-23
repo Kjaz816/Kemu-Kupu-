@@ -8,13 +8,20 @@ public class Word {
 	private String topic;
 	private Stack<String> wordList = new Stack<String>();
 	private String word;
-	private String userSpelling;
+	private String answer;
 	private boolean isCorrect;
 	
 	public Word(String topic) {
 		this.topic = topic;
 		this.randWord(topic);
 		this.word = this.wordList.pop();
+	}
+
+	public Word(Word Word2) {
+		// TODO Auto-generated constructor stub
+		this.word = Word2.getWord();
+		this.answer = Word2.getAnswer();
+		this.isCorrect = Word2.isCorrect();
 	}
 
 	public void randWord(String topic) { // Method that fetches the random words from the chosen word list
@@ -81,8 +88,16 @@ public class Word {
 	}
 	
 	public void update(String userSpelling, boolean isCorrect) {
-		this.userSpelling = userSpelling;
+		this.answer = userSpelling;
 		this.isCorrect = isCorrect;
+	}
+	
+	public String getAnswer() {
+		return answer;
+	}
+	
+	public boolean isCorrect() {
+		return isCorrect;
 	}
 }
 
