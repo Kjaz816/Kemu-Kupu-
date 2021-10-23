@@ -52,6 +52,7 @@
                <padding>
                   <Insets bottom="5.0" top="5.0" />
                </padding></Button>
+            <Button fx:id="scoreboardButton" mnemonicParsing="false" onAction="#switchToScoreBoard" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </center>

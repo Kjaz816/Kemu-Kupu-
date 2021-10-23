@@ -17,3 +17,11 @@
 	-fx-text-fill: white;
   	-fx-font-size: 24;
 }
+
+#rightWord .text{
+    -fx-fill: green;
+}
+
+#wrongWord .text{
+    -fx-fill: red;
+}

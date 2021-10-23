@@ -19,6 +19,8 @@ public class MainController extends Controller {
 	@FXML
 	private Button gameButton;
 	@FXML
+	private Button scoreboardButton;
+	@FXML
 	private Button quitButton;
 	@FXML 
 	private BorderPane scenePane;
@@ -54,6 +56,8 @@ public class MainController extends Controller {
 		try {
 			this.setLoader("ScoreBoard.fxml");
 			root =  loader.load();
+			ScoreBoardController ScoreBoardController = loader.getController();
+			ScoreBoardController.setTheme(theme);
 			this.showStage(event);
 			// Sets the theme of the application to the selected one
 		} catch (IOException e) {

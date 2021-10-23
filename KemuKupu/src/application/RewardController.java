@@ -1,12 +1,16 @@
 package application;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Writer;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -119,13 +124,13 @@ public class RewardController extends Controller {
 		this.setUpResults(Score.getResult());
 		this.showScore(Score);
 		this.setTimeElapsed(nanoTimeElapsed);
+		this.setUpScoreboardData(Score.getScore(), topic);
+		this.unlockTheme(Score.getScore(), topic);
 	}
 	
 	public void setUpResults(ObservableList<Word> tableData) {
-		// set up table
 		resultTable.setEditable(false);
 		resultTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		// create columns
 		TableColumn<Word, String> word = new TableColumn<>("Word");
 		word.setCellValueFactory(new PropertyValueFactory<>("word"));
 		TableColumn<Word, String> answer = new TableColumn<>("You Spelled");
@@ -134,9 +139,48 @@ public class RewardController extends Controller {
 		answer.setSortable(false);
 		word.setReorderable(false);
 		answer.setReorderable(false);
-		// add data to table
 		resultTable.setItems(tableData);
 		resultTable.getColumns().addAll(Arrays.asList(word, answer));
-		// color based on isCorrect
+		resultTable.setRowFactory(tv -> new TableRow<Word>() {
+			@Override
+			protected void updateItem(Word word, boolean empty) {
+				super.updateItem(word, empty);
+				if (word == null) {
+					setStyle("");
+				} else if (word.isCorrect())
+					this.setId("rightWord");
+				else
+					this.setId("wrongWord");
+			}
+		});
 	}
+	
+	public void setUpScoreboardData(int score, String topic) {
+		this.addLineToFile(String.valueOf(score), ".history.txt");
+		this.addLineToFile(topic, ".history.txt");
+		String date = new SimpleDateFormat("dd MMMM yyyy").format(new java.util.Date());
+		this.addLineToFile(date, ".history.txt");
+	}
+	
+	public void unlockTheme(int score, String topic) {
+		if(score >= 900) {
+			this.addLineToFile(topic , ".theme.txt");
+		}
+	}
+	
+	public void addLineToFile(String line, String file) {
+		try {
+			String command = "echo '" + line + "' >> " + file;
+			// Sets the bash command
+			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
+			Process process = pb.start();
+			// Creates a process with the bash command and starts it
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
 }
