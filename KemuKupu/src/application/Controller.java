@@ -37,6 +37,7 @@ public class Controller extends Main {
 		scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());		
 		stage.setScene(scene);
 		stage.show();
+		// Method to show the selected stage
 		
 		stage.setOnCloseRequest(event -> {
 			event.consume();
@@ -55,6 +56,7 @@ public class Controller extends Main {
 		MainController MainController = loader.getController();
 		MainController.setTheme(theme);
 		this.showStage(event);
+		// Controls the button that returns the user to the main menu
 	}
 	
 	public void help(ActionEvent event) throws IOException {
@@ -64,6 +66,7 @@ public class Controller extends Main {
 		stage = new Stage();
 		stage.setResizable(false);
 		stage.setScene(scene);
+		// Controls the button that shows the user help messages.
 
 		// disable underlying window
 		stage.initModality(Modality.APPLICATION_MODAL);
