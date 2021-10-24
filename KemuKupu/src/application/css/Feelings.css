@@ -1,5 +1,5 @@
 @font-face {
-    src: url('./fonts/Montserrat-SemiBold.ttf');
+    src: url('./fonts/Andika-R.ttf');
 }
 
 .root{
@@ -10,13 +10,13 @@
 }
 
 .label{
-    -fx-font-family: 'Montserrat', sans-serif;
+    -fx-font-family: 'Andika', sans-serif;
 	-fx-text-fill:  white;
 	-fx-alignment: center;
 }
 
 .button{
-    -fx-font-family: 'Montserrat', sans-serif;
+    -fx-font-family: 'Andika', sans-serif;
 	-fx-font-size: 24;
 	-fx-background-color: white;
 }

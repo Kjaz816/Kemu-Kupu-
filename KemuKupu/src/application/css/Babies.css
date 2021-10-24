@@ -1,5 +1,5 @@
 @font-face {
-    src: url('./fonts/ArchitectsDaughter-Regular.ttf');
+    src: url('./fonts/Sassoon-Primary.ttf');
 }
 
 .root{
@@ -10,18 +10,18 @@
 }
 
 .label{
-	-fx-font-family: 'Architects Daughter', cursive;
-	-fx-text-fill: #3aba6d;
+	-fx-font-family: "Sassoon Primary",cursive;
+	-fx-text-fill: #5bc0af;
 	-fx-alignment: center;
 }
 
 .button{
-	-fx-font-family: 'Architects Daughter', cursive;
+	-fx-font-family: "Sassoon Primary",cursive;
 	-fx-font-size: 24;
 }
 
 .button:hover {
-	-fx-background-color: #3aba6d;
+	-fx-background-color: #5cddc7;
 	-fx-text-fill: white;
   	-fx-font-size: 24;
 }

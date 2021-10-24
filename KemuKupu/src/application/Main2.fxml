@@ -40,7 +40,7 @@
             </Button>
             <Label fx:id="title" alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" text="Kēmu Kupu" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <font>
-                  <Font size="36.0" />
+                  <Font name="Noto Sans CJK JP Medium" size="36.0" />
                </font></Label>
             <Button fx:id="ThemeButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchToTheme" prefHeight="176.0" prefWidth="206.0" style="-fx-background-radius: 20;" text="Theme" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <font>
