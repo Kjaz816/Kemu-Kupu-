@@ -21,8 +21,46 @@
 	-fx-background-color: white;
 }
 
+.choice-box .label {
+     -fx-text-fill: black; 
+}
+
 .button:hover {
 	-fx-background-color: 	#006400;
 	-fx-text-fill: white;
   	-fx-font-size: 24;
+}
+
+#check{
+	-fx-background-color: #00D1D1;
+}
+
+#rightWord .text{
+    -fx-fill: green;
+}
+
+#wrongWord .text{
+    -fx-fill: red;
+}
+
+.list-view .list-cell{
+	-fx-text-fill: black;
+  	-fx-font-size: 20;
+}
+
+
+.table-view .table-cell{
+    -fx-background-color: white;
+    -fx-background-insets: 0.0,1.0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.4), 5.0, 0.0, 0.0, 1.0);
+    -fx-border-color: transparent; 
+    -fx-text-fill: black;
+    -fx-font-size: 20.0;
+ }
+ 
+ 
+ .table-view .column-header *{     
+ 	 -fx-font-family: 'Montserrat';
+     -fx-text-fill: black;
+     -fx-font-size: 24.0;
 }

@@ -11,7 +11,7 @@
 
 .label{
     -fx-font-family: 'Montserrat', sans-serif;
-	-fx-text-fill: #ADD8E6;
+	-fx-text-fill: #fee9d6;
 	-fx-alignment: center;
 }
 
@@ -22,7 +22,45 @@
 }
 
 .button:hover {
-	-fx-background-color: #ADD8E6;
+	-fx-background-color: #5a352c;
 	-fx-text-fill: white;
   	-fx-font-size: 24;
+}
+
+.choice-box .label {
+     -fx-text-fill: black; 
+}
+
+#check{
+	-fx-background-color: #fee9d6;
+}
+
+#rightWord .text{
+    -fx-fill: green;
+}
+
+#wrongWord .text{
+    -fx-fill: red;
+}
+
+.list-view .list-cell{
+	-fx-text-fill: black;
+  	-fx-font-size: 20;
+}
+
+
+.table-view .table-cell{
+    -fx-background-color: white;
+    -fx-background-insets: 0.0,1.0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.4), 5.0, 0.0, 0.0, 1.0);
+    -fx-border-color: transparent; 
+    -fx-text-fill: black;
+    -fx-font-size: 20.0;
+ }
+ 
+ 
+ .table-view .column-header *{     
+ 	 -fx-font-family: 'Montserrat';
+     -fx-text-fill: black;
+     -fx-font-size: 24.0;
 }

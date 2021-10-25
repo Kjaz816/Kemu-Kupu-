@@ -11,7 +11,7 @@
 
 .label{
     -fx-font-family: 'Andika', sans-serif;
-	-fx-text-fill:  white;
+	-fx-text-fill:  #5a352c;
 	-fx-alignment: center;
 }
 
@@ -22,7 +22,44 @@
 }
 
 .button:hover {
-	-fx-background-color: 	black;
+	-fx-background-color: #5a352c;
 	-fx-text-fill: white;
   	-fx-font-size: 24;
+}
+
+#check{
+	-fx-background-color: #eca766;
+}
+
+#rightWord .text{
+    -fx-fill: green;
+}
+
+#wrongWord .text{
+    -fx-fill: red;
+}
+
+.list-view .list-cell{
+	-fx-text-fill: black;
+  	-fx-font-size: 20;
+}
+
+
+.table-view .table-cell{
+    -fx-background-color: white;
+    -fx-background-insets: 0.0,1.0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.4), 5.0, 0.0, 0.0, 1.0);
+    -fx-border-color: transparent; 
+    -fx-text-fill: black;
+    -fx-font-size: 20.0;
+ }
+ 
+.choice-box .label {
+     -fx-text-fill: black; 
+}
+ 
+ .table-view .column-header *{     
+ 	 -fx-font-family: 'Montserrat';
+     -fx-text-fill: black;
+     -fx-font-size: 24.0;
 }
