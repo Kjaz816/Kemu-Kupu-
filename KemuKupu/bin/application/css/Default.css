@@ -27,7 +27,7 @@
     -fx-background-insets: 0.0,1.0;
     -fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.4), 5.0, 0.0, 0.0, 1.0);
     -fx-font-size: 20.0;
-    -fx-font-family: system;
+    -fx-font-family: 'Montserrat';
     -fx-border-color: transparent; 
  }
  
@@ -49,6 +49,6 @@
 }
  
 .column-header {
-     -fx-font-family: 'Luckiest Guy';
+     -fx-font-family: 'Montserrat';
      -fx-font-size: 20.0;
 } 

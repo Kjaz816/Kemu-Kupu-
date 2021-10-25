@@ -11,17 +11,60 @@
 
 .label{
 	-fx-font-family: "Sassoon Primary",cursive;
-	-fx-text-fill: #5bc0af;
+	-fx-text-fill: White;
 	-fx-alignment: center;
 }
 
 .button{
+	-fx-background-color: white;
 	-fx-font-family: "Sassoon Primary",cursive;
 	-fx-font-size: 24;
 }
 
 .button:hover {
-	-fx-background-color: #5cddc7;
+	-fx-background-color: #3F0374;
 	-fx-text-fill: white;
   	-fx-font-size: 24;
 }
+
+#check{
+	-fx-background-color: #00D1D1;
+}
+
+#rightWord .text{
+    -fx-fill: green;
+}
+
+#wrongWord .text{
+    -fx-fill: red;
+}
+
+.table-view{
+    -fx-background-color: white;
+    -fx-background-insets: 0.0,1.0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.4), 5.0, 0.0, 0.0, 1.0);
+    -fx-font-size: 20.0;
+    -fx-border-color: transparent; 
+ }
+ 
+ /* https://stackoverflow.com/questions/48690143/deactivate-blue-border-from-first-row-when-table-view-is-focused */
+ .table-view:focused .table-row-cell:focused {
+    -fx-background-color: -fx-table-cell-border-color, -fx-background;
+    -fx-background-insets: 0.0, 0.0 0.0 1.0 0.0;
+} 
+ 
+  /* https://stackoverflow.com/questions/27354085/disable-row-selection-in-tableview */
+ .table-row-cell:filled:selected { 
+  -fx-background: -fx-control-inner-background ;
+  -fx-background-color: -fx-table-cell-border-color, -fx-background ;
+  -fx-background-insets: 0.0, 0.0 0.0 1.0 0.0 ;
+  -fx-table-cell-border-color: derive(-fx-color, 5.0%);
+}
+.table-row-cell:odd:filled:selected {
+  -fx-background: -fx-control-inner-background-alt ;
+}
+ 
+.column-header {
+     -fx-font-family: 'Montserrat';
+     -fx-font-size: 20.0;
+} 
