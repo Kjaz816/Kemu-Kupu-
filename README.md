@@ -1,4 +1,15 @@
-# SOFTENG 206 Assignment 3
+# SOFTENG 206 Group 7 Final Project
+
+Authors: Owen Eng (oeng099), Kian Jazayeri (kj861), David Tran (dt294)
+
+Kēmu Kupu.
+
+Our Kēmu Kupu application is an educational application aimed to help users learn to spell te reo Māori words. This program will quiz users through speech synthesis, saying the Māori word and having the user type in the answer. 
+
+Our program uses java, FXML and css files. Java files were used for the implementation of features while FXML and css files were used to implement the user interface of the program. 
+
+
+To run the program:
 
 Fist change into the directory
 ...
@@ -15,4 +26,4 @@ Now execute the script
 > ./Run_KemuKupu.sh
 ...
 
-It should also be noted that macrons cannot be directly typed into the text field in the game. This was worked around where the user will need to type the same letter twice in order for it to become the letter with a macron on top of it. E.g. ee = ē in the text field.
+To implement macrons in the textfield, type ~ or ` before the vowel you wish to make a macron. This information is also provided inside of the program that can be accessed via the macron help button.
