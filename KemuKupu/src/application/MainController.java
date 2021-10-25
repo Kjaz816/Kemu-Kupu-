@@ -1,5 +1,9 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -27,6 +31,7 @@ public class MainController extends Controller {
 
 	public void switchToTopic(ActionEvent event) {
 		try {
+			this.getStartTheme();
 			this.setLoader("fxml/Topic.fxml");
 			root =  loader.load();
 			TopicController TopicController = loader.getController();
@@ -39,6 +44,7 @@ public class MainController extends Controller {
 
 	public void switchToTheme(ActionEvent event) {
 		try {
+			this.getStartTheme();
 			this.setLoader("fxml/Theme.fxml");
 			root =  loader.load();
 			ThemeController ThemeController = loader.getController();
@@ -52,6 +58,7 @@ public class MainController extends Controller {
 	
 	public void switchToScoreBoard(ActionEvent event) {
 		try {
+			this.getStartTheme();
 			this.setLoader("fxml/ScoreBoard.fxml");
 			root =  loader.load();
 			ScoreBoardController ScoreBoardController = loader.getController();
@@ -68,6 +75,14 @@ public class MainController extends Controller {
 		// Gets the current scene
 		stage.close(); 
 		// closes the current scene
+	}
+	
+	public void  getStartTheme() throws IOException {
+		File resultsFile = new File(".startTheme.txt");
+		if (resultsFile.exists()) {
+			BufferedReader pb = new BufferedReader(new FileReader(resultsFile));
+			theme = pb.readLine();
+		}
 	}
 }
 

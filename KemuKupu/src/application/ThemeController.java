@@ -58,6 +58,9 @@ public class ThemeController extends Controller implements Initializable {
 
 	public void getTopic(){
 		try {
+			
+			myChoiceBox.getItems().add("Default");
+			
 			String command = "ls -1 words | sed -e 's/\\.txt$//'";
 			// Sets the bash command
 
@@ -92,7 +95,8 @@ public class ThemeController extends Controller implements Initializable {
 
 	public void getData(){
 		try {
-			String command = "cat theme.txt";
+			data.add("Default");
+			String command = "cat .theme.txt";
 			// Sets the bash command
 
 			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
@@ -142,7 +146,20 @@ public class ThemeController extends Controller implements Initializable {
 	public void apply(ActionEvent event) throws IOException { // Method that controls the "Return to Main Menu" button
 		if (data.contains(chosenTheme)){
 			theme = chosenTheme + ".css";
+			this.overwrite(theme, ".startTheme.txt");
 			super.home(event);
+		}
+	}
+	
+	public void overwrite(String line, String file) {
+		try {
+			String command = "echo '" + line + "' > " + file;
+			// Sets the bash command
+			ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
+			Process process = pb.start();
+			// Creates a process with the bash command and starts it
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

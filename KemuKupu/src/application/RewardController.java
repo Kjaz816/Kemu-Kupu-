@@ -121,13 +121,20 @@ public class RewardController extends Controller {
 		topicLabel.setText("Topic: " + topic);
 	}
 	
-	public void setUp(String topic, Score Score, long nanoTimeElapsed) {
+	public void setUpFromPlay(String topic, Score Score, long nanoTimeElapsed) {
 		this.setTopic(topic);
 		this.setUpResults(Score.getResult());
 		this.showScore(Score);
 		this.setTimeElapsed(nanoTimeElapsed);
 		this.setUpScoreboardData(Score.getScore(), topic);
 		this.unlockTheme(Score.getScore(), topic);
+	}
+	
+	public void setUpFromPractice(String topic, Score Score, long nanoTimeElapsed) {
+		this.setTopic(topic);
+		this.setUpResults(Score.getResult());
+		this.showScore(Score);
+		this.setTimeElapsed(nanoTimeElapsed);
 	}
 	
 	public void setUpResults(ObservableList<Word> tableData) {
@@ -190,7 +197,7 @@ public class RewardController extends Controller {
 	}
 	
 	public void getMastered() throws IOException {
-		File data = new File("theme.txt");
+		File data = new File(".theme.txt");
 		// Checks if the data.txt
 		if (data.exists()) {
 			// Writes each line in the file to a new element on the current stat array that

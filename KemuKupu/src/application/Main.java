@@ -1,4 +1,8 @@
 package application;	
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -37,6 +41,13 @@ public class Main extends Application {
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("fxml/Main.fxml"));
 			Scene scene = new Scene(root);
+			
+			File resultsFile = new File(".startTheme.txt");
+			if (resultsFile.exists()) {
+				BufferedReader pb = new BufferedReader(new FileReader(resultsFile));
+				theme = pb.readLine();
+			}
+			
 			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			primaryStage.setTitle("Kēmu Kupu");
 			primaryStage.setScene(scene);

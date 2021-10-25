@@ -201,7 +201,7 @@ public class PracticeController extends Controller implements Initializable {
 			root = loader.load();
 			RewardController RewardController = loader.getController();
 			RewardController.setTheme(theme);
-			RewardController.setUp(Word.getTopic(), Score, endTime - startTime);
+			RewardController.setUpFromPractice(Word.getTopic(), Score, endTime - startTime);
 			RewardController.getTimeLabel().setVisible(false);
 			this.showStage(event);
 		}
