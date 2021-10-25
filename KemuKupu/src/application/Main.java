@@ -67,7 +67,7 @@ public class Main extends Application {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Logout");
 		alert.setHeaderText("You're about to logout!");
-		alert.setContentText("Do you want to save before exiting?");
+		alert.setContentText("Your results may not be saved. Do you want to exit?");
 
 		if (alert.showAndWait().get() == ButtonType.OK){
 			stage.close();
