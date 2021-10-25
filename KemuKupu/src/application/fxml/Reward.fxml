@@ -35,7 +35,7 @@
                   <Font size="30.0" />
                </font>
             </Label>
-            <Button fx:id="PracticeAgainButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#practiceAgain" prefHeight="41.0" prefWidth="99.0" text="Practice Again" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
+            <Button fx:id="PracticeAgainButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#practiceAgain" prefHeight="41.0" prefWidth="99.0" style="-fx-background-radius: 5;" text="Practice Again" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
                <font>
                   <Font size="20.0" />
                </font>
@@ -43,7 +43,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="playAgainButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playAgain" prefHeight="41.0" prefWidth="99.0" text="Play Again" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
+            <Button fx:id="playAgainButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#playAgain" prefHeight="41.0" prefWidth="99.0" style="-fx-background-radius: 5;" text="Play Again" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
                <font>
                   <Font size="20.0" />
                </font>
@@ -67,7 +67,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button fx:id="mainMenuButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#returnToMainMenu" prefHeight="41.0" prefWidth="99.0" text="Main Menu" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
+            <Button fx:id="mainMenuButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#returnToMainMenu" prefHeight="41.0" prefWidth="99.0" style="-fx-background-radius: 5;" text="Main Menu" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
                <font>
                   <Font size="20.0" />
                </font>
