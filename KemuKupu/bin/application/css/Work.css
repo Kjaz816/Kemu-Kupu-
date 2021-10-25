@@ -11,20 +11,20 @@
 
 .label{
     -fx-font-family: 'Andika', sans-serif;
-	-fx-text-fill: white;
+	-fx-text-fill: #e79d2d;
 	-fx-alignment: center;
 }
 
 .button{
     -fx-font-family: 'Andika', sans-serif;
 	-fx-font-size: 24;
-	-fx-text-fill: white;
+	-fx-text-fill: #e79d2d;
 	-fx-background-color: #ebfdff;
 }
 
 .button:hover {
 	-fx-background-color: #05445e;
-	-fx-text-fill: white;
+	-fx-text-fill: #e79d2d;
   	-fx-font-size: 24;
 }
 
