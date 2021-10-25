@@ -196,7 +196,7 @@ public class PracticeController extends Controller implements Initializable {
 	}
 
 	public void switchToReward(ActionEvent event) {
-		this.setLoader("Reward2.fxml");
+		this.setLoader("fxml/Reward.fxml");
 		try {
 			root = loader.load();
 			RewardController RewardController = loader.getController();

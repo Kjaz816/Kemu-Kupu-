@@ -11,28 +11,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 public class ScoreBoardController extends Controller implements Initializable {
 
 	@FXML
 	private TableView<Quiz> scoreboard;
 	private ObservableList<Quiz> tableData = FXCollections.observableArrayList();
-	
+
 	@FXML
 	private Button clear;
 
@@ -81,15 +75,12 @@ public class ScoreBoardController extends Controller implements Initializable {
 		scoreboard.sort();
 		score.setSortable(false);
 	}
-	
+
 	public void clear(ActionEvent event) {
-		ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
-		ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
-		Alert alert = new Alert(AlertType.CONFIRMATION, "", yes, no);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setHeaderText("Are you sure to delete history ?");
 
-		if (alert.showAndWait().get() == yes) {
-			// delete results file
+		if (alert.showAndWait().get() == ButtonType.OK) {
 			File resultsFile = new File(".history.txt");
 			if (resultsFile.exists()) {
 				resultsFile.delete();

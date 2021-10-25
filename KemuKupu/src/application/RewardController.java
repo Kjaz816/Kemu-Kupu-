@@ -54,7 +54,7 @@ public class RewardController extends Controller {
 	
 	public void practiceAgain(ActionEvent event) { // Method that controls the "Play again" button
 		try {
-			this.setLoader("Practice2.fxml");
+			this.setLoader("fxml/Practice.fxml");
 			root = loader.load();
 			PracticeController PracticeController = loader.getController();
 			PracticeController.setTheme(theme);
@@ -70,7 +70,7 @@ public class RewardController extends Controller {
 
 	public void playAgain(ActionEvent event) { // Method that controls the "Play again" button
 		try {
-			this.setLoader("Play2.fxml");
+			this.setLoader("fxml/Play.fxml");
 			root = loader.load();
 			PlayController PlayController = loader.getController();
 			PlayController.setTheme(theme);
@@ -92,7 +92,7 @@ public class RewardController extends Controller {
 
 	public void returnToMainMenu(ActionEvent event) { // Method that controls the "Return to Main Menu" button
 		try {
-			this.setLoader("Main2.fxml");
+			this.setLoader("fxml/Main.fxml");
 			root = loader.load();
 			MainController MainController = loader.getController();
 			MainController.setTheme(theme);

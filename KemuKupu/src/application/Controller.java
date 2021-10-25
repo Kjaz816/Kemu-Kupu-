@@ -51,7 +51,7 @@ public class Controller extends Main {
 	protected Button help;
 	
 	public void home(ActionEvent event) throws IOException {
-		this.setLoader("Main2.fxml");
+		this.setLoader("fxml/Main.fxml");
 		root = loader.load();
 		MainController MainController = loader.getController();
 		MainController.setTheme(theme);
@@ -60,7 +60,7 @@ public class Controller extends Main {
 	}
 	
 	public void help(ActionEvent event) throws IOException {
-		loader = new FXMLLoader(getClass().getResource("Help.fxml"));
+		loader = new FXMLLoader(getClass().getResource("fxml/Help.fxml"));
 		root = (Parent) loader.load();
 		scene = new Scene(root);
 		stage = new Stage();

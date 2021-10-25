@@ -35,7 +35,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("Main2.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("fxml/Main.fxml"));
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("css/" + theme).toExternalForm());
 			primaryStage.setTitle("Kēmu Kupu");
@@ -59,7 +59,6 @@ public class Main extends Application {
 		alert.setContentText("Do you want to save before exiting?");
 
 		if (alert.showAndWait().get() == ButtonType.OK){
-			System.out.println("You successfully logged out");
 			stage.close();
 		} 
 	}

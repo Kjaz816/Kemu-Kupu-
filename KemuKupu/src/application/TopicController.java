@@ -80,7 +80,7 @@ public class TopicController extends Controller implements Initializable {
 
 	public void practice(ActionEvent event) throws IOException { // Method which controls the play button 
 		if (!topicLabel.getText().equals("Choose a topic:")) {
-			this.setLoader("Practice2.fxml");
+			this.setLoader("fxml/Practice.fxml");
 			root = loader.load();
 			PracticeController PracticeController = loader.getController();
 			PracticeController.setTheme(theme);
@@ -91,7 +91,7 @@ public class TopicController extends Controller implements Initializable {
 
 	public void play(ActionEvent event) throws IOException { // Method which controls the play button 
 		if (!topicLabel.getText().equals("Choose a topic:")) {
-			this.setLoader("Play2.fxml");
+			this.setLoader("fxml/Play.fxml");
 			root = loader.load();
 			this.showStage(event);
 			PlayController PlayController = loader.getController();

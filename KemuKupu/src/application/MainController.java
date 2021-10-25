@@ -27,7 +27,7 @@ public class MainController extends Controller {
 
 	public void switchToTopic(ActionEvent event) {
 		try {
-			this.setLoader("Topic2.fxml");
+			this.setLoader("fxml/Topic.fxml");
 			root =  loader.load();
 			TopicController TopicController = loader.getController();
 			TopicController.setTheme(theme);
@@ -39,7 +39,7 @@ public class MainController extends Controller {
 
 	public void switchToTheme(ActionEvent event) {
 		try {
-			this.setLoader("Theme.fxml");
+			this.setLoader("fxml/Theme.fxml");
 			root =  loader.load();
 			ThemeController ThemeController = loader.getController();
 			ThemeController.setTheme(theme);
@@ -52,7 +52,7 @@ public class MainController extends Controller {
 	
 	public void switchToScoreBoard(ActionEvent event) {
 		try {
-			this.setLoader("ScoreBoard.fxml");
+			this.setLoader("fxml/ScoreBoard.fxml");
 			root =  loader.load();
 			ScoreBoardController ScoreBoardController = loader.getController();
 			ScoreBoardController.setTheme(theme);
